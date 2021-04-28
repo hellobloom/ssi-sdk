@@ -67,7 +67,16 @@ const outputDescriptorSchema = {
   type: 'object',
   properties: {
     id: { type: 'string' },
-    schema: { type: 'array' },
+    schema: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          uri: { type: 'string' },
+        },
+      },
+      required: ['uri'],
+    },
 
     name: { type: 'string' },
     description: { type: 'string' },
