@@ -1,0 +1,18 @@
+{
+  "@context": ["https://w3id.org/did/v0.11"],
+  "id": "did:example:holder",
+  "publicKey": [
+    {
+      "id": "did:example:holder#123",
+      "type": "Ed25519VerificationKey2018",
+      "controller": "did:example:holder",
+      "publicKeyBase58": "6fioC1zcDPyPEL19pXRS2E4iJ46zH7xP6uSgAaPdwDrx"
+    }
+  ],
+  "assertionMethod": [
+    "did:example:holder#123"
+  ],
+  "authentication": [
+    "did:example:holder#123"
+  ]
+}

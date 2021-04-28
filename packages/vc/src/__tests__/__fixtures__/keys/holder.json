@@ -1,0 +1,15 @@
+{
+  "private": {
+    "id": "did:example:holder#123",
+    "type": "Ed25519VerificationKey2018",
+    "controller": "did:example:holder",
+    "publicKeyBase58": "6fioC1zcDPyPEL19pXRS2E4iJ46zH7xP6uSgAaPdwDrx",
+    "privateKeyBase58": "2b5J8uecvwAo9HUGge5NKQ7HoRNKUKCjZ7Fr4mDgWkwqATnLmZDx7Seu6NqTuFKkxuHNT27GcoxVZQCkWJhNvaUQ"
+  },
+  "public": {
+    "id": "did:example:holder#123",
+    "type": "Ed25519VerificationKey2018",
+    "controller": "did:example:holder",
+    "publicKeyBase58": "6fioC1zcDPyPEL19pXRS2E4iJ46zH7xP6uSgAaPdwDrx"
+  }
+}
