@@ -2,8 +2,8 @@ import { FromSchema } from "json-schema-to-ts";
 import { VC, VP, vcSchema, vpSchema } from "../../core";
 import { DocumentLoader } from "../../shared";
 
-const jsigs = require('jsonld-signatures');
-const { Ed25519KeyPair } = require('crypto-ld');
+const {Ed25519VerificationKey2020} = require('@digitalbazaar/ed25519-verification-key-2020');
+const {Ed25519Signature2020} = require('@digitalbazaar/ed25519-signature-2020');
 
 const credentialsContextDoc = require('./contexts/credentials-v1.json')
 const examplesContextDoc = require('./contexts/examples-v1.json')
@@ -14,8 +14,6 @@ const holderDidDoc = require('./didDocuments/holder.json')
 const issuerDidDoc = require('./didDocuments/issuer.json')
 const issuerKey = require('./keys/issuer.json')
 const holderKey = require('./keys/issuer.json')
-
-const { Ed25519Signature2018 } = jsigs.suites;
 
 const contextMap: {[url: string]: Record<string, unknown>} = {
   'https://www.w3.org/2018/credentials/v1': credentialsContextDoc,
@@ -44,7 +42,7 @@ export const documentLoader: DocumentLoader = (url: string) => {
 }
 
 const getSuite = async (keyInfo: any) =>
-  new Ed25519Signature2018({key: await Ed25519KeyPair.from(keyInfo)})
+  new Ed25519Signature2020({key: Ed25519VerificationKey2020.fromEd25519VerificationKey2018(keyInfo)})
 
 export const getIssuerSignSuite = async () =>
   getSuite(issuerKey['private'])

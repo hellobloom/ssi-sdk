@@ -25,14 +25,17 @@
     "prepublishOnly": "npm run test && npm run lint"
   },
   "dependencies": {
-    "ajv": "^8.1.0",
+    "ajv": "^8.2.0",
     "ajv-formats": "^2.0.2",
-    "json-schema-to-ts": "^1.6.1",
-    "jsonld": "^2.0.2",
-    "jsonld-signatures": "^5.1.0"
+    "json-schema-to-ts": "^1.6.3",
+    "jsonld": "^5.2.0",
+    "jsonld-signatures": "^9.0.2"
   },
   "devDependencies": {
-    "crypto-ld": "^3.7.0",
+    "@transmute/vc.js": "^0.2.1-unstable.10",
+    "@digitalbazaar/vc": "^1.0.0",
+    "@digitalbazaar/ed25519-verification-key-2020": "^2.1.0",
+    "@digitalbazaar/ed25519-signature-2020": "^2.1.0",
     "tsd": "^0.14.0",
     "tsdx": "^0.14.1",
     "tslib": "^2.2.0",
