@@ -1,4 +1,4 @@
-import { UnsignedVC, VC, UnsignedVP, VP} from "./core";
+import { VC, VP} from "./core";
 import { DocumentLoader } from "./shared";
 
 const jsigs = require('jsonld-signatures')
@@ -10,7 +10,7 @@ export const signVC = async <VCType extends VC>({
   suite,
   proofPurposeOptions = {}
 }: {
-  unsigned: UnsignedVC,
+  unsigned: Omit<VCType, 'proof'>,
   documentLoader: DocumentLoader,
   suite: any
   proofPurposeOptions?: Record<string, unknown>
@@ -31,7 +31,7 @@ export const signVP = <VPType extends VP>({
   suite,
   proofPurposeOptions
 }: {
-  unsigned: UnsignedVP,
+  unsigned: Omit<VPType, 'proof'>,
   documentLoader: DocumentLoader,
   suite: any
   proofPurposeOptions: {challenge: string, domain: string} & Record<string, unknown>

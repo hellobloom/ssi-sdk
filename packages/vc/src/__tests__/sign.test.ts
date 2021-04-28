@@ -2,12 +2,12 @@ import Ajv, { ValidateFunction } from 'ajv'
 import addFormats from "ajv-formats"
 import { expectType } from 'tsd';
 
-import { UnsignedVP, VC, vcSchema, VP, vpSchema } from '../core'
+import { VC, vcSchema, VP, vpSchema } from '../core'
 import { signVC, signVP } from '../sign'
 import { documentLoader, unsignedVC, getUnsignedVP, getIssuerSignSuite, getHolderSignSuite, UniversityDegreeVC } from './__fixtures__'
 
 describe('signVC', () => {
-  let validate: ValidateFunction<VC>
+  let validate: ValidateFunction
 
   beforeAll(() => {
     const ajv = new Ajv({strictTuples: false})
@@ -39,8 +39,8 @@ describe('signVC', () => {
 })
 
 describe('signVP', () => {
-  let validate: ValidateFunction<VP>
-  let unsignedVP: UnsignedVP
+  let validate: ValidateFunction
+  let unsignedVP: Omit<VP, 'proof'>
 
   beforeAll(async () => {
     const vc = await signVC({

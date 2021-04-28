@@ -13,6 +13,6 @@
     "did:example:issuer#123"
   ],
   "authentication": [
-    "did:example:holder#123"
+    "did:example:issuer#123"
   ]
 }

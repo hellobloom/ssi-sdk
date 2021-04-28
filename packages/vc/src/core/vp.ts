@@ -29,7 +29,7 @@ export const vpTypeSchema = {
 
 export type VPType = FromSchema<typeof vpTypeSchema>
 
-export const unsigedVPSchema = {
+export const vpSchema = {
   type: 'object',
   properties: {
     '@context': contextSchema,
@@ -37,22 +37,10 @@ export const unsigedVPSchema = {
     type: vpTypeSchema,
     verifiableCredential: { type: 'array', items: vcSchema },
     holder: holderSchema,
-  },
-  required: ['@context', 'id', 'type', 'verifiableCredential', 'holder'],
-  additionalProperties: true,
-} as const
-
-export type UnsignedVP = FromSchema<typeof unsigedVPSchema>
-
-export const vpSchema = {
-  '$id': 'https://example.com/vpSchema',
-  type: 'object',
-  properties: {
-    ...unsigedVPSchema.properties,
     proof: vpProofSchema,
   },
-  required: [...unsigedVPSchema.required, 'proof'],
-  additionalProperties: true,
+  required: ['@context', 'id', 'type', 'verifiableCredential', 'holder', 'proof'],
+  additionalProperties: false,
 } as const
 
 export type VP = FromSchema<typeof vpSchema>

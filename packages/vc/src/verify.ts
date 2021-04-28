@@ -26,7 +26,7 @@ export type GetVerifierProofPurposeOptionsFn = (
   options: GetVerifierProofPurposeOptionsOptions,
 ) => Record<string, any> | Promise<Record<string, any>>
 
-export type ProofError = {}
+export type ProofError = Error
 
 type VerifyVCProofResponseSuccess = {
   success: true
@@ -74,7 +74,7 @@ const verifyVCProof: VerifyVCProof = async ({vc, documentLoader, getSuite, getPr
   if (result.verified) {
     return {success: true}
   } else {
-    return {success: false, errors: result.errors }
+    return {success: false, errors: result.error.errors }
   }
 }
 
@@ -143,7 +143,7 @@ const verifyVPProof: VerifyVPProof = async ({vp, documentLoader, getSuite, getPr
     }
   }
 
-  return {success: false, errors: result.errors, credentialErrors }
+  return {success: false, errors: result.error.errors, credentialErrors }
 }
 
 export type VerifyVCResponseSuccess<VCType extends VC> = {
@@ -165,7 +165,8 @@ export const verifyVC = async <VCType extends VC>({
   getSuite,
   getProofPurposeOptions,
   schema: _schema,
-  ajv: _ajv
+  ajv: _ajv,
+  schemaKey = 'vcSchema',
 } : {
   vc: unknown
   documentLoader: DocumentLoader,
@@ -173,12 +174,11 @@ export const verifyVC = async <VCType extends VC>({
   getProofPurposeOptions?: GetVerifierProofPurposeOptionsFn
   schema?: JSONSchema
   ajv?: Ajv
+  schemaKey?: string
 }): Promise<VerifyVCResponse<VCType>> => {
   const ajv = _ajv || addFormats(new Ajv({strictTuples: false}))
   const schema = _schema || vcSchema
-  const validate = typeof schema === 'object' && schema['$id']
-    ? ajv.getSchema<VCType>(schema['$id']) || ajv.compile<VCType>(schema)
-    : ajv.compile<VCType>(schema)
+  const validate = ajv.getSchema<VCType>(schemaKey) || ajv.addSchema(schema, schemaKey).getSchema<VCType>(schemaKey)!
 
   let proofErrors
   if (validate(vc)) {
@@ -221,7 +221,8 @@ export const verifyVP = async <VPType extends VP = VP>({
   getSuite,
   getProofPurposeOptions,
   schema: _schema,
-  ajv: _ajv
+  ajv: _ajv,
+  schemaKey = 'vpSchema',
 }: {
   vp: unknown
   documentLoader: DocumentLoader,
@@ -229,12 +230,11 @@ export const verifyVP = async <VPType extends VP = VP>({
   getProofPurposeOptions?: GetVerifierProofPurposeOptionsFn
   schema?: JSONSchema
   ajv?: Ajv
+  schemaKey?: string
 }): Promise<VerifyVPResponse<VPType>> => {
   const ajv = _ajv || addFormats(new Ajv({strictTuples: false}))
   const schema = _schema || vpSchema
-  const validate = typeof schema === 'object' && schema['$id']
-    ? ajv.getSchema<VPType>(schema['$id']) || ajv.compile<VPType>(schema)
-    : ajv.compile<VPType>(schema)
+  const validate = ajv.getSchema<VPType>(schemaKey) || ajv.addSchema(schema, schemaKey).getSchema<VPType>(schemaKey)!
 
   let proofErrors
   let credentialProofErrors

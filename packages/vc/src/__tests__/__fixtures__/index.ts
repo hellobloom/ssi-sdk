@@ -1,5 +1,5 @@
 import { FromSchema } from "json-schema-to-ts";
-import { UnsignedVC, UnsignedVP, VC, vcSchema, vpSchema } from "../../core";
+import { VC, VP, vcSchema, vpSchema } from "../../core";
 import { DocumentLoader } from "../../shared";
 
 const jsigs = require('jsonld-signatures');
@@ -119,7 +119,7 @@ export const universityDegreeVPSchema = {
 export type UniversityDegreeVP = FromSchema<typeof universityDegreeVPSchema>
 
 
-export const unsignedVC: UnsignedVC = {
+export const unsignedVC: Omit<VC, 'proof'> = {
   '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2018/credentials/examples/v1'],
   id: 'urn:uuid:9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
   type: ['VerifiableCredential', 'UniversityDegreeCredential'],
@@ -133,7 +133,7 @@ export const unsignedVC: UnsignedVC = {
   }
 }
 
-export const getUnsignedVP = (vcs: VC[]): UnsignedVP =>
+export const getUnsignedVP = (vcs: VC[]): Omit<VP, 'proof'> =>
   ({
     '@context': ['https://www.w3.org/2018/credentials/v1'],
     id: 'urn:uuid:9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',

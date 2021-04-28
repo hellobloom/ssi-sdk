@@ -44,7 +44,7 @@ export const vcTypeSchema = {
 
 export type VCType = FromSchema<typeof vcTypeSchema>
 
-export const unsignedVCSchema = {
+export const vcSchema = {
   type: 'object',
   properties: {
     '@context': contextSchema,
@@ -55,22 +55,10 @@ export const unsignedVCSchema = {
     issuanceDate: { type: 'string', format: 'date-time' },
     expirationDate: { type: 'string', format: 'date-time' },
     issuer: issuerSchema,
-  },
-  required: ['@context', 'id', 'type', 'credentialSubject', 'issuanceDate', 'issuer'],
-  additionalProperties: true,
-} as const
-
-export type UnsignedVC = FromSchema<typeof unsignedVCSchema>
-
-export const vcSchema = {
-  '$id': 'https://example.com/vcSchema',
-  type: 'object',
-  properties: {
-    ...unsignedVCSchema.properties,
     proof: vcProofSchema,
   },
-  required: [...unsignedVCSchema.required, 'proof'],
-  additionalProperties: true,
+  required: ['@context', 'id', 'type', 'credentialSubject', 'issuanceDate', 'issuer', 'proof'],
+  additionalProperties: false,
 } as const
 
 export type VC = FromSchema<typeof vcSchema>
