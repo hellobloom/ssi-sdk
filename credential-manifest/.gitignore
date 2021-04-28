@@ -1,0 +1,7 @@
+*.log
+.DS_Store
+node_modules
+dist
+
+# tsdx ships with some github workflows, but not checking them in at this time
+.github
