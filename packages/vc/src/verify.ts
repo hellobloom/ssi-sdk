@@ -84,8 +84,8 @@ type VerifyVPProofResponseSuccess = {
 
 type VerifyVPProofResponseFailure = {
   success: false
-  errors: ProofError[]
-  credentialErrors: {id: string, errors: ProofError[]}[]
+  errors?: ProofError[]
+  credentialErrors?: {id: string, errors: ProofError[]}[]
 }
 
 type VerifyVPProofResponse = VerifyVPProofResponseSuccess | VerifyVPProofResponseFailure
@@ -143,7 +143,12 @@ const verifyVPProof: VerifyVPProof = async ({vp, documentLoader, getSuite, getPr
     }
   }
 
-  return {success: false, errors: result.error.errors, credentialErrors }
+  return {
+    success: false,
+    errors:
+    result.error?.errors,
+    credentialErrors: credentialErrors.length > 0 ? credentialErrors : undefined
+  }
 }
 
 export type VerifyVCResponseSuccess<VCType extends VC> = {
@@ -153,7 +158,7 @@ export type VerifyVCResponseSuccess<VCType extends VC> = {
 
 export type VerifyVCResponseFailure = {
   success: false
-  schemaErrors?: null | ErrorObject[]
+  schemaErrors?: ErrorObject[]
   proofErrors?: ProofError[]
 }
 
@@ -196,7 +201,7 @@ export const verifyVC = async <VCType extends VC>({
 
   return {
     success: false,
-    schemaErrors: [],
+    schemaErrors: validate.errors || undefined,
     proofErrors
   }
 }
@@ -208,7 +213,7 @@ export type VerifyVPResponseSuccess<VPType extends VP> = {
 
 export type VerifyVPResponseFailure = {
   success: false
-  schemaErrors?: null | ErrorObject[]
+  schemaErrors?: ErrorObject[]
   proofErrors?: ProofError[]
   credentialProofErrors?: {id: string, errors: ProofError[]}[]
 }
@@ -254,7 +259,7 @@ export const verifyVP = async <VPType extends VP = VP>({
 
   return {
     success: false,
-    schemaErrors: validate.errors,
+    schemaErrors: validate.errors || undefined,
     proofErrors,
     credentialProofErrors,
   }

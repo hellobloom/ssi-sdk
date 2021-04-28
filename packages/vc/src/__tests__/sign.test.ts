@@ -4,13 +4,14 @@ import { expectType } from 'tsd';
 
 import { VC, vcSchema, VP, vpSchema } from '../core'
 import { signVC, signVP } from '../sign'
-import { documentLoader, unsignedVC, getUnsignedVP, getIssuerSignSuite, getHolderSignSuite, UniversityDegreeVC } from './__fixtures__'
+import { documentLoader, unsignedVC, getUnsignedVP, getIssuerSignSuite, getHolderSignSuite, UniversityDegreeVC, unsignedDegreeVC, universityDegreeVCSchema } from './__fixtures__'
 
 describe('signVC', () => {
+  let ajv: Ajv
   let validate: ValidateFunction
 
   beforeAll(() => {
-    const ajv = new Ajv({strictTuples: false})
+    ajv = new Ajv({strictTuples: false})
     addFormats(ajv)
     validate = ajv.compile(vcSchema)
   })
@@ -27,12 +28,13 @@ describe('signVC', () => {
   })
 
   it('signs a VC with custom type', async () => {
-    const signed = await signVC<UniversityDegreeVC>({
-      unsigned: unsignedVC,
+    const signed = await signVC({
+      unsigned: unsignedDegreeVC,
       documentLoader,
       suite: await getIssuerSignSuite()
     })
 
+    const validate = ajv.compile(universityDegreeVCSchema)
     expect(validate(signed)).toBeTruthy()
     expectType<UniversityDegreeVC>(signed)
   })

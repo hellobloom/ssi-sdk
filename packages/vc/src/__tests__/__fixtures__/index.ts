@@ -9,6 +9,7 @@ const credentialsContextDoc = require('./contexts/credentials-v1.json')
 const examplesContextDoc = require('./contexts/examples-v1.json')
 const odrlContextDoc = require('./contexts/odrl.json')
 const didContextDoc = require('./contexts/did-v0.11.json')
+const revocationList2020ContextDoc = require('./contexts/revocation-list-2020-v1.json')
 const holderDidDoc = require('./didDocuments/holder.json')
 const issuerDidDoc = require('./didDocuments/issuer.json')
 const issuerKey = require('./keys/issuer.json')
@@ -21,6 +22,7 @@ const contextMap: {[url: string]: Record<string, unknown>} = {
   'https://www.w3.org/2018/credentials/examples/v1': examplesContextDoc,
   'https://www.w3.org/ns/odrl.jsonld': odrlContextDoc,
   'https://w3id.org/did/v0.11': didContextDoc,
+  'https://w3id.org/vc-revocation-list-2020/v1': revocationList2020ContextDoc,
 }
 
 const didDocMap: {[url: string]: Record<string, unknown>} = {
@@ -89,10 +91,19 @@ export const universityDegreeVCSchema = {
   properties: {
     ...vcSchema.properties,
     type: universityDegreeVCTypeSchema,
-    credentialSubject: universityDegreeVCSubjectSchema
+    credentialSubject: universityDegreeVCSubjectSchema,
+    credentialStatus: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', format: 'uri' },
+        type: { type: 'string' },
+        revocationListIndex: { type: 'string' },
+        revocationListCredential: { type: 'string', format: 'uri' },
+      }
+    }
   },
   required: vcSchema.required,
-  additionalProperties: true,
+  additionalProperties: false,
 } as const
 
 export type UniversityDegreeVC = FromSchema<typeof universityDegreeVCSchema>
@@ -113,7 +124,7 @@ export const universityDegreeVPSchema = {
     }
   },
   required: vpSchema.required,
-  additionalProperties: true,
+  additionalProperties: false,
 } as const
 
 export type UniversityDegreeVP = FromSchema<typeof universityDegreeVPSchema>
@@ -125,11 +136,26 @@ export const unsignedVC: Omit<VC, 'proof'> = {
   type: ['VerifiableCredential', 'UniversityDegreeCredential'],
   issuanceDate: new Date().toISOString(),
   issuer: 'did:example:issuer',
+  credentialSubject: {}
+}
+
+export const unsignedDegreeVC: Omit<UniversityDegreeVC, 'proof'> = {
+  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2018/credentials/examples/v1', 'https://w3id.org/vc-revocation-list-2020/v1'],
+  id: 'urn:uuid:9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+  type: ['VerifiableCredential', 'UniversityDegreeCredential'],
+  issuanceDate: new Date().toISOString(),
+  issuer: 'did:example:issuer',
   credentialSubject: {
     degree: {
       type: 'BachelorDegree',
       name: 'Bachelor of Science and Arts'
     }
+  },
+  credentialStatus: {
+    id: 'https://example.com/credentials/status/3#94567',
+    type: 'RevocationList2020Status',
+    revocationListIndex: '94567',
+    revocationListCredential: 'https://example.com/credentials/status/3'
   }
 }
 
