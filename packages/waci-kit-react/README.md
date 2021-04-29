@@ -40,8 +40,8 @@ const MyComp: FC = () => {
 };
 ```
 
-![QR Example](https://github.com/hellobloom/waci-kit-react/raw/main/assets/qr.png)
-![Button Example](https://github.com/hellobloom/waci-kit-react/raw/main/assets/button.png)
+![QR Example](https://github.com/hellobloom/ssi-sdk/raw/main/packages/waci-kit-react/assets/qr.png)
+![Button Example](https://github.com/hellobloom/ssi-sdk/raw/main/packages/waci-kit-react/assets/button.png)
 
 ## Props
 
@@ -54,7 +54,7 @@ const MyComp: FC = () => {
 
 ### Data
 
-This is the [WACI payload](https://specs.bloom.co/wallet-credential-interactions/#payload).
+This is the [WACI payload](https://specs.bloom.co/wallet-and-credential-interactions/#payload).
 
 | Name              | Description                                    | Type     | Required |
 | ----------------- | ---------------------------------------------- | -------- | -------- |

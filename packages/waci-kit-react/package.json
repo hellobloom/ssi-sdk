@@ -1,10 +1,10 @@
 {
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-beta.2",
   "name": "@bloomprotocol/waci-kit-react",
   "description": "Render a QR Code or button to initiate a WACI interaction",
   "author": "Bloom Team <team@bloom.co>",
   "license": "Apache-2.0",
-  "repository": "https://github.com/hellobloom/waci-kit-react",
+  "repository": "https://github.com/hellobloom/ssi-sdk/tree/main/packages/waci-kit-react",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "module": "dist/waci-kit-react.esm.js",
