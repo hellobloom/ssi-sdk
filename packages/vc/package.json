@@ -18,9 +18,8 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test  --testPathIgnorePatterns=benchmark.test.ts",
-    "test:benchmark": "tsdx test -i --testPathPattern=benchmark.test.ts",
-    "lint": "tsdx lint",
+    "test": "tsdx test",
+    "lint": "tsdx lint src",
     "prepare": "npm run build",
     "prepublishOnly": "npm run test && npm run lint"
   },
