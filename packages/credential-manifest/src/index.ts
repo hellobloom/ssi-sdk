@@ -38,7 +38,7 @@ const displayMappingObjectSchema = {
   properties: {
     path: {
       type: 'array',
-      item: { type: 'string' },
+      items: { type: 'string' },
     },
     text: { type: ['number', 'string'] },
     label: { type: ['number', 'string'] },
@@ -55,7 +55,7 @@ const displaySchema = {
     title: displayMappingObjectSchema,
     subtitle: displayMappingObjectSchema,
     description: displayMappingObjectSchema,
-    properties: displayMappingObjectSchema,
+    properties: { type: 'array', items: displayMappingObjectSchema },
   },
   additionalProperties: false,
 } as const;
