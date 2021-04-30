@@ -4,9 +4,10 @@ import { JSONSchema } from "json-schema-to-ts"
 
 import { DocumentLoader } from "./shared"
 import { VP, vpSchema, VC, vcSchema } from "./core"
+import { CredentialIssuancePurpose } from "./purposes"
 
 const jsigs = require('jsonld-signatures')
-const { AssertionProofPurpose, AuthenticationProofPurpose } = jsigs.purposes
+const { AuthenticationProofPurpose } = jsigs.purposes
 
 export type GetSuiteOptions = {
   verificationMethod: string
@@ -67,7 +68,7 @@ const verifyVCProof: VerifyVCProof = async ({vc, documentLoader, getSuite, getPr
   const result = await jsigs.verify(vc, {
     suite,
     documentLoader,
-    purpose: new AssertionProofPurpose(proofPurposeOptions || {}),
+    purpose: new CredentialIssuancePurpose(proofPurposeOptions || {}),
   })
 
   if (result.verified) {
@@ -75,6 +76,53 @@ const verifyVCProof: VerifyVCProof = async ({vc, documentLoader, getSuite, getPr
   } else {
     return {success: false, errors: result.error.errors }
   }
+}
+
+type IssuanceError = {
+  type: 'expired' | 'inactive'
+  message: string
+}
+
+type VerifyVCIssuanceResponseSuccess = {
+  success: true
+}
+
+type VerifyVCIssuanceResponseFailure = {
+  success: false
+  errors: IssuanceError[]
+}
+
+type VerifyVCIssuanceResponse = VerifyVCIssuanceResponseSuccess | VerifyVCIssuanceResponseFailure
+
+type VerifyVCIssuance = (opts: {vc: VC}) => VerifyVCIssuanceResponse
+
+const verifyVCIssuance: VerifyVCIssuance = ({vc}) => {
+  const now = new Date()
+
+  let errors: IssuanceError[] = []
+
+  if (now < new Date(vc.issuanceDate)) {
+    errors.push({
+      type: 'inactive',
+      message: `VC is inactive until ${vc.issuanceDate}`
+    })
+  }
+
+  if (vc.expirationDate && now > new Date(vc.expirationDate)) {
+    errors.push({
+      type: 'expired',
+      message: `VC expired at ${vc.expirationDate}`
+    })
+  }
+
+  if (errors.length > 0) {
+    return {
+      success: false,
+      errors
+    }
+  }
+
+  return {success: true}
 }
 
 type VerifyVPProofResponseSuccess = {
@@ -124,28 +172,72 @@ const verifyVPProof: VerifyVPProof = async ({vp, documentLoader, getSuite, getPr
     }),
   })
 
-  const credentialErrors: {id: string, errors: ProofError[]}[] = []
-  if (result.verified) {
-    await Promise.all(vp.verifiableCredential.map(async (vc) => {
-      const result = await verifyVCProof({vc, documentLoader, getSuite, getProofPurposeOptions})
-      if (!result.success) {
-        credentialErrors.push({
-          id: vc.id,
-          errors: result.errors
-        })
-      }
-    }))
+  if (!result.verified) {
+    return {
+      success: false,
+      errors: result.error.errors,
+    }
+  }
 
-    if (credentialErrors.length === 0) {
-      return {success: true}
+  const credentialErrors: {id: string, errors: ProofError[]}[] = []
+
+  await Promise.all(vp.verifiableCredential.map(async (vc) => {
+    const result = await verifyVCProof({vc, documentLoader, getSuite, getProofPurposeOptions})
+    if (!result.success) {
+      credentialErrors.push({
+        id: vc.id,
+        errors: result.errors
+      })
+    }
+  }))
+
+  if (credentialErrors.length > 0) {
+    return {
+      success: false,
+      credentialErrors: credentialErrors
     }
   }
 
   return {
-    success: false,
-    errors:
-    result.error?.errors,
-    credentialErrors: credentialErrors.length > 0 ? credentialErrors : undefined
+    success: true,
+  }
+}
+
+type VerifyVPIssuanceResponseSuccess = {
+  success: true
+}
+
+type VerifyVPIssuanceResponseFailure = {
+  success: false
+  credentialErorrs?: {id: string, errors: IssuanceError[]}[]
+}
+
+type VerifyVPIssuanceResponse = VerifyVPIssuanceResponseSuccess | VerifyVPIssuanceResponseFailure
+
+type VerifyVPIssuance = (opts: {vp: VP}) => VerifyVPIssuanceResponse
+
+const verifyVPIssuance: VerifyVPIssuance = ({vp}) => {
+  const credentialErorrs: {id: string, errors: IssuanceError[]}[] = []
+
+  for (const vc of vp.verifiableCredential) {
+    const result = verifyVCIssuance({vc})
+    if (!result.success) {
+      credentialErorrs.push({
+        id: vc.id,
+        errors: result.errors
+      })
+    }
+  }
+
+  if (credentialErorrs.length > 0) {
+    return {
+      success: false,
+      credentialErorrs
+    }
+  }
+
+  return {
+    success: true
   }
 }
 
@@ -158,6 +250,7 @@ export type VerifyVCResponseFailure = {
   success: false
   schemaErrors?: ErrorObject[]
   proofErrors?: ProofError[]
+  issuanceErrors?: IssuanceError[]
 }
 
 export type VerifyVCResponse<VCType extends VC> = VerifyVCResponseSuccess<VCType> | VerifyVCResponseFailure
@@ -183,24 +276,34 @@ export const verifyVC = async <VCType extends VC>({
   const schema = _schema || vcSchema
   const validate = ajv.getSchema<VCType>(schemaKey) || ajv.addSchema(schema, schemaKey).getSchema<VCType>(schemaKey)!
 
-  let proofErrors
-  if (validate(vc)) {
-    const result = await verifyVCProof({vc, documentLoader, getSuite, getProofPurposeOptions})
-
-    if (result.success) {
-      return {
-        success: true,
-        vc,
-      }
+  if (!validate(vc)) {
+    return {
+      success: false,
+      schemaErrors: validate.errors || undefined
     }
+  }
 
-    proofErrors = result.errors
+  const proofResult = await verifyVCProof({vc, documentLoader, getSuite, getProofPurposeOptions})
+
+  if (!proofResult.success) {
+    return {
+      success: false,
+      proofErrors: proofResult.errors
+    }
+  }
+
+  const issuanceResult = verifyVCIssuance({vc})
+
+  if (!issuanceResult.success) {
+    return {
+      success: false,
+      issuanceErrors: issuanceResult.errors,
+    }
   }
 
   return {
-    success: false,
-    schemaErrors: validate.errors || undefined,
-    proofErrors
+    success: true,
+    vc,
   }
 }
 
@@ -214,6 +317,7 @@ export type VerifyVPResponseFailure = {
   schemaErrors?: ErrorObject[]
   proofErrors?: ProofError[]
   credentialProofErrors?: {id: string, errors: ProofError[]}[]
+  credentialIssuanceErrors?: {id: string, errors: IssuanceError[]}[]
 }
 
 export type VerifyVPResponse<VPType extends VP> = VerifyVPResponseSuccess<VPType> | VerifyVPResponseFailure
@@ -239,26 +343,34 @@ export const verifyVP = async <VPType extends VP = VP>({
   const schema = _schema || vpSchema
   const validate = ajv.getSchema<VPType>(schemaKey) || ajv.addSchema(schema, schemaKey).getSchema<VPType>(schemaKey)!
 
-  let proofErrors
-  let credentialProofErrors
-  if (validate(vp)) {
-    const result = await verifyVPProof({vp, documentLoader, getSuite, getProofPurposeOptions})
-
-    if (result.success === true) {
-      return {
-        success: true,
-        vp,
-      }
+  if (!validate(vp)) {
+    return {
+      success: false,
+      schemaErrors: validate.errors || undefined
     }
+  }
 
-    proofErrors = result.errors
-    credentialProofErrors = result.credentialErrors
+  const proofResult = await verifyVPProof({vp, documentLoader, getSuite, getProofPurposeOptions})
+
+  if (!proofResult.success) {
+    return {
+      success: false,
+      proofErrors: proofResult.errors,
+      credentialProofErrors: proofResult.credentialErrors,
+    }
+  }
+
+  const issuanceResult = verifyVPIssuance({vp})
+
+  if (!issuanceResult.success) {
+    return {
+      success: false,
+      credentialIssuanceErrors: issuanceResult.credentialErorrs
+    }
   }
 
   return {
-    success: false,
-    schemaErrors: validate.errors || undefined,
-    proofErrors,
-    credentialProofErrors,
+    success: true,
+    vp
   }
 }

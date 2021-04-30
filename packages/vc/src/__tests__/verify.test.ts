@@ -1,4 +1,6 @@
 import { expectType } from 'tsd';
+import addDays from 'date-fns/addDays';
+import subDays from 'date-fns/subDays';
 
 import { VC, VP } from '../core';
 import { signVC, signVP } from '../sign';
@@ -117,6 +119,7 @@ describe('verifyVC', () => {
       expect(result.success).toBeFalsy();
       if (!result.success) {
         expect(result.schemaErrors).toBeUndefined();
+        expect(result.issuanceErrors).toBeUndefined();
         expect(result.proofErrors).toMatchInlineSnapshot(`
           Array [
             [Error: Invalid signature.],
@@ -153,6 +156,7 @@ describe('verifyVC', () => {
       expect(result.success).toBeFalsy();
       if (!result.success) {
         expect(result.proofErrors).toBeUndefined();
+        expect(result.issuanceErrors).toBeUndefined();
         expect(result.schemaErrors).toMatchInlineSnapshot(`
           Array [
             Object {
@@ -166,6 +170,80 @@ describe('verifyVC', () => {
             },
           ]
         `);
+      }
+    });
+
+    it("the VC's issuanceDate is in the future", async () => {
+      const issuanceDate = addDays(new Date(), 1).toISOString();
+      const inactive = await signVC({
+        unsigned: {
+          ...unsignedVC,
+          issuanceDate,
+        } as any,
+        documentLoader,
+        suite: await getIssuerSignSuite(),
+      });
+
+      const result = await verifyVC({
+        vc: inactive,
+        documentLoader,
+        getSuite: ({ controller }) => {
+          switch (controller) {
+            case 'did:example:holder':
+              return getHolderVerifySuite();
+            case 'did:example:issuer':
+              return getIssuerVerifySuite();
+            default:
+              throw new Error(`Unknown controller: ${controller}`);
+          }
+        },
+      });
+
+      expect(result.success).toBeFalsy();
+      if (!result.success) {
+        expect(result.proofErrors).toBeUndefined();
+        expect(result.schemaErrors).toBeUndefined();
+        expect(result.issuanceErrors).toBeDefined();
+        expect(result.issuanceErrors).toHaveLength(1);
+        expect(result.issuanceErrors![0].type).toEqual('inactive')
+        expect(result.issuanceErrors![0].message).toEqual(`VC is inactive until ${issuanceDate}`)
+      }
+    });
+
+    it("the VC's expirationDate is in the past", async () => {
+      const expirationDate = subDays(new Date(), 1).toISOString();
+      const inactive = await signVC({
+        unsigned: {
+          ...unsignedVC,
+          expirationDate,
+        } as any,
+        documentLoader,
+        suite: await getIssuerSignSuite(),
+      });
+
+      const result = await verifyVC({
+        vc: inactive,
+        documentLoader,
+        getSuite: ({ controller }) => {
+          switch (controller) {
+            case 'did:example:holder':
+              return getHolderVerifySuite();
+            case 'did:example:issuer':
+              return getIssuerVerifySuite();
+            default:
+              throw new Error(`Unknown controller: ${controller}`);
+          }
+        },
+      });
+
+      expect(result.success).toBeFalsy();
+      if (!result.success) {
+        expect(result.proofErrors).toBeUndefined();
+        expect(result.schemaErrors).toBeUndefined();
+        expect(result.issuanceErrors).toBeDefined();
+        expect(result.issuanceErrors).toHaveLength(1);
+        expect(result.issuanceErrors![0].type).toEqual('expired')
+        expect(result.issuanceErrors![0].message).toEqual(`VC expired at ${expirationDate}`)
       }
     });
 
@@ -216,6 +294,7 @@ describe('verifyVC', () => {
       expect(result.success).toBeFalsy();
       if (!result.success) {
         expect(result.proofErrors).toBeUndefined();
+        expect(result.issuanceErrors).toBeUndefined();
         expect(result.schemaErrors).toMatchInlineSnapshot(`
           Array [
             Object {
@@ -342,6 +421,7 @@ describe('verifyVP', () => {
       if (!result.success) {
         expect(result.schemaErrors).toBeUndefined();
         expect(result.credentialProofErrors).toBeUndefined();
+        expect(result.credentialIssuanceErrors).toBeUndefined();
         expect(result.proofErrors).toMatchInlineSnapshot(`
           Array [
             [Error: Invalid signature.],
@@ -395,6 +475,7 @@ describe('verifyVP', () => {
       if (!result.success) {
         expect(result.schemaErrors).toBeUndefined();
         expect(result.proofErrors).toBeUndefined();
+        expect(result.credentialIssuanceErrors).toBeUndefined();
         expect(result.credentialProofErrors).toMatchInlineSnapshot(`
           Array [
             Object {
@@ -405,6 +486,105 @@ describe('verifyVP', () => {
             },
           ]
         `);
+      }
+    });
+
+    it('one the VCs within the VP has an issuanceDate is in the future', async () => {
+      const issuanceDate = addDays(new Date(), 1).toISOString();
+      const inactive = await signVC({
+        unsigned: {
+          ...unsignedVC,
+          issuanceDate,
+        } as any,
+        documentLoader,
+        suite: await getIssuerSignSuite(),
+      });
+      const vp = await signVP({
+        unsigned: getUnsignedVP([inactive]),
+        documentLoader,
+        suite: await getHolderSignSuite(),
+        proofPurposeOptions: {
+          challenge: 'challenge',
+          domain: 'domain',
+        },
+      });
+
+      const result = await verifyVP({
+        vp,
+        documentLoader,
+        getSuite: ({ controller }) => {
+          switch (controller) {
+            case 'did:example:holder':
+              return getHolderVerifySuite();
+            case 'did:example:issuer':
+              return getIssuerVerifySuite();
+            default:
+              throw new Error(`Unknown controller: ${controller}`);
+          }
+        },
+      });
+
+      expect(result.success).toBeFalsy();
+      if (!result.success) {
+        expect(result.schemaErrors).toBeUndefined();
+        expect(result.proofErrors).toBeUndefined();
+        expect(result.credentialProofErrors).toBeUndefined();
+        expect(result.credentialIssuanceErrors).toBeDefined();
+        expect(result.credentialIssuanceErrors).toHaveLength(1);
+        expect(result.credentialIssuanceErrors![0].id).toEqual('urn:uuid:9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d')
+        expect(result.credentialIssuanceErrors![0].errors).toHaveLength(1)
+        expect(result.credentialIssuanceErrors![0].errors[0].type).toEqual('inactive')
+        expect(result.credentialIssuanceErrors![0].errors[0].message).toEqual(`VC is inactive until ${issuanceDate}`)
+      }
+    });
+
+    it("the VC's expirationDate is in the past", async () => {
+      const expirationDate = subDays(new Date(), 1).toISOString();
+      const expired = await signVC({
+        unsigned: {
+          ...unsignedVC,
+          expirationDate,
+        } as any,
+        documentLoader,
+        suite: await getIssuerSignSuite(),
+      });
+
+      const vp = await signVP({
+        unsigned: getUnsignedVP([expired]),
+        documentLoader,
+        suite: await getHolderSignSuite(),
+        proofPurposeOptions: {
+          challenge: 'challenge',
+          domain: 'domain',
+        },
+      });
+
+      const result = await verifyVP({
+        vp,
+        documentLoader,
+        getSuite: ({ controller }) => {
+          switch (controller) {
+            case 'did:example:holder':
+              return getHolderVerifySuite();
+            case 'did:example:issuer':
+              return getIssuerVerifySuite();
+            default:
+              throw new Error(`Unknown controller: ${controller}`);
+          }
+        },
+      });
+
+      expect(result.success).toBeFalsy();
+      if (!result.success) {
+        expect(result.schemaErrors).toBeUndefined();
+        expect(result.proofErrors).toBeUndefined();
+        expect(result.credentialProofErrors).toBeUndefined();
+        expect(result.credentialIssuanceErrors).toBeDefined();
+        expect(result.credentialIssuanceErrors).toHaveLength(1);
+        expect(result.credentialIssuanceErrors![0].id).toEqual('urn:uuid:9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d')
+        expect(result.credentialIssuanceErrors![0].errors).toHaveLength(1)
+        expect(result.credentialIssuanceErrors![0].errors[0].type).toEqual('expired')
+        expect(result.credentialIssuanceErrors![0].errors[0].message).toEqual(`VC expired at ${expirationDate}`)
       }
     });
 
@@ -461,6 +641,7 @@ describe('verifyVP', () => {
       if (!result.success) {
         expect(result.proofErrors).toBeUndefined();
         expect(result.credentialProofErrors).toBeUndefined();
+        expect(result.credentialIssuanceErrors).toBeUndefined();
         expect(result.schemaErrors).toMatchInlineSnapshot(`
           Array [
             Object {

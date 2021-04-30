@@ -1,8 +1,9 @@
 import { VC, VP} from "./core";
 import { DocumentLoader } from "./shared";
+import { CredentialIssuancePurpose } from "./purposes";
 
 const jsigs = require('jsonld-signatures')
-const { AssertionProofPurpose, AuthenticationProofPurpose } = jsigs.purposes
+const { AuthenticationProofPurpose } = jsigs.purposes
 
 export const signVC = async <VCType extends VC>({
   unsigned,
@@ -20,7 +21,7 @@ export const signVC = async <VCType extends VC>({
     {
       suite,
       documentLoader,
-      purpose: new AssertionProofPurpose(proofPurposeOptions),
+      purpose: new CredentialIssuancePurpose(proofPurposeOptions),
     },
   )
 
