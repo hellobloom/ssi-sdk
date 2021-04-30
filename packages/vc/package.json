@@ -31,6 +31,7 @@
     "jsonld-signatures": "^9.0.2"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.14.0",
     "@transmute/vc.js": "^0.2.1-unstable.10",
     "@digitalbazaar/vc": "^1.0.0",
     "@digitalbazaar/ed25519-verification-key-2020": "^2.1.0",

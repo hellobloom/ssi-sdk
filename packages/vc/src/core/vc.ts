@@ -21,16 +21,32 @@ export const vcSubjectSchema = {
 export type VCSubject = FromSchema<typeof vcSubjectSchema>
 
 export const vcProofSchema = {
-  type: 'object',
-  properties: {
-    type: { type: 'string' },
-    created: { type: 'string', format: 'date-time' },
-    proofPurpose: { const: 'assertionMethod' },
-    verificationMethod: { type: 'string' },
-    jws: { type: 'string' },
-  },
-  required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'jws'],
-  additionalProperties: false
+  oneOf: [
+    {
+      type: 'object',
+      properties: {
+        type: { type: 'string' },
+        created: { type: 'string', format: 'date-time' },
+        proofPurpose: { const: 'assertionMethod' },
+        verificationMethod: { type: 'string' },
+        jws: { type: 'string' },
+      },
+      required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'jws'],
+      additionalProperties: false
+    },
+    {
+      type: 'object',
+      properties: {
+        type: { type: 'string' },
+        created: { type: 'string', format: 'date-time' },
+        proofPurpose: { const: 'assertionMethod' },
+        verificationMethod: { type: 'string' },
+        proofValue: { type: 'string' },
+      },
+      required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'proofValue'],
+      additionalProperties: false
+    },
+  ]
 } as const
 
 export type VCProof = FromSchema<typeof vcProofSchema>

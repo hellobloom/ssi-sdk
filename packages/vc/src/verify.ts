@@ -68,7 +68,6 @@ const verifyVCProof: VerifyVCProof = async ({vc, documentLoader, getSuite, getPr
     suite,
     documentLoader,
     purpose: new AssertionProofPurpose(proofPurposeOptions || {}),
-    compactProof: false,
   })
 
   if (result.verified) {
@@ -123,7 +122,6 @@ const verifyVPProof: VerifyVPProof = async ({vp, documentLoader, getSuite, getPr
       domain: vp.proof.domain,
       ...(proofPurposeOptions || {}),
     }),
-    compactProof: false,
   })
 
   const credentialErrors: {id: string, errors: ProofError[]}[] = []

@@ -1,4 +1,5 @@
 import { FromSchema } from "json-schema-to-ts";
+
 import { VC, VP, vcSchema, vpSchema } from "../../core";
 import { DocumentLoader } from "../../shared";
 
@@ -10,6 +11,10 @@ const examplesContextDoc = require('./contexts/examples-v1.json')
 const odrlContextDoc = require('./contexts/odrl.json')
 const didContextDoc = require('./contexts/did-v0.11.json')
 const revocationList2020ContextDoc = require('./contexts/revocation-list-2020-v1.json')
+const ed255192020ContextDoc = require('./contexts/ed25519-2020-v1.json')
+const securityV1ContextDoc = require('./contexts/security-v1.json')
+const securityV2ContextDoc = require('./contexts/security-v2.json')
+const presentationSubmissionV1ContextDoc = require('./contexts/presentation-submission-v1.json')
 const holderDidDoc = require('./didDocuments/holder.json')
 const issuerDidDoc = require('./didDocuments/issuer.json')
 const issuerKey = require('./keys/issuer.json')
@@ -21,28 +26,33 @@ const contextMap: {[url: string]: Record<string, unknown>} = {
   'https://www.w3.org/ns/odrl.jsonld': odrlContextDoc,
   'https://w3id.org/did/v0.11': didContextDoc,
   'https://w3id.org/vc-revocation-list-2020/v1': revocationList2020ContextDoc,
+  'https://w3id.org/security/suites/ed25519-2020/v1': ed255192020ContextDoc,
+  'https://w3id.org/security/v1': securityV1ContextDoc,
+  'https://w3id.org/security/v2': securityV2ContextDoc,
+  'https://identity.foundation/presentation-exchange/submission/v1': presentationSubmissionV1ContextDoc,
 }
 
 const didDocMap: {[url: string]: Record<string, unknown>} = {
   'did:example:holder': holderDidDoc,
   'did:example:issuer': issuerDidDoc,
+  'did:example:issuer#123': issuerKey['public'],
+  'did:example:holder#123': holderKey['public'],
 }
 
 export const documentLoader: DocumentLoader = (url: string) => {
-  const withoutFragment: string = url.split('#')[0];
-  const document = (withoutFragment.startsWith('did:') ? didDocMap : contextMap)[withoutFragment] || null
+  const document = (url.startsWith('did:') ? didDocMap : contextMap)[url] || null
 
-  if (document === null) console.log({withoutFragment, url})
+  if (document === null) console.log({url})
 
   return {
-    contextUrl: null,
     document,
     documentUrl: url
   }
 }
 
-const getSuite = async (keyInfo: any) =>
-  new Ed25519Signature2020({key: Ed25519VerificationKey2020.fromEd25519VerificationKey2018(keyInfo)})
+const getSuite = async (keyPair?: any) => {
+  return new Ed25519Signature2020({key: keyPair ? new Ed25519VerificationKey2020(keyPair) : undefined})
+}
 
 export const getIssuerSignSuite = async () =>
   getSuite(issuerKey['private'])
@@ -50,11 +60,9 @@ export const getIssuerSignSuite = async () =>
 export const getHolderSignSuite = async () =>
   getSuite(holderKey['private'])
 
-export const getIssuerVerifySuite = async () =>
-  getSuite(issuerKey['public'])
+export const getIssuerVerifySuite = async () => getSuite()
 
-export const getHolderVerifySuite = async () =>
-  getSuite(holderKey['public'])
+export const getHolderVerifySuite = async () => getSuite()
 
 const universityDegreeVCSubjectSchema = {
   type: 'object',
@@ -129,16 +137,16 @@ export type UniversityDegreeVP = FromSchema<typeof universityDegreeVPSchema>
 
 
 export const unsignedVC: Omit<VC, 'proof'> = {
-  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2018/credentials/examples/v1'],
+  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://w3id.org/security/suites/ed25519-2020/v1'],
   id: 'urn:uuid:9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-  type: ['VerifiableCredential', 'UniversityDegreeCredential'],
+  type: ['VerifiableCredential'],
   issuanceDate: new Date().toISOString(),
   issuer: 'did:example:issuer',
   credentialSubject: {}
 }
 
 export const unsignedDegreeVC: Omit<UniversityDegreeVC, 'proof'> = {
-  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2018/credentials/examples/v1', 'https://w3id.org/vc-revocation-list-2020/v1'],
+  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2018/credentials/examples/v1', 'https://w3id.org/security/suites/ed25519-2020/v1', 'https://w3id.org/vc-revocation-list-2020/v1'],
   id: 'urn:uuid:9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
   type: ['VerifiableCredential', 'UniversityDegreeCredential'],
   issuanceDate: new Date().toISOString(),
@@ -159,7 +167,7 @@ export const unsignedDegreeVC: Omit<UniversityDegreeVC, 'proof'> = {
 
 export const getUnsignedVP = (vcs: VC[]): Omit<VP, 'proof'> =>
   ({
-    '@context': ['https://www.w3.org/2018/credentials/v1'],
+    '@context': ['https://www.w3.org/2018/credentials/v1', 'https://w3id.org/security/suites/ed25519-2020/v1'],
     id: 'urn:uuid:9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
     type: ['VerifiablePresentation'],
     holder: 'did:example:holder',

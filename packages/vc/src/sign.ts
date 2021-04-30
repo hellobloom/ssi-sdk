@@ -21,7 +21,6 @@ export const signVC = async <VCType extends VC>({
       suite,
       documentLoader,
       purpose: new AssertionProofPurpose(proofPurposeOptions),
-      compactProof: false,
     },
   )
 
@@ -42,6 +41,5 @@ export const signVP = <VPType extends VP>({
       suite,
       documentLoader,
       purpose: new AuthenticationProofPurpose(proofPurposeOptions),
-      compactProof: false,
     },
   )

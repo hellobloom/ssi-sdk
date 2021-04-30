@@ -4,18 +4,36 @@ import { contextSchema, holderSchema } from "./shared";
 import { vcSchema } from "./vc";
 
 export const vpProofSchema = {
-  type: 'object',
-  properties: {
-    type: { type: 'string' },
-    created: { type: 'string', format: 'date-time' },
-    proofPurpose: { const: 'authentication' },
-    verificationMethod: { type: 'string' },
-    challenge: { type: 'string' },
-    domain: { type: 'string' },
-    jws: { type: 'string' },
-  },
-  required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'challenge', 'domain', 'jws'],
-  additionalProperties: false
+  oneOf: [
+    {
+      type: 'object',
+      properties: {
+        type: { type: 'string' },
+        created: { type: 'string', format: 'date-time' },
+        proofPurpose: { const: 'authentication' },
+        verificationMethod: { type: 'string' },
+        challenge: { type: 'string' },
+        domain: { type: 'string' },
+        jws: { type: 'string' },
+      },
+      required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'challenge', 'domain', 'jws'],
+      additionalProperties: false
+    },
+    {
+      type: 'object',
+      properties: {
+        type: { type: 'string' },
+        created: { type: 'string', format: 'date-time' },
+        proofPurpose: { const: 'authentication' },
+        verificationMethod: { type: 'string' },
+        challenge: { type: 'string' },
+        domain: { type: 'string' },
+        proofValue: { type: 'string' },
+      },
+      required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'challenge', 'domain', 'proofValue'],
+      additionalProperties: false
+    },
+  ]
 } as const
 
 export type VPProof = FromSchema<typeof vpProofSchema>
