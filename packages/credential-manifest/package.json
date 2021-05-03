@@ -7,6 +7,7 @@
   "main": "dist/index.js",
   "module": "dist/credential-manifest.esm.js",
   "typings": "dist/index.d.ts",
+  "sideEffects": false,
   "files": [
     "dist",
     "src"
