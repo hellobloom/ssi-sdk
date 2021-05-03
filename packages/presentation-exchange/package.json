@@ -3,7 +3,7 @@
   "description": "Typescript types for Credential Manifest",
   "version": "0.1.0",
   "author": "Bloom Protocol LLC <team@bloom.co>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "main": "dist/index.js",
   "module": "dist/presentation-exchange.esm.js",
   "typings": "dist/index.d.ts",
