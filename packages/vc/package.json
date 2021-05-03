@@ -35,9 +35,9 @@
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.14.0",
     "@digitalbazaar/ed25519-signature-2020": "^2.1.0",
-    "@digitalbazaar/ed25519-verification-key-2020": "^2.1.0",
+    "@digitalbazaar/ed25519-verification-key-2020": "^2.1.1",
     "@digitalbazaar/vc": "^1.0.0",
-    "@transmute/vc.js": "^0.2.1-unstable.10",
+    "@transmute/vc.js": "^0.2.1-unstable.11",
     "@size-limit/preset-big-lib": "^4.10.2",
     "date-fns": "^2.21.1",
     "size-limit": "^4.10.2",

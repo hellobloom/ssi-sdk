@@ -17,15 +17,15 @@ export type GetSuiteOptions = {
 
 export type GetSuiteFn = (options: GetSuiteOptions) => any | Promise<any>
 
-export type GetVerifierProofPurposeOptionsOptions = {
+export type GetProofPurposeOptionsOptions = {
   proofPurpose: string
   verificationMethod: string
   controller: string
 }
 
-export type GetVerifierProofPurposeOptionsFn = (
-  options: GetVerifierProofPurposeOptionsOptions,
-) => Record<string, any> | Promise<Record<string, any>>
+export type GetProofPurposeOptionsFn = (
+  options: GetProofPurposeOptionsOptions,
+) => Record<string, unknown> | Promise<Record<string, unknown>>
 
 export type ProofError = Error
 
@@ -44,7 +44,7 @@ type VerifyVCProof = (opts: {
   vc: VC
   documentLoader: DocumentLoader,
   getSuite: GetSuiteFn
-  getProofPurposeOptions?: GetVerifierProofPurposeOptionsFn
+  getProofPurposeOptions?: GetProofPurposeOptionsFn
 }) => Promise<VerifyVCProofResponse>
 
 const verifyVCProof: VerifyVCProof = async ({vc, documentLoader, getSuite, getProofPurposeOptions}) => {
@@ -141,7 +141,7 @@ type VerifyVPProof = (opts: {
   vp: VP
   documentLoader: DocumentLoader,
   getSuite: GetSuiteFn
-  getProofPurposeOptions?: GetVerifierProofPurposeOptionsFn
+  getProofPurposeOptions?: GetProofPurposeOptionsFn
 }) => Promise<VerifyVPProofResponse>
 
 const verifyVPProof: VerifyVPProof = async ({vp, documentLoader, getSuite, getProofPurposeOptions}) => {
@@ -267,7 +267,7 @@ export const verifyVC = async <VCType extends VC>({
   vc: unknown
   documentLoader: DocumentLoader,
   getSuite: GetSuiteFn
-  getProofPurposeOptions?: GetVerifierProofPurposeOptionsFn
+  getProofPurposeOptions?: GetProofPurposeOptionsFn
   schema?: JSONSchema
   ajv?: Ajv
   schemaKey?: string
@@ -334,7 +334,7 @@ export const verifyVP = async <VPType extends VP = VP>({
   vp: unknown
   documentLoader: DocumentLoader,
   getSuite: GetSuiteFn
-  getProofPurposeOptions?: GetVerifierProofPurposeOptionsFn
+  getProofPurposeOptions?: GetProofPurposeOptionsFn
   schema?: JSONSchema
   ajv?: Ajv
   schemaKey?: string
