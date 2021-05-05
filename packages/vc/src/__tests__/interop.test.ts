@@ -19,6 +19,7 @@ describe('Interop:', () => {
     })
 
     // This test won't pass until @transmute/vc.js is updated
+    // https://github.com/transmute-industries/vc.js/issues/64
     it.skip('Transmute', async () => {
       const result = await transmuteVC.ld.validateCredential({
         credential: bloomSignedVC,
