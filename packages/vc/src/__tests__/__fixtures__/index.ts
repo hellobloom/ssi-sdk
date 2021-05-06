@@ -4,7 +4,8 @@ import { VC, VP, vcSchema, vpSchema } from "../../core";
 import { DocumentLoader } from "../../shared";
 
 const {Ed25519VerificationKey2020} = require('@digitalbazaar/ed25519-verification-key-2020');
-const {Ed25519Signature2020} = require('@digitalbazaar/ed25519-signature-2020');
+const Ed25519Signature2020 = require('@digitalbazaar/ed25519-signature-2020').Ed25519Signature2020;
+const jsonld = require('jsonld');
 
 const credentialsContextDoc = require('./contexts/credentials-v1.json')
 const examplesContextDoc = require('./contexts/examples-v1.json')
@@ -35,14 +36,13 @@ const contextMap: {[url: string]: Record<string, unknown>} = {
 const didDocMap: {[url: string]: Record<string, unknown>} = {
   'did:example:holder': holderDidDoc,
   'did:example:issuer': issuerDidDoc,
-  'did:example:issuer#123': issuerKey['public'],
-  'did:example:holder#123': holderKey['public'],
 }
 
 export const documentLoader: DocumentLoader = (url: string) => {
-  const document = (url.startsWith('did:') ? didDocMap : contextMap)[url] || null
+  const withoutFragment = url.split('#')[0];
+  const document = (withoutFragment.startsWith('did:') ? didDocMap : contextMap)[withoutFragment] || null
 
-  if (document === null) console.log({url})
+  if (document === null) console.log({url, withoutFragment})
 
   return {
     document,
@@ -50,8 +50,61 @@ export const documentLoader: DocumentLoader = (url: string) => {
   }
 }
 
+class Ed25519Signature2020Patched extends Ed25519Signature2020 {
+  constructor({
+    key,
+    signer,
+    verifier,
+    proof,
+    date,
+    useNativeCanonize,
+  }: any = {}) {
+    super({
+      key,
+      signer,
+      verifier,
+      proof,
+      date,
+      useNativeCanonize,
+    });
+  }
+
+
+  async getVerificationMethod({proof, documentLoader}: any) {
+    let {verificationMethod} = proof;
+
+    if(typeof verificationMethod === 'object') {
+      verificationMethod = verificationMethod.id;
+    }
+
+    if(!verificationMethod) {
+      throw new Error('No "verificationMethod" found in proof.');
+    }
+
+    // Note: `expansionMap` is intentionally not passed; we can safely drop
+    // properties here and must allow for it
+    const framed = await jsonld.frame(verificationMethod, {
+      '@context': this.contextUrl,
+      '@embed': '@always',
+      id: verificationMethod
+    }, {documentLoader, compactToRelative: false});
+    if(!framed) {
+      throw new Error(`Verification method ${verificationMethod} not found.`);
+    }
+
+    // ensure verification method has not been revoked
+    if(framed.revoked !== undefined) {
+      throw new Error('The verification method has been revoked.');
+    }
+
+    await this.assertVerificationMethod({verificationMethod: framed});
+
+    return framed;
+  }
+}
+
 const getSuite = async (keyPair?: any) => {
-  return new Ed25519Signature2020({key: keyPair ? new Ed25519VerificationKey2020(keyPair) : undefined})
+  return new Ed25519Signature2020Patched({key: keyPair ? new Ed25519VerificationKey2020(keyPair) : undefined})
 }
 
 export const getIssuerSignSuite = async () =>
