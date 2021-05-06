@@ -103,19 +103,19 @@ class Ed25519Signature2020Patched extends Ed25519Signature2020 {
   }
 }
 
-const getSuite = async (keyPair?: any) => {
+const getSuite = (keyPair?: any) => {
   return new Ed25519Signature2020Patched({key: keyPair ? new Ed25519VerificationKey2020(keyPair) : undefined})
 }
 
-export const getIssuerSignSuite = async () =>
+export const getIssuerSignSuite = () =>
   getSuite(issuerKey['private'])
 
-export const getHolderSignSuite = async () =>
+export const getHolderSignSuite = () =>
   getSuite(holderKey['private'])
 
-export const getIssuerVerifySuite = async () => getSuite()
+export const getIssuerVerifySuite = () => getSuite()
 
-export const getHolderVerifySuite = async () => getSuite()
+export const getHolderVerifySuite = () => getSuite()
 
 const universityDegreeVCSubjectSchema = {
   type: 'object',

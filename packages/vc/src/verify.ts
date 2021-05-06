@@ -43,28 +43,11 @@ type VerifyVCProofResponse = VerifyVCProofResponseSuccess | VerifyVCProofRespons
 type VerifyVCProof = (opts: {
   vc: VC
   documentLoader: DocumentLoader,
-  getSuite: GetSuiteFn
-  getProofPurposeOptions?: GetProofPurposeOptionsFn
+  suite: any
+  proofPurposeOptions?: Record<string, unknown>
 }) => Promise<VerifyVCProofResponse>
 
-const verifyVCProof: VerifyVCProof = async ({vc, documentLoader, getSuite, getProofPurposeOptions}) => {
-  const [suite, proofPurposeOptions] = await Promise.all([
-    getSuite({
-      verificationMethod: vc.proof.verificationMethod,
-      controller: typeof vc.issuer === 'string' ? vc.issuer : vc.issuer.id,
-      proofType: vc.proof.type,
-    }),
-    (() => {
-      if (typeof getProofPurposeOptions === 'undefined') return undefined
-
-      return getProofPurposeOptions({
-        verificationMethod: vc.proof.verificationMethod,
-        controller: typeof vc.issuer === 'string' ? vc.issuer : vc.issuer.id,
-        proofPurpose: vc.proof.proofPurpose,
-      })
-    })()
-  ])
-
+const verifyVCProof: VerifyVCProof = async ({vc, documentLoader, suite, proofPurposeOptions}) => {
   const result = await jsigs.verify(vc, {
     suite,
     documentLoader,
@@ -182,7 +165,24 @@ const verifyVPProof: VerifyVPProof = async ({vp, documentLoader, getSuite, getPr
   const credentialErrors: {id: string, errors: ProofError[]}[] = []
 
   await Promise.all(vp.verifiableCredential.map(async (vc) => {
-    const result = await verifyVCProof({vc, documentLoader, getSuite, getProofPurposeOptions})
+    const [suite, proofPurposeOptions] = await Promise.all([
+      getSuite({
+        verificationMethod: vc.proof.verificationMethod,
+        controller: typeof vc.issuer === 'string' ? vc.issuer : vc.issuer.id,
+        proofType: vc.proof.type,
+      }),
+      (() => {
+        if (typeof getProofPurposeOptions === 'undefined') return undefined
+
+        return getProofPurposeOptions({
+          verificationMethod: vc.proof.verificationMethod,
+          controller: typeof vc.issuer === 'string' ? vc.issuer : vc.issuer.id,
+          proofPurpose: vc.proof.proofPurpose,
+        })
+      })()
+    ])
+
+    const result = await verifyVCProof({vc, documentLoader, suite, proofPurposeOptions})
     if (!result.success) {
       credentialErrors.push({
         id: vc.id,
@@ -258,16 +258,16 @@ export type VerifyVCResponse<VCType extends VC> = VerifyVCResponseSuccess<VCType
 export const verifyVC = async <VCType extends VC>({
   vc,
   documentLoader,
-  getSuite,
-  getProofPurposeOptions,
+  suite,
+  proofPurposeOptions,
   schema: _schema,
   ajv: _ajv,
   schemaKey = 'vcSchema',
 } : {
   vc: unknown
   documentLoader: DocumentLoader,
-  getSuite: GetSuiteFn
-  getProofPurposeOptions?: GetProofPurposeOptionsFn
+  suite: any
+  proofPurposeOptions?: Record<string, unknown>
   schema?: JSONSchema
   ajv?: Ajv
   schemaKey?: string
@@ -283,7 +283,7 @@ export const verifyVC = async <VCType extends VC>({
     }
   }
 
-  const proofResult = await verifyVCProof({vc, documentLoader, getSuite, getProofPurposeOptions})
+  const proofResult = await verifyVCProof({vc, documentLoader, suite, proofPurposeOptions})
 
   if (!proofResult.success) {
     return {

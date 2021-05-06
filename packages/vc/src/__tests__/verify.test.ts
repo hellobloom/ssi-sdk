@@ -28,7 +28,7 @@ describe('verifyVC', () => {
     vc = await signVC({
       unsigned: unsignedVC,
       documentLoader,
-      suite: await getIssuerSignSuite(),
+      suite: getIssuerSignSuite(),
     });
   });
 
@@ -36,16 +36,7 @@ describe('verifyVC', () => {
     const result = await verifyVC({
       vc,
       documentLoader,
-      getSuite: ({ controller }) => {
-        switch (controller) {
-          case 'did:example:holder':
-            return getHolderVerifySuite();
-          case 'did:example:issuer':
-            return getIssuerVerifySuite();
-          default:
-            throw new Error(`Unknown controller: ${controller}`);
-        }
-      },
+      suite: getIssuerVerifySuite(),
     });
 
     expect(result.success).toBeTruthy();
@@ -58,22 +49,13 @@ describe('verifyVC', () => {
     const vc = await signVC({
       unsigned: unsignedDegreeVC,
       documentLoader,
-      suite: await getIssuerSignSuite(),
+      suite: getIssuerSignSuite(),
     });
 
     const result = await verifyVC<UniversityDegreeVC>({
       vc,
       documentLoader,
-      getSuite: ({ controller }) => {
-        switch (controller) {
-          case 'did:example:holder':
-            return getHolderVerifySuite();
-          case 'did:example:issuer':
-            return getIssuerVerifySuite();
-          default:
-            throw new Error(`Unknown controller: ${controller}`);
-        }
-      },
+      suite: getIssuerVerifySuite(),
       schema: universityDegreeVCSchema,
     });
 
@@ -88,7 +70,7 @@ describe('verifyVC', () => {
       const vc = await signVC({
         unsigned: unsignedDegreeVC,
         documentLoader,
-        suite: await getIssuerSignSuite(),
+        suite: getIssuerSignSuite(),
       });
       const tampered = {
         ...vc,
@@ -103,16 +85,7 @@ describe('verifyVC', () => {
       const result = await verifyVC({
         vc: tampered,
         documentLoader,
-        getSuite: ({ controller }) => {
-          switch (controller) {
-            case 'did:example:holder':
-              return getHolderVerifySuite();
-            case 'did:example:issuer':
-              return getIssuerVerifySuite();
-            default:
-              throw new Error(`Unknown controller: ${controller}`);
-          }
-        },
+        suite: getIssuerVerifySuite(),
         schema: universityDegreeVCSchema,
       });
 
@@ -135,22 +108,13 @@ describe('verifyVC', () => {
           type: ['UniversityDegreeCredential', 'VerifiableCredential'],
         } as any,
         documentLoader,
-        suite: await getIssuerSignSuite(),
+        suite: getIssuerSignSuite(),
       });
 
       const result = await verifyVC({
         vc: invalid,
         documentLoader,
-        getSuite: ({ controller }) => {
-          switch (controller) {
-            case 'did:example:holder':
-              return getHolderVerifySuite();
-            case 'did:example:issuer':
-              return getIssuerVerifySuite();
-            default:
-              throw new Error(`Unknown controller: ${controller}`);
-          }
-        },
+        suite: getIssuerVerifySuite(),
       });
 
       expect(result.success).toBeFalsy();
@@ -181,22 +145,13 @@ describe('verifyVC', () => {
           issuanceDate,
         } as any,
         documentLoader,
-        suite: await getIssuerSignSuite(),
+        suite: getIssuerSignSuite(),
       });
 
       const result = await verifyVC({
         vc: inactive,
         documentLoader,
-        getSuite: ({ controller }) => {
-          switch (controller) {
-            case 'did:example:holder':
-              return getHolderVerifySuite();
-            case 'did:example:issuer':
-              return getIssuerVerifySuite();
-            default:
-              throw new Error(`Unknown controller: ${controller}`);
-          }
-        },
+        suite: getIssuerVerifySuite(),
       });
 
       expect(result.success).toBeFalsy();
@@ -218,22 +173,13 @@ describe('verifyVC', () => {
           expirationDate,
         } as any,
         documentLoader,
-        suite: await getIssuerSignSuite(),
+        suite: getIssuerSignSuite(),
       });
 
       const result = await verifyVC({
         vc: inactive,
         documentLoader,
-        getSuite: ({ controller }) => {
-          switch (controller) {
-            case 'did:example:holder':
-              return getHolderVerifySuite();
-            case 'did:example:issuer':
-              return getIssuerVerifySuite();
-            default:
-              throw new Error(`Unknown controller: ${controller}`);
-          }
-        },
+        suite: getIssuerVerifySuite(),
       });
 
       expect(result.success).toBeFalsy();
@@ -273,22 +219,13 @@ describe('verifyVC', () => {
           },
         },
         documentLoader,
-        suite: await getIssuerSignSuite(),
+        suite: getIssuerSignSuite(),
       });
 
       const result = await verifyVC({
         vc: invalid,
         documentLoader,
-        getSuite: ({ controller }) => {
-          switch (controller) {
-            case 'did:example:holder':
-              return getHolderVerifySuite();
-            case 'did:example:issuer':
-              return getIssuerVerifySuite();
-            default:
-              throw new Error(`Unknown controller: ${controller}`);
-          }
-        },
+        suite: getIssuerVerifySuite(),
       });
 
       expect(result.success).toBeFalsy();
@@ -321,13 +258,13 @@ describe('verifyVP', () => {
     vc = await signVC({
       unsigned: unsignedVC,
       documentLoader,
-      suite: await getIssuerSignSuite(),
+      suite: getIssuerSignSuite(),
     });
 
     vp = await signVP({
       unsigned: getUnsignedVP([vc]),
       documentLoader,
-      suite: await getHolderSignSuite(),
+      suite: getHolderSignSuite(),
       proofPurposeOptions: {
         challenge: 'challenge',
         domain: 'domain',
@@ -361,13 +298,13 @@ describe('verifyVP', () => {
     const vc = await signVC({
       unsigned: unsignedDegreeVC,
       documentLoader,
-      suite: await getIssuerSignSuite(),
+      suite: getIssuerSignSuite(),
     });
 
     const vp = await signVP({
       unsigned: getUnsignedVP([vc]),
       documentLoader,
-      suite: await getHolderSignSuite(),
+      suite: getHolderSignSuite(),
       proofPurposeOptions: {
         challenge: 'challenge',
         domain: 'domain',
@@ -434,7 +371,7 @@ describe('verifyVP', () => {
       const vc = await signVC({
         unsigned: unsignedDegreeVC,
         documentLoader,
-        suite: await getIssuerSignSuite(),
+        suite: getIssuerSignSuite(),
       });
       const tampered = {
         ...vc,
@@ -449,7 +386,7 @@ describe('verifyVP', () => {
       const vp = await signVP({
         unsigned: getUnsignedVP([tampered]),
         documentLoader,
-        suite: await getHolderSignSuite(),
+        suite: getHolderSignSuite(),
         proofPurposeOptions: {
           challenge: 'challenge',
           domain: 'domain',
@@ -497,12 +434,12 @@ describe('verifyVP', () => {
           issuanceDate,
         } as any,
         documentLoader,
-        suite: await getIssuerSignSuite(),
+        suite: getIssuerSignSuite(),
       });
       const vp = await signVP({
         unsigned: getUnsignedVP([inactive]),
         documentLoader,
-        suite: await getHolderSignSuite(),
+        suite: getHolderSignSuite(),
         proofPurposeOptions: {
           challenge: 'challenge',
           domain: 'domain',
@@ -546,13 +483,13 @@ describe('verifyVP', () => {
           expirationDate,
         } as any,
         documentLoader,
-        suite: await getIssuerSignSuite(),
+        suite: getIssuerSignSuite(),
       });
 
       const vp = await signVP({
         unsigned: getUnsignedVP([expired]),
         documentLoader,
-        suite: await getHolderSignSuite(),
+        suite: getHolderSignSuite(),
         proofPurposeOptions: {
           challenge: 'challenge',
           domain: 'domain',
@@ -592,7 +529,7 @@ describe('verifyVP', () => {
       const vc = await signVC({
         unsigned: unsignedVC,
         documentLoader,
-        suite: await getIssuerSignSuite(),
+        suite: getIssuerSignSuite(),
       });
       type PresentationSubmission = VP & {
         presentation_submission: Record<string, unknown>;
@@ -615,7 +552,7 @@ describe('verifyVP', () => {
           },
         },
         documentLoader,
-        suite: await getHolderSignSuite(),
+        suite: getHolderSignSuite(),
         proofPurposeOptions: {
           challenge: 'challenge',
           domain: 'domain',

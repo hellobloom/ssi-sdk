@@ -20,7 +20,7 @@ describe('signVC', () => {
     const signed = await signVC({
       unsigned: unsignedVC,
       documentLoader,
-      suite: await getIssuerSignSuite()
+      suite: getIssuerSignSuite()
     })
 
     expect(validate(signed)).toBeTruthy()
@@ -31,7 +31,7 @@ describe('signVC', () => {
     const signed = await signVC({
       unsigned: unsignedDegreeVC,
       documentLoader,
-      suite: await getIssuerSignSuite()
+      suite: getIssuerSignSuite()
     })
 
     const validate = ajv.compile(universityDegreeVCSchema)
@@ -48,7 +48,7 @@ describe('signVP', () => {
     const vc = await signVC({
       unsigned: unsignedVC,
       documentLoader,
-      suite: await getIssuerSignSuite()
+      suite: getIssuerSignSuite()
     })
 
     unsignedVP = getUnsignedVP([vc])
@@ -62,7 +62,7 @@ describe('signVP', () => {
     const signed = await signVP({
       unsigned: unsignedVP,
       documentLoader,
-      suite: await getHolderSignSuite(),
+      suite: getHolderSignSuite(),
       proofPurposeOptions: {
         challenge: 'challenge',
         domain: 'domain',

@@ -14,7 +14,7 @@ describe('Interop:', () => {
       bloomSignedVC = await signVC({
         unsigned: unsignedVC,
         documentLoader,
-        suite: await getIssuerSignSuite()
+        suite: getIssuerSignSuite()
       })
     })
 
@@ -24,7 +24,7 @@ describe('Interop:', () => {
       const result = await transmuteVC.ld.validateCredential({
         credential: bloomSignedVC,
         documentLoader,
-        suite: await getIssuerVerifySuite(),
+        suite: getIssuerVerifySuite(),
         compactProof: false,
       } as any)
 
@@ -35,7 +35,7 @@ describe('Interop:', () => {
       const result = await digitalbazaarVC.verifyCredential({
         credential: bloomSignedVC,
         documentLoader,
-        suite: await getIssuerVerifySuite(),
+        suite: getIssuerVerifySuite(),
       })
 
       expect(result.verified).toBeTruthy()
@@ -47,20 +47,13 @@ describe('Interop:', () => {
       const transmuteSignedVC = await transmuteVC.ld.issue({
         credential: {...unsignedVC},
         documentLoader,
-        suite: await getIssuerSignSuite(),
+        suite: getIssuerSignSuite(),
         compactProof: false,
       } as any)
 
       const result = await verifyVC({
         vc: transmuteSignedVC,
-        getSuite: ({controller}) => {
-          switch (controller) {
-            case 'did:example:issuer':
-              return getIssuerVerifySuite()
-            default:
-              throw new Error(`unknown controller: ${controller}`)
-          }
-        },
+        suite: getIssuerVerifySuite(),
         documentLoader
       })
 
@@ -71,19 +64,12 @@ describe('Interop:', () => {
       const digitalbazaarSignedVC = await digitalbazaarVC.issue({
         credential: {...unsignedVC},
         documentLoader,
-        suite: await getIssuerSignSuite()
+        suite: getIssuerSignSuite()
       })
 
       const result = await verifyVC({
         vc: digitalbazaarSignedVC,
-        getSuite: ({controller}) => {
-          switch (controller) {
-            case 'did:example:issuer':
-              return getIssuerVerifySuite()
-            default:
-              throw new Error(`unknown controller: ${controller}`)
-          }
-        },
+        suite: getIssuerVerifySuite(),
         documentLoader
       })
 
