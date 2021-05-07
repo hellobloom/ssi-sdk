@@ -1,0 +1,64 @@
+{
+  "name": "@bloomprotocol/ecdsa-secp256k1-verification-key-2019",
+  "description": "Typescript library for generating and working with EcdsaSecp256k1VerificationKey2019 key pairs, for use with crypto-ld.",
+  "version": "0.1.0",
+  "author": "Bloom Team <team@bloom.co>",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/hellobloom/ssi-sdk/tree/main/packages/ecdsa-secp256k1-verification-key-2019",
+  "main": "dist/index.js",
+  "module": "dist/ecdsa-secp256k1-verification-key-2019.esm.js",
+  "typings": "dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=12"
+  },
+  "scripts": {
+    "start": "tsdx watch --target node",
+    "build": "tsdx build --target node",
+    "test": "tsdx test",
+    "lint": "tsdx lint src",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run size && npm run lint && npm run test",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "dependencies": {
+    "@types/create-hash": "^1.2.2",
+    "@types/randombytes": "^2.0.0",
+    "@types/secp256k1": "^4.0.2",
+    "base58-universal": "^1.0.0",
+    "base64url": "^3.0.1",
+    "create-hash": "^1.2.0",
+    "crypto-ld": "^6.0.0",
+    "randombytes": "^2.1.0",
+    "secp256k1": "^4.0.2"
+  },
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^4.10.2",
+    "husky": "^6.0.0",
+    "size-limit": "^4.10.2",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.2.0",
+    "typescript": "^4.2.4"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "size-limit": [
+    {
+      "path": "dist/ecdsa-secp256k1-signature-2019.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/ecdsa-secp256k1-signature-2019.esm.js",
+      "limit": "10 KB"
+    }
+  ]
+}
