@@ -1,17 +1,36 @@
 {
-  "private": {
-    "@context": "https://w3id.org/security/suites/ed25519-2020/v1",
-    "id": "did:example:holder#123",
-    "type": "Ed25519VerificationKey2020",
-    "controller": "did:example:holder",
-    "publicKeyMultibase": "z6fioC1zcDPyPEL19pXRS2E4iJ46zH7xP6uSgAaPdwDrx",
-    "privateKeyMultibase": "z2b5J8uecvwAo9HUGge5NKQ7HoRNKUKCjZ7Fr4mDgWkwqATnLmZDx7Seu6NqTuFKkxuHNT27GcoxVZQCkWJhNvaUQ"
+  "Ed25519VerificationKey2020" : {
+    "private": {
+      "@context": "https://w3id.org/security/suites/ed25519-2020/v1",
+      "id": "did:example:holder#123",
+      "type": "Ed25519VerificationKey2020",
+      "controller": "did:example:holder",
+      "publicKeyMultibase": "z6fioC1zcDPyPEL19pXRS2E4iJ46zH7xP6uSgAaPdwDrx",
+      "privateKeyMultibase": "z2b5J8uecvwAo9HUGge5NKQ7HoRNKUKCjZ7Fr4mDgWkwqATnLmZDx7Seu6NqTuFKkxuHNT27GcoxVZQCkWJhNvaUQ"
+    },
+    "public": {
+      "@context": "https://w3id.org/security/suites/ed25519-2020/v1",
+      "id": "did:example:holder#123",
+      "type": "Ed25519VerificationKey2020",
+      "controller": "did:example:holder",
+      "publicKeyMultibase": "z6fioC1zcDPyPEL19pXRS2E4iJ46zH7xP6uSgAaPdwDrx"
+    }
   },
-  "public": {
-    "@context": "https://w3id.org/security/suites/ed25519-2020/v1",
-    "id": "did:example:holder#123",
-    "type": "Ed25519VerificationKey2020",
-    "controller": "did:example:holder",
-    "publicKeyMultibase": "z6fioC1zcDPyPEL19pXRS2E4iJ46zH7xP6uSgAaPdwDrx"
+  "EcdsaSecp256k1VerificationKey2019" : {
+    "private": {
+      "@context": "https://w3id.org/security/v2",
+      "id": "did:example:holder#456",
+      "type": "EcdsaSecp256k1VerificationKey2019",
+      "controller": "did:example:holder",
+      "publicKeyBase58": "cY3XbJUu1pz9VU18qTU12pXmvi5rVohUSpekndrnM1Vt",
+      "privateKeyBase58": "E8HCuTCVWHSAZSobCqFrriv7vMWhfbRLCU1YT9Upm625"
+    },
+    "public": {
+      "@context": "https://w3id.org/security/v2",
+      "id": "did:example:holder#456",
+      "type": "EcdsaSecp256k1VerificationKey2019",
+      "controller": "did:example:holder",
+      "publicKeyBase58": "cY3XbJUu1pz9VU18qTU12pXmvi5rVohUSpekndrnM1Vt"
+    }
   }
 }

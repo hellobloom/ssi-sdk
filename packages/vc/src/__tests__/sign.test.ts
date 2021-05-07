@@ -4,7 +4,18 @@ import { expectType } from 'tsd';
 
 import { VC, vcSchema, VP, vpSchema } from '../core'
 import { signVC, signVP } from '../sign'
-import { documentLoader, unsignedVC, getUnsignedVP, getIssuerSignSuite, getHolderSignSuite, UniversityDegreeVC, unsignedDegreeVC, universityDegreeVCSchema } from './__fixtures__'
+import {
+  documentLoader,
+  unsignedVC,
+  getUnsignedVP,
+  getIssuerEd25519Suite,
+  getIssuerEcdsaSecp256k1Suite,
+  getHolderEd25519Suite,
+  getHolderEcdsaSecp256k1Suite,
+  UniversityDegreeVC,
+  unsignedDegreeVC,
+  universityDegreeVCSchema
+} from './__fixtures__'
 
 describe('signVC', () => {
   let ajv: Ajv
@@ -16,27 +27,40 @@ describe('signVC', () => {
     validate = ajv.compile(vcSchema)
   })
 
-  it('signs a VC', async () => {
-    const signed = await signVC({
-      unsigned: unsignedVC,
-      documentLoader,
-      suite: getIssuerSignSuite()
+  ;([
+    {
+      name: 'Ed25519 Signature',
+      suite: getIssuerEd25519Suite(),
+    },
+    {
+      name: 'EcdsaSecp256k1 Signature',
+      suite: getIssuerEcdsaSecp256k1Suite(),
+    },
+  ]).forEach(({name, suite}) => {
+    it(`signs a VC (${name})`, async () => {
+      const signed = await signVC({
+        unsigned: unsignedVC,
+        documentLoader,
+        suite,
+        addSuiteContext: suite.type === 'EcdsaSecp256k1Signature2019' ? false : true,
+      })
+
+      expect(validate(signed)).toBeTruthy()
+      expectType<VC>(signed)
     })
 
-    expect(validate(signed)).toBeTruthy()
-    expectType<VC>(signed)
-  })
+    it(`signs a VC with custom type (${name})`, async () => {
+      const signed = await signVC({
+        unsigned: unsignedDegreeVC,
+        documentLoader,
+        suite,
+        addSuiteContext: suite.type === 'EcdsaSecp256k1Signature2019' ? false : true,
+      })
 
-  it('signs a VC with custom type', async () => {
-    const signed = await signVC({
-      unsigned: unsignedDegreeVC,
-      documentLoader,
-      suite: getIssuerSignSuite()
+      const validate = ajv.compile(universityDegreeVCSchema)
+      expect(validate(signed)).toBeTruthy()
+      expectType<UniversityDegreeVC>(signed)
     })
-
-    const validate = ajv.compile(universityDegreeVCSchema)
-    expect(validate(signed)).toBeTruthy()
-    expectType<UniversityDegreeVC>(signed)
   })
 })
 
@@ -48,7 +72,7 @@ describe('signVP', () => {
     const vc = await signVC({
       unsigned: unsignedVC,
       documentLoader,
-      suite: getIssuerSignSuite()
+      suite: getIssuerEd25519Suite()
     })
 
     unsignedVP = getUnsignedVP([vc])
@@ -58,17 +82,30 @@ describe('signVP', () => {
     validate = ajv.compile(vpSchema)
   })
 
-  it('signs a VP', async () => {
-    const signed = await signVP({
-      unsigned: unsignedVP,
-      documentLoader,
-      suite: getHolderSignSuite(),
-      proofPurposeOptions: {
-        challenge: 'challenge',
-        domain: 'domain',
-      }
-    })
+  ;([
+    {
+      name: 'Ed25519 Signature',
+      suite: getHolderEd25519Suite(),
+    },
+    {
+      name: 'EcdsaSecp256k1 Signature',
+      suite: getHolderEcdsaSecp256k1Suite(),
+    },
+  ]).forEach(({name, suite}) => {
+    it(`signs a VP (${name})`, async () => {
+      const signed = await signVP({
+        unsigned: unsignedVP,
+        documentLoader,
+        suite,
+        proofPurposeOptions: {
+          challenge: 'challenge',
+          domain: 'domain',
+        },
+        addSuiteContext: suite.type === 'EcdsaSecp256k1Signature2019' ? false : true,
+      })
 
-    expect(validate(signed)).toBeTruthy()
+      expect(validate(signed)).toBeTruthy()
+    })
   })
+
 })

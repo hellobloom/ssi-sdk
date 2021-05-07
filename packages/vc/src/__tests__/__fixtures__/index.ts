@@ -1,4 +1,6 @@
 import { FromSchema } from "json-schema-to-ts";
+import { EcdsaSecp256k1Signature2019 } from '@bloomprotocol/ecdsa-secp256k1-signature-2019'
+import { EcdsaSecp256k1VerificationKey2019 } from '@bloomprotocol/ecdsa-secp256k1-verification-key-2019'
 
 import { VC, VP, vcSchema, vpSchema } from "../../core";
 import { DocumentLoader } from "../../shared";
@@ -103,17 +105,29 @@ class Ed25519Signature2020Patched extends Ed25519Signature2020 {
   }
 }
 
-const getSuite = (keyPair?: any) => {
+const getEd25519Suite = (keyPair?: any) => {
   return new Ed25519Signature2020Patched({key: keyPair ? new Ed25519VerificationKey2020(keyPair) : undefined})
 }
 
-export const getIssuerSignSuite = () =>
-  getSuite(issuerKey['private'])
+export const getIssuerEd25519Suite = () =>
+  getEd25519Suite(issuerKey['Ed25519VerificationKey2020']['private'])
 
-export const getHolderSignSuite = () =>
-  getSuite(holderKey['private'])
+export const getHolderEd25519Suite = () =>
+  getEd25519Suite(holderKey['Ed25519VerificationKey2020']['private'])
 
-export const getVerifySuite = () => getSuite()
+export const getEd25519VerifySuite = () => getEd25519Suite()
+
+const getEcdsaSecp256k1Suite = (keyPair?: any) => {
+  return new EcdsaSecp256k1Signature2019({key: keyPair ? new EcdsaSecp256k1VerificationKey2019(keyPair) : undefined})
+}
+
+export const getIssuerEcdsaSecp256k1Suite = () =>
+  getEcdsaSecp256k1Suite(issuerKey['EcdsaSecp256k1VerificationKey2019']['private'])
+
+export const getHolderEcdsaSecp256k1Suite = () =>
+  getEcdsaSecp256k1Suite(holderKey['EcdsaSecp256k1VerificationKey2019']['private'])
+
+export const getEcdsaSecp256k1VerifySuite = () => getEd25519Suite()
 
 const universityDegreeVCSubjectSchema = {
   type: 'object',
@@ -188,7 +202,7 @@ export type UniversityDegreeVP = FromSchema<typeof universityDegreeVPSchema>
 
 
 export const unsignedVC: Omit<VC, 'proof'> = {
-  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://w3id.org/security/suites/ed25519-2020/v1'],
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
   id: 'urn:uuid:9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
   type: ['VerifiableCredential'],
   issuanceDate: new Date().toISOString(),
@@ -197,7 +211,7 @@ export const unsignedVC: Omit<VC, 'proof'> = {
 }
 
 export const unsignedDegreeVC: Omit<UniversityDegreeVC, 'proof'> = {
-  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2018/credentials/examples/v1', 'https://w3id.org/security/suites/ed25519-2020/v1', 'https://w3id.org/vc-revocation-list-2020/v1'],
+  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2018/credentials/examples/v1', 'https://w3id.org/vc-revocation-list-2020/v1'],
   id: 'urn:uuid:9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
   type: ['VerifiableCredential', 'UniversityDegreeCredential'],
   issuanceDate: new Date().toISOString(),
@@ -218,7 +232,7 @@ export const unsignedDegreeVC: Omit<UniversityDegreeVC, 'proof'> = {
 
 export const getUnsignedVP = (vcs: VC[]): Omit<VP, 'proof'> =>
   ({
-    '@context': ['https://www.w3.org/2018/credentials/v1', 'https://w3id.org/security/suites/ed25519-2020/v1'],
+    '@context': ['https://www.w3.org/2018/credentials/v1'],
     id: 'urn:uuid:9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
     type: ['VerifiablePresentation'],
     holder: 'did:example:holder',

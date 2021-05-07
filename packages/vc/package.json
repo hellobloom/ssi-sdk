@@ -19,7 +19,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test",
+    "test": "tsdx test --testPathPattern sign",
     "lint": "tsdx lint src",
     "prepare": "npm run build",
     "prepublishOnly": "npm run size && npm run lint && npm run test",
@@ -34,6 +34,8 @@
     "jsonld-signatures": "^9.0.2"
   },
   "devDependencies": {
+    "@bloomprotocol/ecdsa-secp256k1-signature-2019": "^0.1.0",
+    "@bloomprotocol/ecdsa-secp256k1-verification-key-2019": "^0.1.0",
     "@babel/plugin-transform-modules-commonjs": "^7.14.0",
     "@digitalbazaar/ed25519-signature-2020": "^2.1.0",
     "@digitalbazaar/ed25519-verification-key-2020": "^2.1.1",

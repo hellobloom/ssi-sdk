@@ -7,12 +7,20 @@
       "type": "Ed25519VerificationKey2020",
       "controller": "did:example:holder",
       "publicKeyMultibase": "z6fioC1zcDPyPEL19pXRS2E4iJ46zH7xP6uSgAaPdwDrx"
+    },
+    {
+      "id": "did:example:holder#456",
+      "type": "EcdsaSecp256k1VerificationKey2019",
+      "controller": "did:example:holder",
+      "publicKeyBase58": "cY3XbJUu1pz9VU18qTU12pXmvi5rVohUSpekndrnM1Vt"
     }
   ],
   "assertionMethod": [
-    "did:example:holder#123"
+    "did:example:holder#123",
+    "did:example:holder#456"
   ],
   "authentication": [
-    "did:example:holder#123"
+    "did:example:holder#123",
+    "did:example:holder#456"
   ]
 }
