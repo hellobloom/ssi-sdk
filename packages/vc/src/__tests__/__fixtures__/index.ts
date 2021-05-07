@@ -113,9 +113,7 @@ export const getIssuerSignSuite = () =>
 export const getHolderSignSuite = () =>
   getSuite(holderKey['private'])
 
-export const getIssuerVerifySuite = () => getSuite()
-
-export const getHolderVerifySuite = () => getSuite()
+export const getVerifySuite = () => getSuite()
 
 const universityDegreeVCSubjectSchema = {
   type: 'object',

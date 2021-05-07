@@ -12,13 +12,12 @@ import {
   getUnsignedVP,
   getIssuerSignSuite,
   getHolderSignSuite,
-  getHolderVerifySuite,
-  getIssuerVerifySuite,
   universityDegreeVCSchema,
   UniversityDegreeVC,
   universityDegreeVPSchema,
   UniversityDegreeVP,
   unsignedDegreeVC,
+  getVerifySuite,
 } from './__fixtures__';
 
 describe('verifyVC', () => {
@@ -36,7 +35,7 @@ describe('verifyVC', () => {
     const result = await verifyVC({
       vc,
       documentLoader,
-      suite: getIssuerVerifySuite(),
+      suite: getVerifySuite(),
     });
 
     expect(result.success).toBeTruthy();
@@ -55,7 +54,7 @@ describe('verifyVC', () => {
     const result = await verifyVC<UniversityDegreeVC>({
       vc,
       documentLoader,
-      suite: getIssuerVerifySuite(),
+      suite: getVerifySuite(),
       schema: universityDegreeVCSchema,
     });
 
@@ -85,7 +84,7 @@ describe('verifyVC', () => {
       const result = await verifyVC({
         vc: tampered,
         documentLoader,
-        suite: getIssuerVerifySuite(),
+        suite: getVerifySuite(),
         schema: universityDegreeVCSchema,
       });
 
@@ -114,7 +113,7 @@ describe('verifyVC', () => {
       const result = await verifyVC({
         vc: invalid,
         documentLoader,
-        suite: getIssuerVerifySuite(),
+        suite: getVerifySuite(),
       });
 
       expect(result.success).toBeFalsy();
@@ -151,7 +150,7 @@ describe('verifyVC', () => {
       const result = await verifyVC({
         vc: inactive,
         documentLoader,
-        suite: getIssuerVerifySuite(),
+        suite: getVerifySuite(),
       });
 
       expect(result.success).toBeFalsy();
@@ -179,7 +178,7 @@ describe('verifyVC', () => {
       const result = await verifyVC({
         vc: inactive,
         documentLoader,
-        suite: getIssuerVerifySuite(),
+        suite: getVerifySuite(),
       });
 
       expect(result.success).toBeFalsy();
@@ -225,7 +224,7 @@ describe('verifyVC', () => {
       const result = await verifyVC({
         vc: invalid,
         documentLoader,
-        suite: getIssuerVerifySuite(),
+        suite: getVerifySuite(),
       });
 
       expect(result.success).toBeFalsy();
@@ -276,14 +275,12 @@ describe('verifyVP', () => {
     const result = await verifyVP({
       vp,
       documentLoader,
-      getSuite: ({ controller }) => {
-        switch (controller) {
-          case 'did:example:holder':
-            return getHolderVerifySuite();
-          case 'did:example:issuer':
-            return getIssuerVerifySuite();
+      getSuite: ({ proofType }) => {
+        switch (proofType) {
+          case 'Ed25519Signature2020':
+            return getVerifySuite();
           default:
-            throw new Error(`Unknown controller: ${controller}`);
+            throw new Error(`Unknown proofType: ${proofType}`);
         }
       },
     });
@@ -314,14 +311,12 @@ describe('verifyVP', () => {
     const result = await verifyVP<UniversityDegreeVP>({
       vp,
       documentLoader,
-      getSuite: ({ controller }) => {
-        switch (controller) {
-          case 'did:example:holder':
-            return getHolderVerifySuite();
-          case 'did:example:issuer':
-            return getIssuerVerifySuite();
+      getSuite: ({ proofType }) => {
+        switch (proofType) {
+          case 'Ed25519Signature2020':
+            return getVerifySuite();
           default:
-            throw new Error(`Unknown controller: ${controller}`);
+            throw new Error(`Unknown proofType: ${proofType}`);
         }
       },
       schema: universityDegreeVPSchema,
@@ -342,14 +337,12 @@ describe('verifyVP', () => {
       const result = await verifyVP({
         vp: tampered,
         documentLoader,
-        getSuite: ({ controller }) => {
-          switch (controller) {
-            case 'did:example:holder':
-              return getHolderVerifySuite();
-            case 'did:example:issuer':
-              return getIssuerVerifySuite();
+        getSuite: ({ proofType }) => {
+          switch (proofType) {
+            case 'Ed25519Signature2020':
+              return getVerifySuite();
             default:
-              throw new Error(`Unknown controller: ${controller}`);
+              throw new Error(`Unknown proofType: ${proofType}`);
           }
         },
       });
@@ -395,14 +388,12 @@ describe('verifyVP', () => {
       const result = await verifyVP({
         vp,
         documentLoader,
-        getSuite: ({ controller }) => {
-          switch (controller) {
-            case 'did:example:holder':
-              return getHolderVerifySuite();
-            case 'did:example:issuer':
-              return getIssuerVerifySuite();
+        getSuite: ({ proofType }) => {
+          switch (proofType) {
+            case 'Ed25519Signature2020':
+              return getVerifySuite();
             default:
-              throw new Error(`Unknown controller: ${controller}`);
+              throw new Error(`Unknown proofType: ${proofType}`);
           }
         },
         schema: universityDegreeVPSchema,
@@ -449,14 +440,12 @@ describe('verifyVP', () => {
       const result = await verifyVP({
         vp,
         documentLoader,
-        getSuite: ({ controller }) => {
-          switch (controller) {
-            case 'did:example:holder':
-              return getHolderVerifySuite();
-            case 'did:example:issuer':
-              return getIssuerVerifySuite();
+        getSuite: ({ proofType }) => {
+          switch (proofType) {
+            case 'Ed25519Signature2020':
+              return getVerifySuite();
             default:
-              throw new Error(`Unknown controller: ${controller}`);
+              throw new Error(`Unknown proofType: ${proofType}`);
           }
         },
       });
@@ -499,14 +488,12 @@ describe('verifyVP', () => {
       const result = await verifyVP({
         vp,
         documentLoader,
-        getSuite: ({ controller }) => {
-          switch (controller) {
-            case 'did:example:holder':
-              return getHolderVerifySuite();
-            case 'did:example:issuer':
-              return getIssuerVerifySuite();
+        getSuite: ({ proofType }) => {
+          switch (proofType) {
+            case 'Ed25519Signature2020':
+              return getVerifySuite();
             default:
-              throw new Error(`Unknown controller: ${controller}`);
+              throw new Error(`Unknown proofType: ${proofType}`);
           }
         },
       });
@@ -562,14 +549,12 @@ describe('verifyVP', () => {
       const result = await verifyVP({
         vp,
         documentLoader,
-        getSuite: ({ controller }) => {
-          switch (controller) {
-            case 'did:example:holder':
-              return getHolderVerifySuite();
-            case 'did:example:issuer':
-              return getIssuerVerifySuite();
+        getSuite: ({ proofType }) => {
+          switch (proofType) {
+            case 'Ed25519Signature2020':
+              return getVerifySuite();
             default:
-              throw new Error(`Unknown controller: ${controller}`);
+              throw new Error(`Unknown proofType: ${proofType}`);
           }
         },
       });

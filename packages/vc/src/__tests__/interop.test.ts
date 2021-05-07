@@ -2,7 +2,7 @@ import * as transmuteVC from '@transmute/vc.js'
 import { signVC } from '../sign'
 import { verifyVC } from '../verify'
 
-import { documentLoader, getIssuerSignSuite, getIssuerVerifySuite, unsignedVC } from './__fixtures__'
+import { documentLoader, getIssuerSignSuite, getVerifySuite, unsignedVC } from './__fixtures__'
 
 const digitalbazaarVC = require('@digitalbazaar/vc')
 
@@ -24,7 +24,7 @@ describe('Interop:', () => {
       const result = await transmuteVC.ld.validateCredential({
         credential: bloomSignedVC,
         documentLoader,
-        suite: getIssuerVerifySuite(),
+        suite: getVerifySuite(),
         compactProof: false,
       } as any)
 
@@ -35,7 +35,7 @@ describe('Interop:', () => {
       const result = await digitalbazaarVC.verifyCredential({
         credential: bloomSignedVC,
         documentLoader,
-        suite: getIssuerVerifySuite(),
+        suite: getVerifySuite(),
       })
 
       expect(result.verified).toBeTruthy()
@@ -53,7 +53,7 @@ describe('Interop:', () => {
 
       const result = await verifyVC({
         vc: transmuteSignedVC,
-        suite: getIssuerVerifySuite(),
+        suite: getVerifySuite(),
         documentLoader
       })
 
@@ -69,7 +69,7 @@ describe('Interop:', () => {
 
       const result = await verifyVC({
         vc: digitalbazaarSignedVC,
-        suite: getIssuerVerifySuite(),
+        suite: getVerifySuite(),
         documentLoader
       })
 
