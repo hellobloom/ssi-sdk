@@ -28,6 +28,14 @@ type EcdsaSecp256k1VerificationKey2019Options = {
   privateKeyBase58?: string
 }
 
+type EcdsaSecp256k1VerificationKey2019HexKeyOptions = {
+  controller: string
+  id: string
+  revoked?: boolean
+  publicKeyHex?: string
+  privateKeyHex?: string
+}
+
 export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
   private type: string
   private publicKeyBase58?: string
@@ -45,7 +53,17 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
     this.privateKeyBase58 = privateKeyBase58;
   }
 
-  static from(options: EcdsaSecp256k1VerificationKey2019Options) {
+  static from(options: EcdsaSecp256k1VerificationKey2019Options | EcdsaSecp256k1VerificationKey2019HexKeyOptions) {
+    if (hasOwnProperty(options, 'publicKeyHex') || hasOwnProperty(options, 'privateKeyHex')) {
+      const {publicKeyHex, privateKeyHex, ...rest} = options as any
+
+      return new EcdsaSecp256k1VerificationKey2019({
+        ...rest,
+        publicKeyBase58: publicKeyHex ? base58.encode(Buffer.from(publicKeyHex, 'hex')) : undefined,
+        privateKeyBase58: privateKeyHex ? base58.encode(Buffer.from(privateKeyHex, 'hex')) : undefined,
+      })
+    }
+
     return new EcdsaSecp256k1VerificationKey2019(options);
   }
 
@@ -188,3 +206,7 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
 EcdsaSecp256k1VerificationKey2019.suite = SUITE_ID;
 // Used by CryptoLD harness's fromKeyId() method.
 EcdsaSecp256k1VerificationKey2019.SUITE_CONTEXT = 'https://w3id.org/security/v2';
+
+const hasOwnProperty = <X extends {}, Y extends PropertyKey>(obj: X, prop: Y): obj is X & Record<Y, unknown> => {
+  return obj.hasOwnProperty(prop)
+}
