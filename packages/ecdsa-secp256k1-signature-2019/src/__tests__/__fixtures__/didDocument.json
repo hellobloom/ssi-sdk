@@ -1,0 +1,18 @@
+{
+  "@context": ["https://w3id.org/did/v0.11"],
+  "id": "did:example:signer",
+  "publicKey": [
+    {
+      "id": "did:example:signer#123",
+      "type": "EcdsaSecp256k1VerificationKey2019",
+      "controller": "did:example:signer",
+      "publicKeyBase58": "cY3XbJUu1pz9VU18qTU12pXmvi5rVohUSpekndrnM1Vt"
+    }
+  ],
+  "assertionMethod": [
+    "did:example:signer#123"
+  ],
+  "authentication": [
+    "did:example:signer#123"
+  ]
+}

@@ -37,9 +37,9 @@ type EcdsaSecp256k1VerificationKey2019HexKeyOptions = {
 }
 
 export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
-  private type: string
-  private publicKeyBase58?: string
-  private privateKeyBase58?: string
+  public type: string
+  public publicKeyBase58?: string
+  public privateKeyBase58?: string
 
   constructor({publicKeyBase58, privateKeyBase58, ...options}: EcdsaSecp256k1VerificationKey2019Options) {
     super(options);
@@ -93,7 +93,7 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
     }
   }
 
-  export({publicKey = false, privateKey = false, includeContext = false}: {publicKey: boolean, privateKey: boolean, includeContext: boolean}): ExportedKey {
+  export({publicKey = false, privateKey = false, includeContext = false}: {publicKey?: boolean, privateKey?: boolean, includeContext?: boolean} = {}): ExportedKey {
     if (!(publicKey || privateKey)) {
       throw new TypeError('export requires specifying either "publicKey" or "privateKey".');
     }
@@ -121,8 +121,11 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
     const privateKeyBase58 = this.privateKeyBase58
 
     if (!privateKeyBase58) {
-      return () => {
-        throw new Error('No private key to sign with.');
+      return {
+        async sign() {
+          throw new Error('No private key to sign with.');
+        },
+        id: this.id
       }
     }
 
@@ -157,9 +160,10 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
 
     if (!publicKeyBase58) {
       return {
-        verify: () => {
-          throw new Error('No public key to verify against')
+        async verify() {
+          throw new Error('No public key to verify against');
         },
+        id: this.id
       }
     }
 

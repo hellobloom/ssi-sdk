@@ -169,7 +169,6 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignatur
 }
 
 const includesCompatibleContext = ({document}: {document: Record<string, unknown>}) => {
-  // Handle the unfortunate EcdsaSecp256k1Signature2019 / credentials/v1 collision
   const credContext = 'https://www.w3.org/2018/credentials/v1';
   const securityContext = 'https://w3id.org/security/v2';
 
@@ -178,33 +177,20 @@ const includesCompatibleContext = ({document}: {document: Record<string, unknown
   const hasSecV2 = includesContext({document, contextUrl: securityContext});
 
   if(hasSecp256k12019 && hasCred) {
-    // Warn if both are present
     console.warn('Warning: The secp256k1-2019/v1 and credentials/v1 contexts are incompatible.');
     console.warn('For VCs using EcdsaSecp256k1Signature2019 suite, using the credentials/v1 context is sufficient.');
     return false;
   }
 
   if(hasSecp256k12019 && hasSecV2) {
-    // Warn if both are present
     console.warn('Warning: The secp256k1-2019/v1 and security/v2 contexts are incompatible.');
     console.warn('For VCs using EcdsaSecp256k1Signature2019 suite, using the security/v2 context is sufficient.');
     return false;
   }
 
-  // Either one by itself is fine, for this suite
   return hasSecp256k12019 || hasCred || hasSecV2;
 }
 
-/**
- * Tests whether a provided JSON-LD document includes a context url in its
- * `@context` property.
- *
- * @param {object} options - Options hashmap.
- * @param {object} options.document - A JSON-LD document.
- * @param {string} options.contextUrl - A context url.
- *
- * @returns {boolean} Returns true if document includes context.
- */
 const includesContext = ({document, contextUrl}: {document: Record<string, unknown>, contextUrl: string}) => {
   const context = document['@context'];
   return context === contextUrl ||

@@ -33,6 +33,7 @@
     "tiny-warning": "^1.0.3"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.14.0",
     "@size-limit/preset-small-lib": "^4.10.2",
     "husky": "^6.0.0",
     "size-limit": "^4.10.2",
