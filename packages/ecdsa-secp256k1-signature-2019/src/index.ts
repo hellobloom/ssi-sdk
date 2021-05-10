@@ -57,7 +57,6 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignatur
 
     let {verifier} = this;
     if(!verifier) {
-      console.log({verificationMethod})
       const key = await this.LDKeyClass.from(verificationMethod);
       verifier = key.verifier();
     }
