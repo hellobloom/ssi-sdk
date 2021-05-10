@@ -1,4 +1,4 @@
-export const context = {
+{
   "@context": {
     "id": "@id",
     "type": "@type",
@@ -99,4 +99,4 @@ export const context = {
       }
     }
   }
-};
+}

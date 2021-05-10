@@ -44,13 +44,18 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
   constructor({publicKeyBase58, privateKeyBase58, ...options}: EcdsaSecp256k1VerificationKey2019Options) {
     super(options);
 
-    if(!publicKeyBase58) {
-      throw new TypeError('The "publicKeyBase58" property is required.');
+    if (privateKeyBase58 && !publicKeyBase58) {
+      const publicKey = secp256k1.publicKeyCreate(base58.decode(privateKeyBase58))
+      publicKeyBase58 = base58.encode(publicKey)
     }
 
     this.type = SUITE_ID;
     this.publicKeyBase58 = publicKeyBase58;
     this.privateKeyBase58 = privateKeyBase58;
+
+    if (!publicKeyBase58) {
+      throw new TypeError('The "publicKeyBase58" property is required.');
+    }
   }
 
   static from(options: EcdsaSecp256k1VerificationKey2019Options | EcdsaSecp256k1VerificationKey2019HexKeyOptions) {
@@ -79,6 +84,7 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
       const privateKeyBase58 = base58.encode(privateKey)
       const publicKeyBase58 = base58.encode(publicKey)
 
+
       return new EcdsaSecp256k1VerificationKey2019({
         publicKeyBase58,
         privateKeyBase58,
@@ -88,7 +94,7 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
   }
 
   export({publicKey = false, privateKey = false, includeContext = false}: {publicKey: boolean, privateKey: boolean, includeContext: boolean}): ExportedKey {
-    if(!(publicKey || privateKey)) {
+    if (!(publicKey || privateKey)) {
       throw new TypeError('export requires specifying either "publicKey" or "privateKey".');
     }
 
@@ -187,9 +193,9 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
         let verified: boolean
         try {
           verified = secp256k1.ecdsaVerify(
+            Buffer.from(base64url.decode(encodedSignature, 'hex'), 'hex'),
             digest,
             base58.decode(publicKeyBase58),
-            base64url.toBuffer(encodedSignature),
           )
         } catch {
           verified = false
@@ -205,7 +211,7 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
 // Used by CryptoLD harness for dispatching.
 EcdsaSecp256k1VerificationKey2019.suite = SUITE_ID;
 // Used by CryptoLD harness's fromKeyId() method.
-EcdsaSecp256k1VerificationKey2019.SUITE_CONTEXT = 'https://w3id.org/security/v2';
+EcdsaSecp256k1VerificationKey2019.SUITE_CONTEXT = 'https://ns.did.ai/suites/secp256k1-2019/v1';
 
 const hasOwnProperty = <X extends {}, Y extends PropertyKey>(obj: X, prop: Y): obj is X & Record<Y, unknown> => {
   return obj.hasOwnProperty(prop)

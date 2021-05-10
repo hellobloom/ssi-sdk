@@ -19,7 +19,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test --testPathPattern sign",
+    "test": "tsdx test",
     "lint": "tsdx lint src",
     "prepare": "npm run build",
     "prepublishOnly": "npm run size && npm run lint && npm run test",

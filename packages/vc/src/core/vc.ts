@@ -1,6 +1,6 @@
-import { FromSchema } from "json-schema-to-ts";
+import { FromSchema } from 'json-schema-to-ts';
 
-import { holderSchema, issuerSchema, contextSchema } from './shared'
+import { holderSchema, issuerSchema, contextSchema } from './shared';
 
 const vcSubjectItemSchema = {
   type: 'object',
@@ -8,17 +8,14 @@ const vcSubjectItemSchema = {
     id: { type: 'string', format: 'uri' },
   },
   required: [],
-  additionalProperties: true
-} as const
+  additionalProperties: true,
+} as const;
 
 export const vcSubjectSchema = {
-  oneOf: [
-    vcSubjectItemSchema,
-    { type: 'array', items: vcSubjectItemSchema }
-  ]
-} as const
+  oneOf: [vcSubjectItemSchema, { type: 'array', items: vcSubjectItemSchema }],
+} as const;
 
-export type VCSubject = FromSchema<typeof vcSubjectSchema>
+export type VCSubject = FromSchema<typeof vcSubjectSchema>;
 
 export const vcProofSchema = {
   oneOf: [
@@ -31,8 +28,14 @@ export const vcProofSchema = {
         verificationMethod: { type: 'string' },
         jws: { type: 'string' },
       },
-      required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'jws'],
-      additionalProperties: false
+      required: [
+        'type',
+        'created',
+        'proofPurpose',
+        'verificationMethod',
+        'jws',
+      ],
+      additionalProperties: false,
     },
     {
       type: 'object',
@@ -43,22 +46,28 @@ export const vcProofSchema = {
         verificationMethod: { type: 'string' },
         proofValue: { type: 'string' },
       },
-      required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'proofValue'],
-      additionalProperties: false
+      required: [
+        'type',
+        'created',
+        'proofPurpose',
+        'verificationMethod',
+        'proofValue',
+      ],
+      additionalProperties: false,
     },
-  ]
-} as const
+  ],
+} as const;
 
-export type VCProof = FromSchema<typeof vcProofSchema>
+export type VCProof = FromSchema<typeof vcProofSchema>;
 
 export const vcTypeSchema = {
   type: 'array',
-  items: [{const: 'VerifiableCredential'}],
+  items: [{ const: 'VerifiableCredential' }],
   additionalItems: { type: 'string' },
   minItems: 1,
-} as const
+} as const;
 
-export type VCType = FromSchema<typeof vcTypeSchema>
+export type VCType = FromSchema<typeof vcTypeSchema>;
 
 export const vcSchema = {
   type: 'object',
@@ -73,8 +82,16 @@ export const vcSchema = {
     issuer: issuerSchema,
     proof: vcProofSchema,
   },
-  required: ['@context', 'id', 'type', 'credentialSubject', 'issuanceDate', 'issuer', 'proof'],
+  required: [
+    '@context',
+    'id',
+    'type',
+    'credentialSubject',
+    'issuanceDate',
+    'issuer',
+    'proof',
+  ],
   additionalProperties: false,
-} as const
+} as const;
 
-export type VC = FromSchema<typeof vcSchema>
+export type VC = FromSchema<typeof vcSchema>;

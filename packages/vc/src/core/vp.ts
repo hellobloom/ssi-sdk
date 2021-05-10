@@ -1,7 +1,7 @@
-import { FromSchema } from "json-schema-to-ts";
+import { FromSchema } from 'json-schema-to-ts';
 
-import { contextSchema, holderSchema } from "./shared";
-import { vcSchema } from "./vc";
+import { contextSchema, holderSchema } from './shared';
+import { vcSchema } from './vc';
 
 export const vpProofSchema = {
   oneOf: [
@@ -16,8 +16,16 @@ export const vpProofSchema = {
         domain: { type: 'string' },
         jws: { type: 'string' },
       },
-      required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'challenge', 'domain', 'jws'],
-      additionalProperties: false
+      required: [
+        'type',
+        'created',
+        'proofPurpose',
+        'verificationMethod',
+        'challenge',
+        'domain',
+        'jws',
+      ],
+      additionalProperties: false,
     },
     {
       type: 'object',
@@ -30,22 +38,30 @@ export const vpProofSchema = {
         domain: { type: 'string' },
         proofValue: { type: 'string' },
       },
-      required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'challenge', 'domain', 'proofValue'],
-      additionalProperties: false
+      required: [
+        'type',
+        'created',
+        'proofPurpose',
+        'verificationMethod',
+        'challenge',
+        'domain',
+        'proofValue',
+      ],
+      additionalProperties: false,
     },
-  ]
-} as const
+  ],
+} as const;
 
-export type VPProof = FromSchema<typeof vpProofSchema>
+export type VPProof = FromSchema<typeof vpProofSchema>;
 
 export const vpTypeSchema = {
   type: 'array',
-  items: [{const: 'VerifiablePresentation'}],
+  items: [{ const: 'VerifiablePresentation' }],
   additionalItems: { type: 'string' },
   minItems: 1,
-} as const
+} as const;
 
-export type VPType = FromSchema<typeof vpTypeSchema>
+export type VPType = FromSchema<typeof vpTypeSchema>;
 
 export const vpSchema = {
   type: 'object',
@@ -57,8 +73,15 @@ export const vpSchema = {
     holder: holderSchema,
     proof: vpProofSchema,
   },
-  required: ['@context', 'id', 'type', 'verifiableCredential', 'holder', 'proof'],
+  required: [
+    '@context',
+    'id',
+    'type',
+    'verifiableCredential',
+    'holder',
+    'proof',
+  ],
   additionalProperties: false,
-} as const
+} as const;
 
-export type VP = FromSchema<typeof vpSchema>
+export type VP = FromSchema<typeof vpSchema>;

@@ -1,1 +1,1 @@
-export * from './CredentialIssuancePurpose'
+export * from './CredentialIssuancePurpose';

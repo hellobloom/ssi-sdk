@@ -1,3 +1,3 @@
-export * from './shared'
-export * from './vc'
-export * from './vp'
+export * from './shared';
+export * from './vc';
+export * from './vp';

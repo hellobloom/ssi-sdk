@@ -1,4 +1,3 @@
-import warning from 'tiny-warning';
 import {EcdsaSecp256k1VerificationKey2019} from '@bloomprotocol/ecdsa-secp256k1-verification-key-2019'
 
 const jsonld = require('jsonld');
@@ -6,7 +5,7 @@ const jsigs = require('jsonld-signatures');
 
 import {context} from './context';
 
-const SUITE_CONTEXT_URL = 'https://w3id.org/security/v2';
+const SUITE_CONTEXT_URL = 'https://ns.did.ai/suites/secp256k1-2019/v1';
 
 type EcdsaSecp256k1Signature2019Options = {
   key?: EcdsaSecp256k1VerificationKey2019,
@@ -53,11 +52,12 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignatur
     const {jws} = proof;
 
     if(!(jws && typeof jws === 'string')) {
-      throw new TypeError('The proof does not include a valid "proofValue" property.');
+      throw new TypeError('The proof does not include a valid "jws" property.');
     }
 
     let {verifier} = this;
     if(!verifier) {
+      console.log({verificationMethod})
       const key = await this.LDKeyClass.from(verificationMethod);
       verifier = key.verifier();
     }
@@ -66,6 +66,12 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignatur
   }
 
   async assertVerificationMethod({verificationMethod}: {verificationMethod: Record<string, unknown>}) {
+    if(!includesCompatibleContext({document: verificationMethod})) {
+      throw new TypeError(
+        `The verification method (key) must contain "${this.contextUrl}".`
+      );
+    }
+
     if(!jsonld.hasValue(verificationMethod, 'type', this.requiredKeyType)) {
       throw new Error(
         `Invalid key type. Key type must be "${this.requiredKeyType}".`);
@@ -84,14 +90,18 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignatur
     proof: Record<string, unknown>,
     documentLoader: Function
   }) {
+    if (this.key) {
+      return this.key.export({publicKey: true});
+    }
+
     let {verificationMethod} = proof;
 
 
-    if(verificationMethod && typeof verificationMethod === 'object' && hasOwnProperty(verificationMethod, 'id')) {
+    if (verificationMethod && typeof verificationMethod === 'object' && hasOwnProperty(verificationMethod, 'id')) {
       verificationMethod = verificationMethod.id;
     }
 
-    if(!verificationMethod) {
+    if (!verificationMethod) {
       throw new Error('No "verificationMethod" found in proof.');
     }
 
@@ -102,12 +112,12 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignatur
       '@embed': '@always',
       id: verificationMethod
     }, {documentLoader, compactToRelative: false});
-    if(!framed) {
+    if (!framed) {
       throw new Error(`Verification method ${verificationMethod} not found.`);
     }
 
     // ensure verification method has not been revoked
-    if(framed.revoked !== undefined) {
+    if (framed.revoked !== undefined) {
       throw new Error('The verification method has been revoked.');
     }
 
@@ -129,10 +139,13 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignatur
     documentLoader: Function
     expansionMap: Function
   }) {
-    if(!await super.matchProof({proof, document, purpose, documentLoader, expansionMap})) {
+    if(!includesCompatibleContext({document})) {
       return false;
     }
-    if(!this.key) {
+    if (!await super.matchProof({proof, document, purpose, documentLoader, expansionMap})) {
+      return false;
+    }
+    if (!this.key) {
       // no key specified, so assume this suite matches and it can be retrieved
       return true;
     }
@@ -140,33 +153,58 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignatur
     const {verificationMethod} = proof;
 
     // only match if the key specified matches the one in the proof
-    if(typeof verificationMethod === 'object') {
+    if (typeof verificationMethod === 'object') {
       return verificationMethod.id === this.key.id;
     }
     return verificationMethod === this.key.id;
   }
 
   ensureSuiteContext({document, addSuiteContext}: {document: Record<string, unknown>, addSuiteContext?: boolean}) {
-    const {contextUrl} = this;
-
-    if(includesContext({document, contextUrl})) {
-      // document already includes the required context
+    if(includesCompatibleContext({document})) {
       return;
     }
 
-    if (!addSuiteContext) {
-      warning(true, `The document to be signed must contain a context that includes "EcdsaSecp256k1Signature2019". One option is ${contextUrl}`);
-      return;
-    }
-
-    // enforce the suite's context by adding it to the document
-    const existingContext = document['@context'] || [];
-
-    document['@context'] = Array.isArray(existingContext) ?
-      [...existingContext, contextUrl] : [existingContext, contextUrl];
+    super.ensureSuiteContext({document, addSuiteContext});
   }
 }
 
+const includesCompatibleContext = ({document}: {document: Record<string, unknown>}) => {
+  // Handle the unfortunate EcdsaSecp256k1Signature2019 / credentials/v1 collision
+  const credContext = 'https://www.w3.org/2018/credentials/v1';
+  const securityContext = 'https://w3id.org/security/v2';
+
+  const hasSecp256k12019 = includesContext({document, contextUrl: SUITE_CONTEXT_URL});
+  const hasCred = includesContext({document, contextUrl: credContext});
+  const hasSecV2 = includesContext({document, contextUrl: securityContext});
+
+  if(hasSecp256k12019 && hasCred) {
+    // Warn if both are present
+    console.warn('Warning: The secp256k1-2019/v1 and credentials/v1 contexts are incompatible.');
+    console.warn('For VCs using EcdsaSecp256k1Signature2019 suite, using the credentials/v1 context is sufficient.');
+    return false;
+  }
+
+  if(hasSecp256k12019 && hasSecV2) {
+    // Warn if both are present
+    console.warn('Warning: The secp256k1-2019/v1 and security/v2 contexts are incompatible.');
+    console.warn('For VCs using EcdsaSecp256k1Signature2019 suite, using the security/v2 context is sufficient.');
+    return false;
+  }
+
+  // Either one by itself is fine, for this suite
+  return hasSecp256k12019 || hasCred || hasSecV2;
+}
+
+/**
+ * Tests whether a provided JSON-LD document includes a context url in its
+ * `@context` property.
+ *
+ * @param {object} options - Options hashmap.
+ * @param {object} options.document - A JSON-LD document.
+ * @param {string} options.contextUrl - A context url.
+ *
+ * @returns {boolean} Returns true if document includes context.
+ */
 const includesContext = ({document, contextUrl}: {document: Record<string, unknown>, contextUrl: string}) => {
   const context = document['@context'];
   return context === contextUrl ||

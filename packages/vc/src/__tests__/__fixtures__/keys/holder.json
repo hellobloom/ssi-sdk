@@ -18,7 +18,7 @@
   },
   "EcdsaSecp256k1VerificationKey2019" : {
     "private": {
-      "@context": "https://w3id.org/security/v2",
+      "@context": "hhttps://ns.did.ai/suites/secp256k1-2019/v1",
       "id": "did:example:holder#456",
       "type": "EcdsaSecp256k1VerificationKey2019",
       "controller": "did:example:holder",
@@ -26,7 +26,7 @@
       "privateKeyBase58": "E8HCuTCVWHSAZSobCqFrriv7vMWhfbRLCU1YT9Upm625"
     },
     "public": {
-      "@context": "https://w3id.org/security/v2",
+      "@context": "hhttps://ns.did.ai/suites/secp256k1-2019/v1",
       "id": "did:example:holder#456",
       "type": "EcdsaSecp256k1VerificationKey2019",
       "controller": "did:example:holder",
