@@ -2,7 +2,7 @@ import { FromSchema } from 'json-schema-to-ts';
 import { EcdsaSecp256k1Signature2019 } from '@bloomprotocol/ecdsa-secp256k1-signature-2019';
 import { EcdsaSecp256k1VerificationKey2019 } from '@bloomprotocol/ecdsa-secp256k1-verification-key-2019';
 
-import { VC, VP, vcSchema, vpSchema } from '../../core';
+import { VC, VP, vcSchema, vpSchema, vcSubjectSchema, vcTypeSchema } from '../../core';
 import { DocumentLoader } from '../../shared';
 import { GetSuiteFn } from '../../verify';
 
@@ -160,62 +160,69 @@ export const getVerifySuite: GetSuiteFn = ({ proofType }) => {
   }
 };
 
-const universityDegreeVCSubjectSchema = {
-  type: 'object',
-  properties: {
-    id: { type: 'string', format: 'uri' },
-    degree: {
+export const universityDegreeVCSubjectSchema = {
+  allOf: [
+    {
       type: 'object',
       properties: {
-        type: { type: 'string' },
-        name: { type: 'string' },
+        degree: {
+          type: 'object',
+          properties: {
+            type: { type: 'string' },
+            name: { type: 'string' },
+          },
+          required: ['type', 'name'],
+        },
       },
-      required: ['type', 'name'],
+      required: ['degree'],
+      additionalProperties: true,
     },
-  },
-  required: ['degree'],
-  additionalProperties: true,
-} as const;
+    vcSubjectSchema
+  ]
+} as const
 
-export type UniversityDegreeVCSubject = FromSchema<
-  typeof universityDegreeVCSubjectSchema
->;
+export type UniversityDegreeVCSubject = FromSchema<typeof universityDegreeVCSubjectSchema>
 
 export const universityDegreeVCTypeSchema = {
-  type: 'array',
-  items: [
-    { const: 'VerifiableCredential' },
-    { const: 'UniversityDegreeCredential' },
-  ],
-  additionalItems: { type: 'string' },
-  minItems: 1,
-} as const;
+  allOf: [
+    {
+      type: 'array',
+      items: [{type: 'string'}, { const: 'UniversityDegreeCredential' }],
+      additionalItems: { type: 'string' },
+      minItems: 2,
+    },
+    vcTypeSchema
+  ]
+} as const
 
-export type UniversityDegreeVCType = FromSchema<
-  typeof universityDegreeVCTypeSchema
->;
+export type UniversityDegreeVCType = FromSchema<typeof universityDegreeVCTypeSchema>
 
 export const universityDegreeVCSchema = {
-  type: 'object',
-  properties: {
-    ...vcSchema.properties,
-    type: universityDegreeVCTypeSchema,
-    credentialSubject: universityDegreeVCSubjectSchema,
-    credentialStatus: {
+  allOf: [
+    {
       type: 'object',
       properties: {
-        id: { type: 'string', format: 'uri' },
-        type: { type: 'string' },
-        revocationListIndex: { type: 'string' },
-        revocationListCredential: { type: 'string', format: 'uri' },
+        type: universityDegreeVCTypeSchema,
+        credentialSubject: universityDegreeVCSubjectSchema,
+        credentialStatus: {
+          type: 'object',
+          properties: {
+            id: { type: 'string', format: 'uri' },
+            type: { type: 'string' },
+            revocationListIndex: { type: 'string' },
+            revocationListCredential: { type: 'string', format: 'uri' },
+          },
+        },
       },
     },
-  },
-  required: vcSchema.required,
-  additionalProperties: false,
-} as const;
+    {
+      ...vcSchema,
+      additionalProperties: true
+    },
+  ],
+} as const
 
-export type UniversityDegreeVC = FromSchema<typeof universityDegreeVCSchema>;
+export type UniversityDegreeVC = FromSchema<typeof universityDegreeVCSchema>
 
 export const universityDegreeVPSchema = {
   type: 'object',
@@ -231,7 +238,7 @@ export const universityDegreeVPSchema = {
   },
   required: vpSchema.required,
   additionalProperties: false,
-} as const;
+} as const
 
 export type UniversityDegreeVP = FromSchema<typeof universityDegreeVPSchema>;
 
