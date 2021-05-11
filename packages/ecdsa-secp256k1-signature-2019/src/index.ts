@@ -76,7 +76,6 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignatur
         `Invalid key type. Key type must be "${this.requiredKeyType}".`);
     }
 
-    // ensure verification method has not been revoked
     if(verificationMethod.revoked !== undefined) {
       throw new Error('The verification method has been revoked.');
     }
@@ -86,36 +85,31 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignatur
     proof,
     documentLoader
   }: {
-    proof: Record<string, unknown>,
+    proof: {verificationMethod: string | {id: string} | undefined},
     documentLoader: Function
   }) {
     if (this.key) {
       return this.key.export({publicKey: true});
     }
 
-    let {verificationMethod} = proof;
-
-
-    if (verificationMethod && typeof verificationMethod === 'object' && hasOwnProperty(verificationMethod, 'id')) {
-      verificationMethod = verificationMethod.id;
-    }
+    const verificationMethod = typeof proof.verificationMethod === 'object'
+      ? proof.verificationMethod.id
+      : proof.verificationMethod
 
     if (!verificationMethod) {
       throw new Error('No "verificationMethod" found in proof.');
     }
 
-    // Note: `expansionMap` is intentionally not passed; we can safely drop
-    // properties here and must allow for it
     const framed = await jsonld.frame(verificationMethod, {
       '@context': this.contextUrl,
       '@embed': '@always',
       id: verificationMethod
     }, {documentLoader, compactToRelative: false});
+
     if (!framed) {
       throw new Error(`Verification method ${verificationMethod} not found.`);
     }
 
-    // ensure verification method has not been revoked
     if (framed.revoked !== undefined) {
       throw new Error('The verification method has been revoked.');
     }
@@ -151,7 +145,6 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignatur
 
     const {verificationMethod} = proof;
 
-    // only match if the key specified matches the one in the proof
     if (typeof verificationMethod === 'object') {
       return verificationMethod.id === this.key.id;
     }
@@ -194,10 +187,6 @@ const includesContext = ({document, contextUrl}: {document: Record<string, unkno
   const context = document['@context'];
   return context === contextUrl ||
     (Array.isArray(context) && context.includes(contextUrl));
-}
-
-const hasOwnProperty = <X extends {}, Y extends PropertyKey>(obj: X, prop: Y): obj is X & Record<Y, unknown> => {
-  return obj.hasOwnProperty(prop)
 }
 
 EcdsaSecp256k1Signature2019.CONTEXT_URL = SUITE_CONTEXT_URL;

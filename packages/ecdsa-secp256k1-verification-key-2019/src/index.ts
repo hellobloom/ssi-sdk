@@ -59,7 +59,7 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
   }
 
   static from(options: EcdsaSecp256k1VerificationKey2019Options | EcdsaSecp256k1VerificationKey2019HexKeyOptions) {
-    if (hasOwnProperty(options, 'publicKeyHex') || hasOwnProperty(options, 'privateKeyHex')) {
+    if (options.hasOwnProperty('publicKeyHex') || options.hasOwnProperty('privateKeyHex')) {
       const {publicKeyHex, privateKeyHex, ...rest} = options as any
 
       return new EcdsaSecp256k1VerificationKey2019({
@@ -131,7 +131,6 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
 
     return {
       async sign({data}: {data: Uint8Array}) {
-        const payload = Buffer.from(data.buffer, data.byteOffset, data.length)
         const encodedHeader = base64url.encode(
           JSON.stringify({
             alg: 'ES256K',
@@ -140,11 +139,11 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
           }),
         )
 
-        const toSign = Buffer.concat([
+        const payload = Buffer.from(data.buffer, data.byteOffset, data.length)
+        const digest = sha256(Buffer.from(Buffer.concat([
           Buffer.from(`${encodedHeader}.`, 'utf8'),
           Buffer.from(payload.buffer, payload.byteOffset, payload.length),
-        ])
-        const digest = sha256(Buffer.from(toSign))
+        ])))
 
         const {signature} = secp256k1.ecdsaSign(digest, base58.decode(privateKeyBase58))
         const encodedSignature = base64url.encode(Buffer.from(signature))
@@ -169,30 +168,19 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
 
     return {
       async verify({data, signature}: {data: Uint8Array, signature: string}) {
-        const payload = Buffer.from(data.buffer, data.byteOffset, data.length)
-        if (signature.indexOf('..') < 0) {
-          return false
-        }
+        if (signature.indexOf('..') < 0) return false
 
         const [encodedHeader, encodedSignature] = signature.split('..')
-
         const header = JSON.parse(base64url.decode(encodedHeader))
+        const isHeaderInvalid = header.alg !== 'ES256K' || header.b64 !== false || !header.crit || !header.crit.length || header.crit[0] !== 'b64'
 
-        if (header.alg !== 'ES256K') {
-          return false
-        }
+        if (isHeaderInvalid) return false
 
-        const isHeaderInvalid = header.b64 !== false || !header.crit || !header.crit.length || header.crit[0] !== 'b64'
-
-        if (isHeaderInvalid) {
-          return false
-        }
-
-        const toSign = Buffer.concat([
+        const payload = Buffer.from(data.buffer, data.byteOffset, data.length)
+        const digest = sha256(Buffer.from(Buffer.concat([
           Buffer.from(`${encodedHeader}.`, 'utf8'),
           Buffer.from(payload.buffer, payload.byteOffset, payload.length),
-        ])
-        const digest = sha256(Buffer.from(toSign))
+        ])))
 
         let verified: boolean
         try {
@@ -212,11 +200,5 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
   }
 }
 
-// Used by CryptoLD harness for dispatching.
 EcdsaSecp256k1VerificationKey2019.suite = SUITE_ID;
-// Used by CryptoLD harness's fromKeyId() method.
 EcdsaSecp256k1VerificationKey2019.SUITE_CONTEXT = 'https://ns.did.ai/suites/secp256k1-2019/v1';
-
-const hasOwnProperty = <X extends {}, Y extends PropertyKey>(obj: X, prop: Y): obj is X & Record<Y, unknown> => {
-  return obj.hasOwnProperty(prop)
-}
