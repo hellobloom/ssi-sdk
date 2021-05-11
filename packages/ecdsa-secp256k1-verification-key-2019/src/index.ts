@@ -106,15 +106,18 @@ export class EcdsaSecp256k1VerificationKey2019 extends LDKeyPair {
       throw new TypeError('No publicKey to export.');
     }
 
-    return {
-      "@context": includeContext ? EcdsaSecp256k1VerificationKey2019.SUITE_CONTEXT : undefined,
+    const exported: ExportedKey = {
       type: this.type,
       id: this.id,
       controller: this.controller,
-      publicKeyBase58: publicKey ? this.publicKeyBase58 : undefined,
-      privateKeyBase58: privateKey ? this.privateKeyBase58 : undefined,
       revoked: this.revoked,
-    };
+    }
+
+    if (includeContext) exported['@context'] = EcdsaSecp256k1VerificationKey2019.SUITE_CONTEXT
+    if (privateKey) exported.privateKeyBase58 = this.privateKeyBase58
+    if (publicKey) exported.publicKeyBase58 = this.privateKeyBase58
+
+    return exported
   }
 
   signer() {
