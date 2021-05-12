@@ -67,7 +67,7 @@ export const getCreatePayload = (
   primaryKey: {privateKey: string}
 ) => {
   // Create the encoded protected header.
-  // Note: Explicitly delcaring this objects properties in alphabetical order.
+  // Note: Explicitly declaring this objects properties in alphabetical order.
   const header = {
     alg: 'ES256K',
     kid: '#primary',
@@ -75,7 +75,7 @@ export const getCreatePayload = (
   }
 
   const mso = makeSignedOperation(header, didDocumentModel, primaryKey.privateKey)
-  // Note: Explicitly delcaring this objects properties in alphabetical order.
+  // Note: Explicitly declaring this objects properties in alphabetical order.
   const alphaMso = {
     payload: mso.payload,
     protected: mso.protected,

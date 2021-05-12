@@ -43,7 +43,7 @@ type FromKeyPairsResult = {
 }
 
 export const createDIDFromKeyPairs = async (keyPairs: KeyPairs): Promise<FromKeyPairsResult> => {
-  // Note: Explicitly delcaring this objects properties in alphabetical order.
+  // Note: Explicitly declaring this objects properties in alphabetical order.
   const didDocumentModel = {
     '@context': 'https://w3id.org/security/v2',
     assertionMethod: ['#primary'],

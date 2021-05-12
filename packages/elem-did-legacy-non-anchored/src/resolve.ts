@@ -17,7 +17,6 @@ type Protected = {
 
 const resolver = (parsed: ParsedDID): DIDResolutionResult => {
   if (!parsed.params || typeof parsed.params['elem:initial-state'] !== 'string') {
-    console.log('no initial state')
     return {
       didResolutionMetadata: {
         error: 'invalidDid',
@@ -41,7 +40,6 @@ const resolver = (parsed: ParsedDID): DIDResolutionResult => {
   )
 
   if (!publicKey) {
-    console.log('no pub key')
     return {
       didResolutionMetadata: {
         error: 'invalidDid',
@@ -60,7 +58,6 @@ const resolver = (parsed: ParsedDID): DIDResolutionResult => {
   )
 
   if (!isSigValid) {
-    console.log('sig invalid')
     return {
       didResolutionMetadata: {
         error: 'invalidDid',
