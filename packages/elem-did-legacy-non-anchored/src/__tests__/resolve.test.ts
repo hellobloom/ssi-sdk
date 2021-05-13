@@ -45,16 +45,16 @@ describe('resolve', () => {
   });
 
   describe('resolve', () => {
-    test('resolves a valid legacy element DID', async () => {
+    test('resolves a valid legacy element DID', () => {
       const profile = profiles['12Word'];
-      const didDocument = await resolve(profile.did);
+      const didDocument = resolve(profile.did);
 
       expect(didDocument).toEqual(profile.didDocument);
     });
 
     describe('returns null when', () => {
-      test("the given DID doesn't have an initial state", async () => {
-        const didDocument = await resolve(profiles['12Word'].didDocument.id);
+      test("the given DID doesn't have an initial state", () => {
+        const didDocument = resolve(profiles['12Word'].didDocument.id);
 
         expect(didDocument).toBeNull();
       });

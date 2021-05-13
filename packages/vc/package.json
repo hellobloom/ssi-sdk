@@ -17,8 +17,8 @@
     "node": ">=12"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
+    "start": "tsdx watch --target node",
+    "build": "tsdx build --target node",
     "test": "tsdx test",
     "lint": "tsdx lint src",
     "lint:fix": "npm run lint -- --fix",
