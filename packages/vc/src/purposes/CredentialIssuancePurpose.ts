@@ -54,13 +54,19 @@ export class CredentialIssuancePurpose extends jsigs.purposes
 
       if (result.controller.id !== issuerId) {
         // Handle when controller.id is a long form DID
-        const framed = await jsonld.frame(issuerId, {
-          '@context': jsigs.SECURITY_CONTEXT_V2_URL,
-          id: result.controller.id,
-        }, {documentLoader, compactToRelative: false})
+        const framed = await jsonld.frame(
+          issuerId,
+          {
+            '@context': jsigs.SECURITY_CONTEXT_V2_URL,
+            id: result.controller.id,
+          },
+          { documentLoader, compactToRelative: false }
+        );
 
         if (framed.id !== result.controller.id) {
-          throw new Error('Credential issuer must match the verification method controller.');
+          throw new Error(
+            'Credential issuer must match the verification method controller.'
+          );
         }
       }
 
