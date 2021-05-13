@@ -44,7 +44,7 @@ describe('signVC', () => {
         suite,
       });
 
-      console.log({proof: signed.proof})
+      console.log({ proof: signed.proof });
 
       expect(validate(signed)).toBeTruthy();
       expectType<VC>(signed);

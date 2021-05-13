@@ -32,10 +32,13 @@ export const documentLoader = (url: string) => {
 };
 
 export const document = {
-  '@context': ['http://schema.org', 'https://ns.did.ai/suites/secp256k1-2019/v1'],
+  '@context': [
+    'http://schema.org',
+    'https://ns.did.ai/suites/secp256k1-2019/v1',
+  ],
   '@type': 'Person',
   name: 'Bob Belcher',
-}
+};
 
-export const publicKeyPair = keyPair['public']
-export const privateKeyPair = keyPair['private']
+export const publicKeyPair = keyPair['public'];
+export const privateKeyPair = keyPair['private'];

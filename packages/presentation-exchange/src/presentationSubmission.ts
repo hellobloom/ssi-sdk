@@ -9,17 +9,17 @@ export const descriptorMapItemSchema = {
     path_nested: { type: 'object' },
   },
   required: ['id', 'format', 'path'],
-  additionalProperties: false
-} as const
+  additionalProperties: false,
+} as const;
 
-export type DescriptorMapItem = FromSchema<typeof descriptorMapItemSchema>
+export type DescriptorMapItem = FromSchema<typeof descriptorMapItemSchema>;
 
 export const descriptorMapSchema = {
   type: 'array',
-  items: descriptorMapItemSchema
-} as const
+  items: descriptorMapItemSchema,
+} as const;
 
-export type DescriptorMap = FromSchema<typeof descriptorMapSchema>
+export type DescriptorMap = FromSchema<typeof descriptorMapSchema>;
 
 export const presentationSubmissionSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -33,4 +33,6 @@ export const presentationSubmissionSchema = {
   additionalProperties: false,
 } as const;
 
-export type PresentationSubmission = FromSchema<typeof presentationSubmissionSchema>
+export type PresentationSubmission = FromSchema<
+  typeof presentationSubmissionSchema
+>;

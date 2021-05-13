@@ -17,10 +17,11 @@
   },
   "scripts": {
     "build": "tsdx build --target node",
-    "test": "tsdx test",
+    "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint src",
+    "lint:fix": "npm run lint -- --fix",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run test && npm run lint",
+    "prepublishOnly": "npm run size && npm run lint && npm run test",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -41,11 +42,11 @@
   "size-limit": [
     {
       "path": "dist/waci-core.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "1 B"
     },
     {
       "path": "dist/waci-core.esm.js",
-      "limit": "10 KB"
+      "limit": "1 B"
     }
   ]
 }

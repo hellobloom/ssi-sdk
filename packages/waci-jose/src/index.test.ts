@@ -5,15 +5,18 @@ import {
   SignRequestChallengeJWT,
   SignRequestResponseJWT,
   requestResponseJwtVerify,
-} from './'
+} from './';
 
 const verifiablePresentation = {
-  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://identity.foundation/presentation-exchange/submission/v1'],
+  '@context': [
+    'https://www.w3.org/2018/credentials/v1',
+    'https://identity.foundation/presentation-exchange/submission/v1',
+  ],
   type: ['VerifiablePresentation', 'PresentationSubmission'],
   presentation_submission: {},
   verifiableCredential: [],
   proof: {},
-}
+};
 
 const presentationDefinition = {
   input_descriptors: [
@@ -51,7 +54,11 @@ const presentationDefinition = {
       constraints: {
         fields: [
           {
-            path: ['$.credentialSubject.birth_date', '$.vc.credentialSubject.birth_date', '$.birth_date'],
+            path: [
+              '$.credentialSubject.birth_date',
+              '$.vc.credentialSubject.birth_date',
+              '$.birth_date',
+            ],
             filter: {
               type: 'string',
               format: 'date',
@@ -62,7 +69,7 @@ const presentationDefinition = {
       },
     },
   ],
-}
+};
 
 const credentialManifest = {
   locale: 'en-US',
@@ -90,7 +97,7 @@ const credentialManifest = {
     {
       id: 'output_1',
       schema: {
-        uri: 'https://schema.org/EducationalOccupationalCredential'
+        uri: 'https://schema.org/EducationalOccupationalCredential',
       },
       display: {
         title: {
@@ -125,18 +132,18 @@ const credentialManifest = {
           color: '#d4d400',
         },
       },
-    }
+    },
   ],
   presentation_definition: presentationDefinition,
-}
+};
 
-const callbackUrl = 'https://example.com'
+const callbackUrl = 'https://example.com';
 
-const relyingPartySecret = new Uint8Array(32)
-const userSecret = new Uint8Array(32)
+const relyingPartySecret = new Uint8Array(32);
+const userSecret = new Uint8Array(32);
 
-const relyingPartyId = 'urn:example:relying-party'
-const userId = 'urn:example:user'
+const relyingPartyId = 'urn:example:relying-party';
+const userId = 'urn:example:user';
 
 test('Offer Flow', async () => {
   const challengeString = await new SignOfferChallengeJWT({
@@ -147,8 +154,8 @@ test('Offer Flow', async () => {
     .setJti('1234')
     .setIssuer(relyingPartyId)
     .setAudience(userId)
-    .setProtectedHeader({alg: 'HS256'})
-    .sign(relyingPartySecret)
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign(relyingPartySecret);
 
   const responseString = await new SignOfferResponseJWT({
     challenge: challengeString,
@@ -156,31 +163,31 @@ test('Offer Flow', async () => {
   })
     .setIssuer(userId)
     .setAudience(relyingPartyId)
-    .setProtectedHeader({alg: 'HS256'})
-    .sign(userSecret)
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign(userSecret);
 
-  const {response, challenge} = await offerResponseJwtVerify(
+  const { response, challenge } = await offerResponseJwtVerify(
     responseString,
     {
       key: userSecret,
     },
     {
       key: relyingPartySecret,
-    },
-  )
+    }
+  );
 
-  expect('purpose' in challenge.payload).toBeTruthy()
-  expect(challenge.payload['purpose']).toEqual('offer')
+  expect('purpose' in challenge.payload).toBeTruthy();
+  expect(challenge.payload['purpose']).toEqual('offer');
 
-  expect('callbackUrl' in challenge.payload).toBeTruthy()
-  expect(challenge.payload['callbackUrl']).toEqual(callbackUrl)
+  expect('callbackUrl' in challenge.payload).toBeTruthy();
+  expect(challenge.payload['callbackUrl']).toEqual(callbackUrl);
 
-  expect('credential_manifest' in challenge.payload).toBeTruthy()
-  expect(challenge.payload['credential_manifest']).toEqual(credentialManifest)
+  expect('credential_manifest' in challenge.payload).toBeTruthy();
+  expect(challenge.payload['credential_manifest']).toEqual(credentialManifest);
 
-  expect('challenge' in response.payload).toBeTruthy()
-  expect(response.payload['challenge']).toEqual(challengeString)
-})
+  expect('challenge' in response.payload).toBeTruthy();
+  expect(response.payload['challenge']).toEqual(challengeString);
+});
 
 test('Request Flow', async () => {
   const challengeString = await new SignRequestChallengeJWT({
@@ -191,8 +198,8 @@ test('Request Flow', async () => {
     .setJti('1234')
     .setIssuer(relyingPartyId)
     .setAudience(userId)
-    .setProtectedHeader({alg: 'HS256'})
-    .sign(relyingPartySecret)
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign(relyingPartySecret);
 
   const responseString = await new SignRequestResponseJWT({
     challenge: challengeString,
@@ -200,28 +207,30 @@ test('Request Flow', async () => {
   })
     .setIssuer(userId)
     .setAudience(relyingPartyId)
-    .setProtectedHeader({alg: 'HS256'})
-    .sign(userSecret)
+    .setProtectedHeader({ alg: 'HS256' })
+    .sign(userSecret);
 
-  const {response, challenge} = await requestResponseJwtVerify(
+  const { response, challenge } = await requestResponseJwtVerify(
     responseString,
     {
       key: userSecret,
     },
     {
       key: relyingPartySecret,
-    },
-  )
+    }
+  );
 
-  expect('purpose' in challenge.payload).toBeTruthy()
-  expect(challenge.payload['purpose']).toEqual('request')
+  expect('purpose' in challenge.payload).toBeTruthy();
+  expect(challenge.payload['purpose']).toEqual('request');
 
-  expect('callbackUrl' in challenge.payload).toBeTruthy()
-  expect(challenge.payload['callbackUrl']).toEqual(callbackUrl)
+  expect('callbackUrl' in challenge.payload).toBeTruthy();
+  expect(challenge.payload['callbackUrl']).toEqual(callbackUrl);
 
-  expect('presentation_definition' in challenge.payload).toBeTruthy()
-  expect(challenge.payload['presentation_definition']).toEqual(presentationDefinition)
+  expect('presentation_definition' in challenge.payload).toBeTruthy();
+  expect(challenge.payload['presentation_definition']).toEqual(
+    presentationDefinition
+  );
 
-  expect('challenge' in response.payload).toBeTruthy()
-  expect(response.payload['challenge']).toEqual(challengeString)
-})
+  expect('challenge' in response.payload).toBeTruthy();
+  expect(response.payload['challenge']).toEqual(challengeString);
+});

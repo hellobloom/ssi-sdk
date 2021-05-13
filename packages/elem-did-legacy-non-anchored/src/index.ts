@@ -1,2 +1,2 @@
-export * from './create'
-export * from './resolve'
+export * from './create';
+export * from './resolve';

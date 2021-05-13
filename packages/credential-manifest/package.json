@@ -18,10 +18,11 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build",
-    "prepublishOnly": "npm run test && npm run lint",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint src",
+    "lint:fix": "npm run lint -- --fix",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run size && npm run lint && npm run test",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -46,11 +47,11 @@
   "size-limit": [
     {
       "path": "dist/credential-manifest.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "820 B"
     },
     {
       "path": "dist/credential-manifest.esm.js",
-      "limit": "10 KB"
+      "limit": "15 B"
     }
   ]
 }

@@ -21,6 +21,7 @@
     "build": "tsdx build --target node",
     "test": "tsdx test",
     "lint": "tsdx lint src",
+    "lint:fix": "npm run lint -- --fix",
     "prepare": "npm run build",
     "prepublishOnly": "npm run size && npm run lint && npm run test",
     "size": "size-limit",

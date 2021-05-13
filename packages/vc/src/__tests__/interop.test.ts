@@ -61,7 +61,10 @@ describe('Interop:', () => {
         credential: {
           ...unsignedVC,
           // @transmute/linked-data-proof doesn't auto add the suite's context like jsonld-signatures
-          '@context': [...unsignedVC['@context'], 'https://w3id.org/security/suites/ed25519-2020/v1']
+          '@context': [
+            ...unsignedVC['@context'],
+            'https://w3id.org/security/suites/ed25519-2020/v1',
+          ],
         },
         documentLoader,
         suite: getIssuerEd25519Suite(),

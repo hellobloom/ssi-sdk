@@ -32,7 +32,7 @@ describe('verifyVC', () => {
       name: 'EcdsaSecp256k1 Signature',
       suite: getIssuerEcdsaSecp256k1Suite(),
     },
-  ].forEach(({name, suite}) => {
+  ].forEach(({ name, suite }) => {
     describe(name, () => {
       it('verifies a valid VC', async () => {
         const vc = await signVC({
@@ -260,8 +260,8 @@ describe('verifyVC', () => {
           }
         });
       });
-    })
-  })
+    });
+  });
 });
 
 describe('verifyVP', () => {
@@ -269,7 +269,7 @@ describe('verifyVP', () => {
     {
       name: 'Ed25519 Signature',
       suite: getIssuerEd25519Suite(),
-      holderSuite: getHolderEd25519Suite()
+      holderSuite: getHolderEd25519Suite(),
     },
     {
       name: 'EcdsaSecp256k1 Signature',
@@ -279,14 +279,14 @@ describe('verifyVP', () => {
     {
       name: 'Ed25519 Signature + EcdsaSecp256k1 Signature',
       suite: getIssuerEd25519Suite(),
-      holderSuite: getHolderEcdsaSecp256k1Suite()
+      holderSuite: getHolderEcdsaSecp256k1Suite(),
     },
     {
       name: 'EcdsaSecp256k1 Signature + Ed25519 Signature',
       suite: getIssuerEcdsaSecp256k1Suite(),
       holderSuite: getHolderEd25519Suite(),
     },
-  ].forEach(({name, suite, holderSuite}) => {
+  ].forEach(({ name, suite, holderSuite }) => {
     describe(name, () => {
       it('verifies a valid VP containing a valid VC', async () => {
         const vc = await signVC({
@@ -478,9 +478,9 @@ describe('verifyVP', () => {
             expect(result.credentialIssuanceErrors![0].errors[0].type).toEqual(
               'inactive'
             );
-            expect(result.credentialIssuanceErrors![0].errors[0].message).toEqual(
-              `VC is inactive until ${issuanceDate}`
-            );
+            expect(
+              result.credentialIssuanceErrors![0].errors[0].message
+            ).toEqual(`VC is inactive until ${issuanceDate}`);
           }
         });
 
@@ -525,9 +525,9 @@ describe('verifyVP', () => {
             expect(result.credentialIssuanceErrors![0].errors[0].type).toEqual(
               'expired'
             );
-            expect(result.credentialIssuanceErrors![0].errors[0].message).toEqual(
-              `VC expired at ${expirationDate}`
-            );
+            expect(
+              result.credentialIssuanceErrors![0].errors[0].message
+            ).toEqual(`VC expired at ${expirationDate}`);
           }
         });
 
@@ -592,6 +592,6 @@ describe('verifyVP', () => {
           }
         });
       });
-    })
-  })
+    });
+  });
 });

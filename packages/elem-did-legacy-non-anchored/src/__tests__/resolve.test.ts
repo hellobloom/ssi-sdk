@@ -5,11 +5,11 @@ import { profiles } from './__fixtures__';
 
 describe('resolve', () => {
   describe('resolverRegistry', () => {
-    let resolver: Resolver
+    let resolver: Resolver;
 
     beforeAll(() => {
-      resolver = new Resolver(resolverRegistry)
-    })
+      resolver = new Resolver(resolverRegistry);
+    });
 
     test('resolves a valid legacy element DID', async () => {
       const profile = profiles['12Word'];
@@ -60,4 +60,4 @@ describe('resolve', () => {
       });
     });
   });
-})
+});

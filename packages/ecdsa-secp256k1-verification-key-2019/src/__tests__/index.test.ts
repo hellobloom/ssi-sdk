@@ -95,10 +95,8 @@ describe('EcdsaSecp256k1VerificationKey2019', () => {
 
       expect(key.export({ publicKey: true })).toMatchInlineSnapshot(`
         Object {
-          "@context": undefined,
           "controller": "did:example:signer",
           "id": "did:example:signer#123",
-          "privateKeyBase58": undefined,
           "publicKeyBase58": "cY3XbJUu1pz9VU18qTU12pXmvi5rVohUSpekndrnM1Vt",
           "revoked": undefined,
           "type": "EcdsaSecp256k1VerificationKey2019",
@@ -111,11 +109,9 @@ describe('EcdsaSecp256k1VerificationKey2019', () => {
 
       expect(key.export({ privateKey: true })).toMatchInlineSnapshot(`
         Object {
-          "@context": undefined,
           "controller": "did:example:signer",
           "id": "did:example:signer#123",
           "privateKeyBase58": "E8HCuTCVWHSAZSobCqFrriv7vMWhfbRLCU1YT9Upm625",
-          "publicKeyBase58": undefined,
           "revoked": undefined,
           "type": "EcdsaSecp256k1VerificationKey2019",
         }
@@ -146,7 +142,6 @@ describe('EcdsaSecp256k1VerificationKey2019', () => {
       expect(key.export({ privateKey: true, publicKey: true }))
         .toMatchInlineSnapshot(`
         Object {
-          "@context": undefined,
           "controller": "did:example:signer",
           "id": "did:example:signer#123",
           "privateKeyBase58": "E8HCuTCVWHSAZSobCqFrriv7vMWhfbRLCU1YT9Upm625",
@@ -198,7 +193,6 @@ describe('EcdsaSecp256k1VerificationKey2019', () => {
       expect(imported.export({ publicKey: true, privateKey: true }))
         .toMatchInlineSnapshot(`
         Object {
-          "@context": undefined,
           "controller": "did:example:hello",
           "id": "did:example:hello#123",
           "privateKeyBase58": "2YMr8WzjdFuMQkLdDWzvUsVq5bpdXfeZANeFyLb2ouwr",
