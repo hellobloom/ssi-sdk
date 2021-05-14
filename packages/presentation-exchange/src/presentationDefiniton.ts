@@ -1,4 +1,4 @@
-import { FromSchema } from 'json-schema-to-ts';
+import { FromSchema } from 'json-schema-to-ts'
 
 export const schemaSchema = {
   type: 'object',
@@ -121,7 +121,7 @@ export type SubmissionRequirement = FromSchema<typeof submissionRequirementSchem
 
 export const submissionRequirementsSchema = {
   type: 'array',
-  items: submissionRequirementSchema
+  items: submissionRequirementSchema,
 } as const
 
 export type SubmissionRequirements = FromSchema<typeof submissionRequirementsSchema>
@@ -235,7 +235,7 @@ export type InputDescriptor = FromSchema<typeof inputDescriptorSchema>
 
 export const inputDescriptorsSchema = {
   type: 'array',
-  items: inputDescriptorSchema
+  items: inputDescriptorSchema,
 } as const
 
 export type InputDescriptors = FromSchema<typeof inputDescriptorsSchema>
@@ -253,6 +253,6 @@ export const presentationDefinitionSchema = {
   },
   required: ['id', 'input_descriptors'],
   additionalProperties: false,
-} as const;
+} as const
 
 export type PresentationDefinition = FromSchema<typeof presentationDefinitionSchema>

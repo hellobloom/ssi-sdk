@@ -1,6 +1,6 @@
-import {DIDDocument} from 'did-resolver'
+import { DIDDocument } from 'did-resolver'
 
-import {KeyPairs} from '../../create'
+import { KeyPairs } from '../../create'
 
 export type Profile = {
   mnemonic: string
@@ -9,7 +9,7 @@ export type Profile = {
   didDocument: DIDDocument
 }
 
-export const profiles: {[k in '12Word' | '24Word']: Profile} = {
+export const profiles: { [k in '12Word' | '24Word']: Profile } = {
   '12Word': {
     mnemonic: 'item detail pizza drop any true gossip sick rival replace youth hat',
     keyPairs: {
@@ -42,7 +42,7 @@ export const profiles: {[k in '12Word' | '24Word']: Profile} = {
           usage: 'recovery',
         } as any,
       ],
-    }
+    },
   },
   '24Word': {
     mnemonic:
@@ -77,6 +77,6 @@ export const profiles: {[k in '12Word' | '24Word']: Profile} = {
           usage: 'recovery',
         } as any,
       ],
-    }
+    },
   },
 }

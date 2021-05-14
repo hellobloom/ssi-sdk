@@ -5,7 +5,7 @@ import {
   SignRequestChallengeJWT,
   SignRequestResponseJWT,
   requestResponseJwtVerify,
-} from './'
+} from '.'
 
 const verifiablePresentation = {
   '@context': ['https://www.w3.org/2018/credentials/v1', 'https://identity.foundation/presentation-exchange/submission/v1'],
@@ -90,7 +90,7 @@ const credentialManifest = {
     {
       id: 'output_1',
       schema: {
-        uri: 'https://schema.org/EducationalOccupationalCredential'
+        uri: 'https://schema.org/EducationalOccupationalCredential',
       },
       display: {
         title: {
@@ -100,8 +100,7 @@ const credentialManifest = {
           text: 'Class A, Commercial',
         },
         description: {
-          text:
-            'License to operate a vehicle with a gross combined weight rating (GCWR) of 26,001 or more pounds, as long as the GVWR of the vehicle(s) being towed is over 10,000 pounds.',
+          text: 'License to operate a vehicle with a gross combined weight rating (GCWR) of 26,001 or more pounds, as long as the GVWR of the vehicle(s) being towed is over 10,000 pounds.',
         },
         properties: [
           {
@@ -125,7 +124,7 @@ const credentialManifest = {
           color: '#d4d400',
         },
       },
-    }
+    },
   ],
   presentation_definition: presentationDefinition,
 }
@@ -147,7 +146,7 @@ test('Offer Flow', async () => {
     .setJti('1234')
     .setIssuer(relyingPartyId)
     .setAudience(userId)
-    .setProtectedHeader({alg: 'HS256'})
+    .setProtectedHeader({ alg: 'HS256' })
     .sign(relyingPartySecret)
 
   const responseString = await new SignOfferResponseJWT({
@@ -156,10 +155,10 @@ test('Offer Flow', async () => {
   })
     .setIssuer(userId)
     .setAudience(relyingPartyId)
-    .setProtectedHeader({alg: 'HS256'})
+    .setProtectedHeader({ alg: 'HS256' })
     .sign(userSecret)
 
-  const {response, challenge} = await offerResponseJwtVerify(
+  const { response, challenge } = await offerResponseJwtVerify(
     responseString,
     {
       key: userSecret,
@@ -170,16 +169,16 @@ test('Offer Flow', async () => {
   )
 
   expect('purpose' in challenge.payload).toBeTruthy()
-  expect(challenge.payload['purpose']).toEqual('offer')
+  expect(challenge.payload.purpose).toEqual('offer')
 
   expect('callbackUrl' in challenge.payload).toBeTruthy()
-  expect(challenge.payload['callbackUrl']).toEqual(callbackUrl)
+  expect(challenge.payload.callbackUrl).toEqual(callbackUrl)
 
   expect('credential_manifest' in challenge.payload).toBeTruthy()
-  expect(challenge.payload['credential_manifest']).toEqual(credentialManifest)
+  expect(challenge.payload.credential_manifest).toEqual(credentialManifest)
 
   expect('challenge' in response.payload).toBeTruthy()
-  expect(response.payload['challenge']).toEqual(challengeString)
+  expect(response.payload.challenge).toEqual(challengeString)
 })
 
 test('Request Flow', async () => {
@@ -191,7 +190,7 @@ test('Request Flow', async () => {
     .setJti('1234')
     .setIssuer(relyingPartyId)
     .setAudience(userId)
-    .setProtectedHeader({alg: 'HS256'})
+    .setProtectedHeader({ alg: 'HS256' })
     .sign(relyingPartySecret)
 
   const responseString = await new SignRequestResponseJWT({
@@ -200,10 +199,10 @@ test('Request Flow', async () => {
   })
     .setIssuer(userId)
     .setAudience(relyingPartyId)
-    .setProtectedHeader({alg: 'HS256'})
+    .setProtectedHeader({ alg: 'HS256' })
     .sign(userSecret)
 
-  const {response, challenge} = await requestResponseJwtVerify(
+  const { response, challenge } = await requestResponseJwtVerify(
     responseString,
     {
       key: userSecret,
@@ -214,14 +213,14 @@ test('Request Flow', async () => {
   )
 
   expect('purpose' in challenge.payload).toBeTruthy()
-  expect(challenge.payload['purpose']).toEqual('request')
+  expect(challenge.payload.purpose).toEqual('request')
 
   expect('callbackUrl' in challenge.payload).toBeTruthy()
-  expect(challenge.payload['callbackUrl']).toEqual(callbackUrl)
+  expect(challenge.payload.callbackUrl).toEqual(callbackUrl)
 
   expect('presentation_definition' in challenge.payload).toBeTruthy()
-  expect(challenge.payload['presentation_definition']).toEqual(presentationDefinition)
+  expect(challenge.payload.presentation_definition).toEqual(presentationDefinition)
 
   expect('challenge' in response.payload).toBeTruthy()
-  expect(response.payload['challenge']).toEqual(challengeString)
+  expect(response.payload.challenge).toEqual(challengeString)
 })

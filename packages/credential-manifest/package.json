@@ -1,6 +1,6 @@
 {
   "name": "@bloomprotocol/credential-manifest",
-  "description": "Typescript types for Credential Manifest",
+  "description": "TypeScript types for Credential Manifest",
   "version": "0.1.2",
   "author": "Bloom Protocol LLC <team@bloom.co>",
   "license": "Apache-2.0",
@@ -18,10 +18,11 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build",
-    "prepublishOnly": "npm run test && npm run lint",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "eslint src --format table --ext .ts,.tsx,.js,.jsx",
+    "lint:fix": "npm run lint -- --fix",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run size && npm run lint && npm run test",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -30,6 +31,8 @@
     "json-schema-to-ts": "^1.6.3"
   },
   "devDependencies": {
+    "@bloomprotocol/eslint-config": "2.0.0-beta.0",
+    "@bloomprotocol/prettier-config": "2.0.0-beta.0",
     "@size-limit/preset-small-lib": "^4.10.2",
     "husky": "^6.0.0",
     "size-limit": "^4.10.2",
@@ -37,20 +40,14 @@
     "tslib": "^2.2.0",
     "typescript": "^4.2.4"
   },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
   "size-limit": [
     {
       "path": "dist/credential-manifest.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "820 B"
     },
     {
       "path": "dist/credential-manifest.esm.js",
-      "limit": "10 KB"
+      "limit": "15 B"
     }
   ]
 }

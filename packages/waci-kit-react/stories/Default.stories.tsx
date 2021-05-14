@@ -1,23 +1,22 @@
-import React from 'react';
-import { Meta, Story } from '@storybook/react';
+import React from 'react'
+import { Meta, Story } from '@storybook/react'
 
-import { WACIElement, WACIElementProps } from '../src';
+import { WACIElement, WACIElementProps } from '../src'
 
 const meta: Meta = {
   title: 'WACI/Default',
   component: WACIElement,
-};
+}
 
-export default meta;
+export default meta
 
-const Template: Story<WACIElementProps> = (args) => <WACIElement {...args} />;
+const Template: Story<WACIElementProps> = (args) => <WACIElement {...args} />
 
-export const Default = Template.bind({});
+export const Default = Template.bind({})
 
 const DefaultArgs: WACIElementProps = {
   data: {
-    challengeTokenUrl:
-      'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+    challengeTokenUrl: 'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
     version: '1',
   },
   qrProps: {
@@ -28,6 +27,6 @@ const DefaultArgs: WACIElementProps = {
     size: 'lg',
     type: 'bloom',
   },
-};
+}
 
-Default.args = DefaultArgs;
+Default.args = DefaultArgs

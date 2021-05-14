@@ -1,0 +1,20 @@
+on:
+  pull_request:
+    branches:
+      - main
+name: CI Workflow
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+      - run: npm ci
+      - run: npm run bootstap
+      - run: npm run lint
+      - run: npm run size
+      - run: npm run test
+      - run: git diff --exit-code

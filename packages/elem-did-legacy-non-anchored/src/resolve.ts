@@ -1,5 +1,5 @@
 import base64url from 'base64url'
-import {DIDResolver, DIDDocument, VerificationMethod, parse, DIDResolutionResult, ParsedDID} from 'did-resolver'
+import { DIDResolver, DIDDocument, VerificationMethod, parse, DIDResolutionResult, ParsedDID } from 'did-resolver'
 
 import * as element from './element'
 
@@ -20,7 +20,7 @@ const resolver = (parsed: ParsedDID): DIDResolutionResult => {
     return {
       didResolutionMetadata: {
         error: 'invalidDid',
-        message: 'Element DID must have the elem:initial-state matrix parameter.'
+        message: 'Element DID must have the elem:initial-state matrix parameter.',
       },
       didDocumentMetadata: {},
       didDocument: null,
@@ -35,15 +35,13 @@ const resolver = (parsed: ParsedDID): DIDResolutionResult => {
   const decodedPayload = base64url.decode(parsedInitialState.payload)
   const parsedPayload: DIDDocument = JSON.parse(decodedPayload)
 
-  const publicKey = parsedPayload.publicKey?.find(
-    ({id}: VerificationMethod) => id === parsedProtected.kid
-  )
+  const publicKey = parsedPayload.publicKey?.find(({ id }: VerificationMethod) => id === parsedProtected.kid)
 
   if (!publicKey) {
     return {
       didResolutionMetadata: {
         error: 'invalidDid',
-        message: `Cannot find public key with id: ${parsedProtected.kid}`
+        message: `Cannot find public key with id: ${parsedProtected.kid}`,
       },
       didDocumentMetadata: {},
       didDocument: null,
@@ -54,14 +52,14 @@ const resolver = (parsed: ParsedDID): DIDResolutionResult => {
     parsedInitialState.protected,
     parsedInitialState.payload,
     parsedInitialState.signature,
-    publicKey.publicKeyHex
+    publicKey.publicKeyHex,
   )
 
   if (!isSigValid) {
     return {
       didResolutionMetadata: {
         error: 'invalidDid',
-        message: 'Cannot validate create operation'
+        message: 'Cannot validate create operation',
       },
       didDocumentMetadata: {},
       didDocument: null,
@@ -72,20 +70,18 @@ const resolver = (parsed: ParsedDID): DIDResolutionResult => {
     if (typeof field === 'string') {
       if (field.startsWith('#')) {
         return `${parsed.did}${field}`
-      } else {
-        return field
       }
-    } else if (
-      typeof field === 'object' &&
-      'id' in field &&
-      typeof field.id === 'string'
-    ) {
-      if (field.id.startsWith('#')) {
-        return {...field, id: `${parsed.did}${field.id}`}
-      } else {
-        return field
-      }
+      return field
     }
+
+    if (typeof field === 'object' && 'id' in field && typeof field.id === 'string') {
+      if (field.id.startsWith('#')) {
+        return { ...field, id: `${parsed.did}${field.id}` }
+      }
+      return field
+    }
+
+    return field
   }
 
   const didDocument: DIDDocument = {
@@ -110,6 +106,6 @@ export const resolve = (did: string): DIDDocument | null => {
   return resolver(parsed).didDocument
 }
 
-export const resolverRegistry: {elem: DIDResolver} = {
-  elem: async (_, parsed) => resolver(parsed)
+export const resolverRegistry: { elem: DIDResolver } = {
+  elem: async (_, parsed) => resolver(parsed),
 }

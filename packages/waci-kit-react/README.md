@@ -1,6 +1,6 @@
 # WACI Kit React
 
-Render a QR Code or button to [initiate a WACI interaction](https://specs.bloom.co/wallet-credential-interactions/#qr-code-or-link)
+Render a QR Code or button to [initiate a WACI interaction](https://identity.foundation/wallet-and-credential-interactions/#qr-code-or-link)
 
 - [WACI Kit React](#waci-kit-react)
   - [Installation](#installation)
@@ -54,7 +54,7 @@ const MyComp: FC = () => {
 
 ### Data
 
-This is the [WACI payload](https://specs.bloom.co/wallet-and-credential-interactions/#payload).
+This is the [WACI payload](https://identity.foundation/wallet-and-credential-interactions/#payload).
 
 | Name              | Description                                    | Type     | Required |
 | ----------------- | ---------------------------------------------- | -------- | -------- |

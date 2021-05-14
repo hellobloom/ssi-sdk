@@ -1,4 +1,4 @@
-import { FromSchema } from 'json-schema-to-ts';
+import { FromSchema } from 'json-schema-to-ts'
 
 export const holderSchema = {
   oneOf: [
@@ -13,9 +13,9 @@ export const holderSchema = {
       additionalProperties: false,
     },
   ],
-} as const;
+} as const
 
-export type Holder = FromSchema<typeof holderSchema>;
+export type Holder = FromSchema<typeof holderSchema>
 
 export const issuerSchema = {
   oneOf: [
@@ -30,9 +30,9 @@ export const issuerSchema = {
       additionalProperties: false,
     },
   ],
-} as const;
+} as const
 
-export type Issuer = FromSchema<typeof issuerSchema>;
+export type Issuer = FromSchema<typeof issuerSchema>
 
 export const contextSchema = {
   type: 'array',
@@ -44,6 +44,6 @@ export const contextSchema = {
     ],
   },
   minItems: 1,
-} as const;
+} as const
 
-export type Context = FromSchema<typeof contextSchema>;
+export type Context = FromSchema<typeof contextSchema>

@@ -1,4 +1,4 @@
-import { FromSchema } from 'json-schema-to-ts';
+import { FromSchema } from 'json-schema-to-ts'
 
 export const descriptorMapItemSchema = {
   type: 'object',
@@ -9,14 +9,14 @@ export const descriptorMapItemSchema = {
     path_nested: { type: 'object' },
   },
   required: ['id', 'format', 'path'],
-  additionalProperties: false
+  additionalProperties: false,
 } as const
 
 export type DescriptorMapItem = FromSchema<typeof descriptorMapItemSchema>
 
 export const descriptorMapSchema = {
   type: 'array',
-  items: descriptorMapItemSchema
+  items: descriptorMapItemSchema,
 } as const
 
 export type DescriptorMap = FromSchema<typeof descriptorMapSchema>
@@ -31,6 +31,6 @@ export const presentationSubmissionSchema = {
   },
   required: ['id', 'definition_id', 'descriptor_map'],
   additionalProperties: false,
-} as const;
+} as const
 
 export type PresentationSubmission = FromSchema<typeof presentationSubmissionSchema>

@@ -9,7 +9,7 @@ export const publicKeyPair = {
   id: 'did:example:signer#123',
   type: 'EcdsaSecp256k1VerificationKey2019',
   controller: 'did:example:signer',
-  publicKeyBase58: 'cY3XbJUu1pz9VU18qTU12pXmvi5rVohUSpekndrnM1Vt'
+  publicKeyBase58: 'cY3XbJUu1pz9VU18qTU12pXmvi5rVohUSpekndrnM1Vt',
 }
 
 export const privateKeyPair = {
