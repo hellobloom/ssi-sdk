@@ -1,9 +1,10 @@
-import { VC, VP } from './core';
-import { DocumentLoader } from './shared';
-import { CredentialIssuancePurpose } from './purposes';
+import { VC, VP } from './core'
+import { DocumentLoader } from './shared'
+import { CredentialIssuancePurpose } from './purposes'
 
-const jsigs = require('jsonld-signatures');
-const { AuthenticationProofPurpose } = jsigs.purposes;
+const jsigs = require('jsonld-signatures')
+
+const { AuthenticationProofPurpose } = jsigs.purposes
 
 export const signVC = async <VCType extends VC>({
   unsigned,
@@ -12,11 +13,11 @@ export const signVC = async <VCType extends VC>({
   proofPurposeOptions = {},
   addSuiteContext,
 }: {
-  unsigned: Omit<VCType, 'proof'>;
-  documentLoader: DocumentLoader;
-  suite: any;
-  proofPurposeOptions?: Record<string, unknown>;
-  addSuiteContext?: boolean;
+  unsigned: Omit<VCType, 'proof'>
+  documentLoader: DocumentLoader
+  suite: any
+  proofPurposeOptions?: Record<string, unknown>
+  addSuiteContext?: boolean
 }): Promise<VCType> =>
   jsigs.sign(
     { ...unsigned },
@@ -25,8 +26,8 @@ export const signVC = async <VCType extends VC>({
       documentLoader,
       purpose: new CredentialIssuancePurpose(proofPurposeOptions),
       addSuiteContext,
-    }
-  );
+    },
+  )
 
 export const signVP = <VPType extends VP>({
   unsigned,
@@ -35,14 +36,11 @@ export const signVP = <VPType extends VP>({
   proofPurposeOptions,
   addSuiteContext,
 }: {
-  unsigned: Omit<VPType, 'proof'>;
-  documentLoader: DocumentLoader;
-  suite: any;
-  proofPurposeOptions: { challenge: string; domain: string } & Record<
-    string,
-    unknown
-  >;
-  addSuiteContext?: boolean;
+  unsigned: Omit<VPType, 'proof'>
+  documentLoader: DocumentLoader
+  suite: any
+  proofPurposeOptions: { challenge: string; domain: string } & Record<string, unknown>
+  addSuiteContext?: boolean
 }): Promise<VPType> =>
   jsigs.sign(
     { ...unsigned },
@@ -51,5 +49,5 @@ export const signVP = <VPType extends VP>({
       documentLoader,
       purpose: new AuthenticationProofPurpose(proofPurposeOptions),
       addSuiteContext,
-    }
-  );
+    },
+  )

@@ -1,4 +1,4 @@
-import { FromSchema } from 'json-schema-to-ts';
+import { FromSchema } from 'json-schema-to-ts'
 
 export const schemaSchema = {
   type: 'object',
@@ -8,9 +8,9 @@ export const schemaSchema = {
   },
   required: ['uri'],
   additionalProperties: false,
-} as const;
+} as const
 
-export type Schema = FromSchema<typeof schemaSchema>;
+export type Schema = FromSchema<typeof schemaSchema>
 
 export const filterSchema = {
   type: 'object',
@@ -36,9 +36,9 @@ export const filterSchema = {
   },
   required: ['type'],
   additionalProperties: false,
-} as const;
+} as const
 
-export type Filter = FromSchema<typeof filterSchema>;
+export type Filter = FromSchema<typeof filterSchema>
 
 export const formatSchema = {
   type: 'object',
@@ -69,9 +69,9 @@ export const formatSchema = {
     },
   },
   additionalProperties: false,
-} as const;
+} as const
 
-export type Format = FromSchema<typeof formatSchema>;
+export type Format = FromSchema<typeof formatSchema>
 
 export const submissionRequirementSchema = {
   type: 'object',
@@ -115,20 +115,16 @@ export const submissionRequirementSchema = {
       additionalProperties: false,
     },
   ],
-} as const;
+} as const
 
-export type SubmissionRequirement = FromSchema<
-  typeof submissionRequirementSchema
->;
+export type SubmissionRequirement = FromSchema<typeof submissionRequirementSchema>
 
 export const submissionRequirementsSchema = {
   type: 'array',
   items: submissionRequirementSchema,
-} as const;
+} as const
 
-export type SubmissionRequirements = FromSchema<
-  typeof submissionRequirementsSchema
->;
+export type SubmissionRequirements = FromSchema<typeof submissionRequirementsSchema>
 
 export const inputDescriptorSchema = {
   type: 'object',
@@ -233,16 +229,16 @@ export const inputDescriptorSchema = {
   },
   required: ['id', 'schema'],
   additionalProperties: false,
-} as const;
+} as const
 
-export type InputDescriptor = FromSchema<typeof inputDescriptorSchema>;
+export type InputDescriptor = FromSchema<typeof inputDescriptorSchema>
 
 export const inputDescriptorsSchema = {
   type: 'array',
   items: inputDescriptorSchema,
-} as const;
+} as const
 
-export type InputDescriptors = FromSchema<typeof inputDescriptorsSchema>;
+export type InputDescriptors = FromSchema<typeof inputDescriptorsSchema>
 
 export const presentationDefinitionSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -257,8 +253,6 @@ export const presentationDefinitionSchema = {
   },
   required: ['id', 'input_descriptors'],
   additionalProperties: false,
-} as const;
+} as const
 
-export type PresentationDefinition = FromSchema<
-  typeof presentationDefinitionSchema
->;
+export type PresentationDefinition = FromSchema<typeof presentationDefinitionSchema>

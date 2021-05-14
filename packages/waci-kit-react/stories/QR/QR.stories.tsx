@@ -1,7 +1,7 @@
-import React from 'react';
-import { Meta, Story } from '@storybook/react';
+import React from 'react'
+import { Meta, Story } from '@storybook/react'
 
-import { WACIElement, WACIElementProps } from '../../src';
+import { WACIElement, WACIElementProps } from '../../src'
 
 const meta: Meta = {
   title: 'WACI/QR',
@@ -19,36 +19,34 @@ const meta: Meta = {
       },
     },
   },
-};
+}
 
-export default meta;
+export default meta
 
-const Template: Story<WACIElementProps> = (args) => <WACIElement {...args} />;
+const Template: Story<WACIElementProps> = (args) => <WACIElement {...args} />
 
-export const Default = Template.bind({});
+export const Default = Template.bind({})
 
 const DefaultArgs: WACIElementProps = {
   mode: 'qr',
   data: {
-    challengeTokenUrl:
-      'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+    challengeTokenUrl: 'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
     version: '1',
   },
   qrProps: {
     width: 256,
     height: 256,
   },
-};
+}
 
-Default.args = DefaultArgs;
+Default.args = DefaultArgs
 
-export const ECLevel = Template.bind({});
+export const ECLevel = Template.bind({})
 
 const ECLevelArgs: WACIElementProps = {
   mode: 'qr',
   data: {
-    challengeTokenUrl:
-      'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+    challengeTokenUrl: 'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
     version: '1',
   },
   qrProps: {
@@ -56,17 +54,16 @@ const ECLevelArgs: WACIElementProps = {
     height: 256,
     ecLevel: 'Q',
   },
-};
+}
 
-ECLevel.args = ECLevelArgs;
+ECLevel.args = ECLevelArgs
 
-export const Color = Template.bind({});
+export const Color = Template.bind({})
 
 const ColorArgs: WACIElementProps = {
   mode: 'qr',
   data: {
-    challengeTokenUrl:
-      'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+    challengeTokenUrl: 'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
     version: '1',
   },
   qrProps: {
@@ -75,17 +72,16 @@ const ColorArgs: WACIElementProps = {
     width: 256,
     height: 256,
   },
-};
+}
 
-Color.args = ColorArgs;
+Color.args = ColorArgs
 
-export const HideLogo = Template.bind({});
+export const HideLogo = Template.bind({})
 
 const HideLogoArgs: WACIElementProps = {
   mode: 'qr',
   data: {
-    challengeTokenUrl:
-      'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+    challengeTokenUrl: 'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
     version: '1',
   },
   qrProps: {
@@ -95,17 +91,16 @@ const HideLogoArgs: WACIElementProps = {
     width: 256,
     height: 256,
   },
-};
+}
 
-HideLogo.args = HideLogoArgs;
+HideLogo.args = HideLogoArgs
 
-export const LogoOpacity = Template.bind({});
+export const LogoOpacity = Template.bind({})
 
 const LogoOpacityArgs: WACIElementProps = {
   mode: 'qr',
   data: {
-    challengeTokenUrl:
-      'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+    challengeTokenUrl: 'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
     version: '1',
   },
   qrProps: {
@@ -115,17 +110,16 @@ const LogoOpacityArgs: WACIElementProps = {
     width: 256,
     height: 256,
   },
-};
+}
 
-LogoOpacity.args = LogoOpacityArgs;
+LogoOpacity.args = LogoOpacityArgs
 
-export const CustomLogo = Template.bind({});
+export const CustomLogo = Template.bind({})
 
 const CustomLogoArgs: WACIElementProps = {
   mode: 'qr',
   data: {
-    challengeTokenUrl:
-      'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+    challengeTokenUrl: 'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
     version: '1',
   },
   qrProps: {
@@ -135,29 +129,28 @@ const CustomLogoArgs: WACIElementProps = {
     width: 256,
     height: 256,
   },
-};
+}
 
-CustomLogo.args = CustomLogoArgs;
+CustomLogo.args = CustomLogoArgs
 
-export const CustomProps = Template.bind({});
+export const CustomProps = Template.bind({})
 
 const CustomPropsArgs: WACIElementProps = {
   mode: 'qr',
   data: {
-    challengeTokenUrl:
-      'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+    challengeTokenUrl: 'https://example.com/api/v1/waci-challenge/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
     version: '1',
   },
   qrProps: {
     width: 256,
     height: 256,
     onClick: () => {
-      alert('Clicked!');
+      alert('Clicked!')
     },
     style: {
       margin: '25px',
     },
   },
-};
+}
 
-CustomProps.args = CustomPropsArgs;
+CustomProps.args = CustomPropsArgs

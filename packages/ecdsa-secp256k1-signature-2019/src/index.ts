@@ -1,24 +1,58 @@
-import { EcdsaSecp256k1VerificationKey2019 } from '@bloomprotocol/ecdsa-secp256k1-verification-key-2019';
+import { EcdsaSecp256k1VerificationKey2019 } from '@bloomprotocol/ecdsa-secp256k1-verification-key-2019'
 
-import { context } from './context';
+import { context } from './context'
 
-const jsonld = require('jsonld');
-const jsigs = require('jsonld-signatures');
+const jsonld = require('jsonld')
+const jsigs = require('jsonld-signatures')
 
-const SUITE_CONTEXT_URL = 'https://ns.did.ai/suites/secp256k1-2019/v1';
+const SUITE_CONTEXT_URL = 'https://ns.did.ai/suites/secp256k1-2019/v1'
+
+const includesContext = ({ document, contextUrl }: { document: Record<string, unknown>; contextUrl: string }) => {
+  const context = document['@context']
+  return context === contextUrl || (Array.isArray(context) && context.includes(contextUrl))
+}
+
+const includesCompatibleContext = ({ document }: { document: Record<string, unknown> }) => {
+  const credContext = 'https://www.w3.org/2018/credentials/v1'
+  const securityContext = 'https://w3id.org/security/v2'
+
+  const hasSecp256k12019 = includesContext({
+    document,
+    contextUrl: SUITE_CONTEXT_URL,
+  })
+  const hasCred = includesContext({ document, contextUrl: credContext })
+  const hasSecV2 = includesContext({ document, contextUrl: securityContext })
+
+  if (hasSecp256k12019 && hasCred) {
+    // eslint-disable-next-line no-console
+    console.warn('Warning: The secp256k1-2019/v1 and credentials/v1 contexts are incompatible.')
+    // eslint-disable-next-line no-console
+    console.warn('For VCs using EcdsaSecp256k1Signature2019 suite, using the credentials/v1 context is sufficient.')
+    return false
+  }
+
+  if (hasSecp256k12019 && hasSecV2) {
+    // eslint-disable-next-line no-console
+    console.warn('Warning: The secp256k1-2019/v1 and security/v2 contexts are incompatible.')
+    // eslint-disable-next-line no-console
+    console.warn('For VCs using EcdsaSecp256k1Signature2019 suite, using the security/v2 context is sufficient.')
+    return false
+  }
+
+  return hasSecp256k12019 || hasCred || hasSecV2
+}
 
 type EcdsaSecp256k1Signature2019Options = {
-  key?: EcdsaSecp256k1VerificationKey2019;
-  signer?: { sign: Function; id: string };
-  verifier?: { verify: Function; id: string };
-  proof?: Record<string, unknown>;
-  date?: Date | string;
-  useNativeCanonize?: boolean;
-};
+  key?: EcdsaSecp256k1VerificationKey2019
+  signer?: { sign: Function; id: string }
+  verifier?: { verify: Function; id: string }
+  proof?: Record<string, unknown>
+  date?: Date | string
+  useNativeCanonize?: boolean
+}
 
-export class EcdsaSecp256k1Signature2019 extends jsigs.suites
-  .LinkedDataSignature {
-  private requiredKeyType: string;
+export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignature {
+  private requiredKeyType: string
 
   constructor(options: EcdsaSecp256k1Signature2019Options = {}) {
     super({
@@ -26,25 +60,22 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites
       LDKeyClass: EcdsaSecp256k1VerificationKey2019,
       contextUrl: SUITE_CONTEXT_URL,
       ...options,
-    });
+    })
 
-    this.requiredKeyType = 'EcdsaSecp256k1VerificationKey2019';
+    this.requiredKeyType = 'EcdsaSecp256k1VerificationKey2019'
   }
 
-  async sign({
-    verifyData,
-    proof,
-  }: {
-    verifyData: Uint8Array;
-    proof: Record<string, any>;
-  }) {
+  async sign({ verifyData, proof }: { verifyData: Uint8Array; proof: Record<string, any> }) {
     if (!(this.signer && typeof this.signer.sign === 'function')) {
-      throw new Error('A signer API has not been specified.');
+      throw new Error('A signer API has not been specified.')
     }
 
-    proof.jws = await this.signer.sign({ data: verifyData });
+    const jws = await this.signer.sign({ data: verifyData })
 
-    return proof;
+    return {
+      ...proof,
+      jws,
+    }
   }
 
   async verifySignature({
@@ -52,44 +83,36 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites
     verificationMethod,
     proof,
   }: {
-    verifyData: Uint8Array;
-    verificationMethod: Record<string, unknown>;
-    proof: Record<string, unknown>;
+    verifyData: Uint8Array
+    verificationMethod: Record<string, unknown>
+    proof: Record<string, unknown>
   }) {
-    const { jws } = proof;
+    const { jws } = proof
 
     if (!(jws && typeof jws === 'string')) {
-      throw new TypeError('The proof does not include a valid "jws" property.');
+      throw new TypeError('The proof does not include a valid "jws" property.')
     }
 
-    let { verifier } = this;
+    let { verifier } = this
     if (!verifier) {
-      const key = await this.LDKeyClass.from(verificationMethod);
-      verifier = key.verifier();
+      const key = await this.LDKeyClass.from(verificationMethod)
+      verifier = key.verifier()
     }
 
-    return verifier.verify({ data: verifyData, signature: jws });
+    return verifier.verify({ data: verifyData, signature: jws })
   }
 
-  async assertVerificationMethod({
-    verificationMethod,
-  }: {
-    verificationMethod: Record<string, unknown>;
-  }) {
+  async assertVerificationMethod({ verificationMethod }: { verificationMethod: Record<string, unknown> }) {
     if (!includesCompatibleContext({ document: verificationMethod })) {
-      throw new TypeError(
-        `The verification method (key) must contain "${this.contextUrl}".`
-      );
+      throw new TypeError(`The verification method (key) must contain "${this.contextUrl}".`)
     }
 
     if (!jsonld.hasValue(verificationMethod, 'type', this.requiredKeyType)) {
-      throw new Error(
-        `Invalid key type. Key type must be "${this.requiredKeyType}".`
-      );
+      throw new Error(`Invalid key type. Key type must be "${this.requiredKeyType}".`)
     }
 
     if (verificationMethod.revoked !== undefined) {
-      throw new Error('The verification method has been revoked.');
+      throw new Error('The verification method has been revoked.')
     }
   }
 
@@ -97,20 +120,17 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites
     proof,
     documentLoader,
   }: {
-    proof: { verificationMethod: string | { id: string } | undefined };
-    documentLoader: Function;
+    proof: { verificationMethod: string | { id: string } | undefined }
+    documentLoader: Function
   }) {
     if (this.key) {
-      return this.key.export({ publicKey: true });
+      return this.key.export({ publicKey: true })
     }
 
-    const verificationMethod =
-      typeof proof.verificationMethod === 'object'
-        ? proof.verificationMethod.id
-        : proof.verificationMethod;
+    const verificationMethod = typeof proof.verificationMethod === 'object' ? proof.verificationMethod.id : proof.verificationMethod
 
     if (!verificationMethod) {
-      throw new Error('No "verificationMethod" found in proof.');
+      throw new Error('No "verificationMethod" found in proof.')
     }
 
     const framed = await jsonld.frame(
@@ -120,20 +140,20 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites
         '@embed': '@always',
         id: verificationMethod,
       },
-      { documentLoader, compactToRelative: false }
-    );
+      { documentLoader, compactToRelative: false },
+    )
 
     if (!framed) {
-      throw new Error(`Verification method ${verificationMethod} not found.`);
+      throw new Error(`Verification method ${verificationMethod} not found.`)
     }
 
     if (framed.revoked !== undefined) {
-      throw new Error('The verification method has been revoked.');
+      throw new Error('The verification method has been revoked.')
     }
 
-    await this.assertVerificationMethod({ verificationMethod: framed });
+    await this.assertVerificationMethod({ verificationMethod: framed })
 
-    return framed;
+    return framed
   }
 
   async matchProof({
@@ -143,14 +163,14 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites
     documentLoader,
     expansionMap,
   }: {
-    proof: Record<string, any>;
-    document: Record<string, any>;
-    purpose: Record<string, any>;
-    documentLoader: Function;
-    expansionMap: Function;
+    proof: Record<string, any>
+    document: Record<string, any>
+    purpose: Record<string, any>
+    documentLoader: Function
+    expansionMap: Function
   }) {
     if (!includesCompatibleContext({ document })) {
-      return false;
+      return false
     }
     if (
       !(await super.matchProof({
@@ -161,87 +181,29 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites
         expansionMap,
       }))
     ) {
-      return false;
+      return false
     }
     if (!this.key) {
       // no key specified, so assume this suite matches and it can be retrieved
-      return true;
+      return true
     }
 
-    const { verificationMethod } = proof;
+    const { verificationMethod } = proof
 
     if (typeof verificationMethod === 'object') {
-      return verificationMethod.id === this.key.id;
+      return verificationMethod.id === this.key.id
     }
-    return verificationMethod === this.key.id;
+    return verificationMethod === this.key.id
   }
 
-  ensureSuiteContext({
-    document,
-    addSuiteContext,
-  }: {
-    document: Record<string, unknown>;
-    addSuiteContext?: boolean;
-  }) {
+  ensureSuiteContext({ document, addSuiteContext }: { document: Record<string, unknown>; addSuiteContext?: boolean }) {
     if (includesCompatibleContext({ document })) {
-      return;
+      return
     }
 
-    super.ensureSuiteContext({ document, addSuiteContext });
+    super.ensureSuiteContext({ document, addSuiteContext })
   }
 }
 
-const includesCompatibleContext = ({
-  document,
-}: {
-  document: Record<string, unknown>;
-}) => {
-  const credContext = 'https://www.w3.org/2018/credentials/v1';
-  const securityContext = 'https://w3id.org/security/v2';
-
-  const hasSecp256k12019 = includesContext({
-    document,
-    contextUrl: SUITE_CONTEXT_URL,
-  });
-  const hasCred = includesContext({ document, contextUrl: credContext });
-  const hasSecV2 = includesContext({ document, contextUrl: securityContext });
-
-  if (hasSecp256k12019 && hasCred) {
-    console.warn(
-      'Warning: The secp256k1-2019/v1 and credentials/v1 contexts are incompatible.'
-    );
-    console.warn(
-      'For VCs using EcdsaSecp256k1Signature2019 suite, using the credentials/v1 context is sufficient.'
-    );
-    return false;
-  }
-
-  if (hasSecp256k12019 && hasSecV2) {
-    console.warn(
-      'Warning: The secp256k1-2019/v1 and security/v2 contexts are incompatible.'
-    );
-    console.warn(
-      'For VCs using EcdsaSecp256k1Signature2019 suite, using the security/v2 context is sufficient.'
-    );
-    return false;
-  }
-
-  return hasSecp256k12019 || hasCred || hasSecV2;
-};
-
-const includesContext = ({
-  document,
-  contextUrl,
-}: {
-  document: Record<string, unknown>;
-  contextUrl: string;
-}) => {
-  const context = document['@context'];
-  return (
-    context === contextUrl ||
-    (Array.isArray(context) && context.includes(contextUrl))
-  );
-};
-
-EcdsaSecp256k1Signature2019.CONTEXT_URL = SUITE_CONTEXT_URL;
-EcdsaSecp256k1Signature2019.CONTEXT = context;
+EcdsaSecp256k1Signature2019.CONTEXT_URL = SUITE_CONTEXT_URL
+EcdsaSecp256k1Signature2019.CONTEXT = context

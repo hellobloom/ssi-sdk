@@ -1,4 +1,4 @@
-import { FromSchema } from 'json-schema-to-ts';
+import { FromSchema } from 'json-schema-to-ts'
 
 export const descriptorMapItemSchema = {
   type: 'object',
@@ -10,16 +10,16 @@ export const descriptorMapItemSchema = {
   },
   required: ['id', 'format', 'path'],
   additionalProperties: false,
-} as const;
+} as const
 
-export type DescriptorMapItem = FromSchema<typeof descriptorMapItemSchema>;
+export type DescriptorMapItem = FromSchema<typeof descriptorMapItemSchema>
 
 export const descriptorMapSchema = {
   type: 'array',
   items: descriptorMapItemSchema,
-} as const;
+} as const
 
-export type DescriptorMap = FromSchema<typeof descriptorMapSchema>;
+export type DescriptorMap = FromSchema<typeof descriptorMapSchema>
 
 export const presentationSubmissionSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -31,8 +31,6 @@ export const presentationSubmissionSchema = {
   },
   required: ['id', 'definition_id', 'descriptor_map'],
   additionalProperties: false,
-} as const;
+} as const
 
-export type PresentationSubmission = FromSchema<
-  typeof presentationSubmissionSchema
->;
+export type PresentationSubmission = FromSchema<typeof presentationSubmissionSchema>

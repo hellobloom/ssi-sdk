@@ -1,5 +1,5 @@
-import { FromSchema } from 'json-schema-to-ts';
-import { presentationDefinitionSchema } from '@bloomprotocol/presentation-exchange';
+import { FromSchema } from 'json-schema-to-ts'
+import { presentationDefinitionSchema } from '@bloomprotocol/presentation-exchange'
 
 const imageSchema = {
   type: 'object',
@@ -9,8 +9,8 @@ const imageSchema = {
   },
   required: ['uri'],
   additionalProperties: false,
-} as const;
-export type Image = FromSchema<typeof imageSchema>;
+} as const
+export type Image = FromSchema<typeof imageSchema>
 
 const styleItemSchema = {
   type: 'object',
@@ -18,8 +18,8 @@ const styleItemSchema = {
     color: { type: 'string' },
   },
   additionalProperties: false,
-} as const;
-export type StyleItem = FromSchema<typeof styleItemSchema>;
+} as const
+export type StyleItem = FromSchema<typeof styleItemSchema>
 
 const stylesSchema = {
   type: 'object',
@@ -30,8 +30,8 @@ const stylesSchema = {
     text: styleItemSchema,
   },
   additionalProperties: false,
-} as const;
-export type Styles = FromSchema<typeof stylesSchema>;
+} as const
+export type Styles = FromSchema<typeof stylesSchema>
 
 const displayMappingObjectSchema = {
   type: 'object',
@@ -44,10 +44,8 @@ const displayMappingObjectSchema = {
     label: { type: ['number', 'string'] },
   },
   additionalProperties: false,
-} as const;
-export type DisplayMappingObject = FromSchema<
-  typeof displayMappingObjectSchema
->;
+} as const
+export type DisplayMappingObject = FromSchema<typeof displayMappingObjectSchema>
 
 const displaySchema = {
   type: 'object',
@@ -58,8 +56,8 @@ const displaySchema = {
     properties: { type: 'array', items: displayMappingObjectSchema },
   },
   additionalProperties: false,
-} as const;
-export type Display = FromSchema<typeof displaySchema>;
+} as const
+export type Display = FromSchema<typeof displaySchema>
 
 const outputDescriptorSchema = {
   title: 'Output Descriptor',
@@ -86,8 +84,8 @@ const outputDescriptorSchema = {
   },
   required: ['id', 'schema'],
   additionalProperties: false,
-} as const;
-export type OutputDescriptor = FromSchema<typeof outputDescriptorSchema>;
+} as const
+export type OutputDescriptor = FromSchema<typeof outputDescriptorSchema>
 
 const issuerSchema = {
   type: 'object',
@@ -98,8 +96,8 @@ const issuerSchema = {
   },
   required: ['id'],
   additionalProperties: false,
-} as const;
-export type Issuer = FromSchema<typeof issuerSchema>;
+} as const
+export type Issuer = FromSchema<typeof issuerSchema>
 
 const credentialManifestSchema = {
   title: 'Credential Manifest',
@@ -116,6 +114,6 @@ const credentialManifestSchema = {
   },
   required: ['issuer', 'output_descriptors'],
   additionalProperties: false,
-} as const;
+} as const
 
-export type CredentialManifest = FromSchema<typeof credentialManifestSchema>;
+export type CredentialManifest = FromSchema<typeof credentialManifestSchema>

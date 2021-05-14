@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC } from 'react'
 
 export const BloomLogo: FC<{ baseId: string }> = (props) => (
   <svg id={`${props.baseId}-logo`} viewBox="0 0 33.85 35.57">
@@ -7,4 +7,4 @@ export const BloomLogo: FC<{ baseId: string }> = (props) => (
       fill="currentColor"
     />
   </svg>
-);
+)
