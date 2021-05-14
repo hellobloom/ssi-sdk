@@ -1,6 +1,6 @@
 {
   "name": "@bloomprotocol/presentation-exchange",
-  "description": "Typescript types for Presentation Exchange",
+  "description": "TypeScript types for Presentation Exchange",
   "version": "0.1.0",
   "author": "Bloom Protocol LLC <team@bloom.co>",
   "license": "Apache-2.0",

@@ -4,7 +4,7 @@ A comprehensive mono-repo containing all Bloom related SSI related libraries.
 
 ## [@bloomprotocol/vc](./packages/vc)
 
-Typescript types, JSON schemas, and signing and verifying functions for Verifiable Credentials and Presentations.
+TypeScript types, JSON schemas, and signing and verifying functions for Verifiable Credentials and Presentations.
 
 ## [@bloomprotocol/ecdsa-secp256k1-signature-2019](./packages/ecdsa-secp256k1-signature-2019)
 
@@ -12,7 +12,7 @@ EcdsaSecp256k1Signature2019 Linked Data Proof suite for use with jsonld-signatur
 
 ## [@bloomprotocol/ecdsa-secp256k1-verification-key-2019](./packages/ecdsa-secp256k1-verification-key-2019)
 
-Typescript library for generating and working with EcdsaSecp256k1VerificationKey2019 key pairs, for use with crypto-ld.
+TypeScript library for generating and working with EcdsaSecp256k1VerificationKey2019 key pairs, for use with crypto-ld.
 
 ## [@bloomprotocol/elem-did-legacy-non-anchored](./packages/elem-did-legacy-non-anchored)
 
@@ -24,11 +24,11 @@ Render a QR Code or button to initiate a [WACI](https://identity.foundation/wall
 
 ## [@bloomprotocol/waci-core](./packages/waci-core)
 
-Typescipt types to be used in any implementation of [WACI](https://identity.foundation/wallet-and-credential-interactions/versions/v0.1.0)
+TypeScript types to be used in any implementation of [WACI](https://identity.foundation/wallet-and-credential-interactions/versions/v0.1.0)
 
 ## [@bloomprotocol/waci-jose](./packages/waci-jose)
 
-Thin wrapper around `jose` for creating and verifying [WACI](https://identity.foundation/wallet-and-credential-interactions/versions/v0.1.0) JWTs.
+Thin wrapper around [`jose`](https://github.com/panva/jose) for creating and verifying [WACI](https://identity.foundation/wallet-and-credential-interactions/versions/v0.1.0) JWTs.
 
 ## [@bloomprotocol/credential-manifest](./packages/credential-manifest)
 

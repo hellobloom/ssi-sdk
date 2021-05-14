@@ -1,6 +1,6 @@
 {
   "name": "@bloomprotocol/credential-manifest",
-  "description": "Typescript types for Credential Manifest",
+  "description": "TypeScript types for Credential Manifest",
   "version": "0.1.2",
   "author": "Bloom Protocol LLC <team@bloom.co>",
   "license": "Apache-2.0",

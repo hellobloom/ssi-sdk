@@ -1,6 +1,6 @@
 {
   "name": "@bloomprotocol/ecdsa-secp256k1-verification-key-2019",
-  "description": "Typescript library for generating and working with EcdsaSecp256k1VerificationKey2019 key pairs, for use with crypto-ld.",
+  "description": "TypeScript library for generating and working with EcdsaSecp256k1VerificationKey2019 key pairs, for use with crypto-ld.",
   "version": "0.1.0",
   "author": "Bloom Team <team@bloom.co>",
   "license": "Apache-2.0",

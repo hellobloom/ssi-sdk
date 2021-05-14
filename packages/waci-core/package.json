@@ -1,6 +1,6 @@
 {
   "name": "@bloomprotocol/waci-core",
-  "description": "WACI Typescript Types",
+  "description": "WACI TypeScript Types",
   "version": "0.1.0",
   "author": "Bloom Team <team@bloom.co>",
   "license": "Apache-2.0",

@@ -1,6 +1,6 @@
 # EcdsaSecp256k1VerificationKey2019 suite
 
-> Typescript library for generating and working with EcdsaSecp256k1VerificationKey2019 key pairs, for use with crypto-ld.
+> TypeScript library for generating and working with EcdsaSecp256k1VerificationKey2019 key pairs, for use with crypto-ld.
 
 ## Background
 
