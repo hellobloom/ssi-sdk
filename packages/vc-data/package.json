@@ -36,6 +36,7 @@
     "@bloomprotocol/eslint-config": "2.0.0-beta.0",
     "@bloomprotocol/prettier-config": "2.0.0-beta.0",
     "@babel/plugin-transform-modules-commonjs": "^7.14.0",
+    "@size-limit/preset-small-lib": "^4.10.2",
     "jsonld": "^5.2.0",
     "size-limit": "^4.10.2",
     "tsdx": "0.14.1",
@@ -57,11 +58,11 @@
   "size-limit": [
     {
       "path": "dist/vc-data.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "4 KB"
     },
     {
       "path": "dist/vc-data.esm.js",
-      "limit": "10 KB"
+      "limit": "4 KB"
     }
   ]
 }
