@@ -2,7 +2,7 @@ import { FromSchema } from 'json-schema-to-ts'
 
 import { holderSchema, issuerSchema, contextSchema } from './shared'
 
-const vcSubjectSchema = {
+export const vcSubjectSchema = {
   type: 'object',
   properties: {
     id: { type: 'string', format: 'uri' },
