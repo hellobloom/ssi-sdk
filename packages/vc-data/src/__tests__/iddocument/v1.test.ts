@@ -12,6 +12,7 @@ describe('VCIDDocumentPersonV1', () => {
         hasIDDocument: {
           '@type': ['Role', 'IDDocumentRole'],
           authenticationResult: 'result',
+          tamperResult: 'result',
           selfieImage: 'base64:...',
           faceMatch: {
             '@type': 'IDDocumentFaceMatch',
@@ -176,6 +177,11 @@ describe('VCIDDocumentPersonV1', () => {
                     "https://schema.bloom.co/selfieImage": Array [
                       Object {
                         "@value": "base64:...",
+                      },
+                    ],
+                    "https://schema.bloom.co/tamperResult": Array [
+                      Object {
+                        "@value": "result",
                       },
                     ],
                   },

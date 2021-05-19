@@ -64,6 +64,7 @@ type IDDocumentRoleV1Mixin = CreateThing<
   'IDDocumentRole',
   {
     authenticationResult?: string
+    tamperResult?: string
     selfieImage?: string
     faceMatch?: OneOrMore<ExpandThing<IDDocumentFaceMatchV1>>
     hasIDDocument: OneOrMore<ExpandThing<IDDocumentV1>>
@@ -108,6 +109,7 @@ const getHelperEntries = () => {
     typeIdBase: 'bloomSchema',
     fields: {
       authenticationResult: 'bloomSchema',
+      tamperResult: 'bloomSchema',
       selfieImage: 'bloomSchema',
       faceMatch: 'bloomSchema',
       hasIDDocument: 'bloomSchema',
