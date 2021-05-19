@@ -5,6 +5,7 @@ import { EcdsaSecp256k1VerificationKey2019 } from '@bloomprotocol/ecdsa-secp256k
 import { VC, VP, vcSchema, vpSchema, vcSubjectSchema, vcTypeSchema } from '../../core'
 import { DocumentLoader } from '../../shared'
 import { GetSuiteFn } from '../../verify'
+import { RemoveIndex } from '../../util'
 
 const { Ed25519VerificationKey2020 } = require('@digitalbazaar/ed25519-verification-key-2020')
 const ed25519 = require('@digitalbazaar/ed25519-signature-2020')
@@ -221,7 +222,7 @@ export const universityDegreeVPSchema = {
 
 export type UniversityDegreeVP = FromSchema<typeof universityDegreeVPSchema>
 
-export const unsignedVC: Omit<VC, 'proof'> = {
+export const unsignedVC: Omit<RemoveIndex<VC>, 'proof'> = {
   '@context': ['https://www.w3.org/2018/credentials/v1'],
   id: 'urn:uuid:9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
   type: ['VerifiableCredential'],

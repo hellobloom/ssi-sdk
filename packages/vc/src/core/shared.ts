@@ -10,7 +10,6 @@ export const holderSchema = {
         type: { type: 'string' },
       },
       required: ['id'],
-      additionalProperties: false,
     },
   ],
 } as const
@@ -27,7 +26,6 @@ export const issuerSchema = {
         type: { type: 'string' },
       },
       required: ['id'],
-      additionalProperties: false,
     },
   ],
 } as const
@@ -38,10 +36,7 @@ export const contextSchema = {
   type: 'array',
   items: [{ const: 'https://www.w3.org/2018/credentials/v1' }],
   additionalItems: {
-    anyOf: [
-      { type: 'string', format: 'uri' },
-      { type: 'object', additionalProperties: true },
-    ],
+    anyOf: [{ type: 'string', format: 'uri' }, { type: 'object' }],
   },
   minItems: 1,
 } as const

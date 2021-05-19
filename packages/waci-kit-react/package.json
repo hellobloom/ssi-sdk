@@ -38,16 +38,6 @@
   "peerDependencies": {
     "react": ">=16"
   },
-  "size-limit": [
-    {
-      "path": "dist/waci-kit-react.cjs.production.min.js",
-      "limit": "26 KB"
-    },
-    {
-      "path": "dist/waci-kit-react.esm.js",
-      "limit": "26 KB"
-    }
-  ],
   "devDependencies": {
     "@babel/core": "^7.13.10",
     "@bloomprotocol/eslint-config": "2.0.0-beta.0",
@@ -69,6 +59,28 @@
     "size-limit": "^4.10.1",
     "tsdx": "^0.14.1",
     "tslib": "^2.1.0",
-    "typescript": "^4.2.3"
-  }
+    "typescript": "^4.2.3",
+
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-import": "^2.23.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.3.0"
+  },
+  "size-limit": [
+    {
+      "path": "dist/waci-kit-react.cjs.production.min.js",
+      "limit": "26 KB"
+    },
+    {
+      "path": "dist/waci-kit-react.esm.js",
+      "limit": "26 KB"
+    }
+  ]
 }
