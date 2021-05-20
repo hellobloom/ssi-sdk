@@ -202,57 +202,6 @@ describe('verifyVC', () => {
             expect(result.issuanceErrors![0].message).toEqual(`VC expired at ${expirationDate}`)
           }
         })
-
-        it('the VC has unknown fields', async () => {
-          type RevocableVC = VC & {
-            credentialStatus: {
-              id: string
-              type: string
-              revocationListIndex: string
-              revocationListCredential: string
-            }
-          }
-
-          const invalid = await signVC<RevocableVC>({
-            unsigned: {
-              ...unsignedVC,
-              '@context': [...unsignedVC['@context'], 'https://w3id.org/vc-revocation-list-2020/v1'],
-              credentialStatus: {
-                id: 'https://dmv.example.gov/credentials/status/3#94567',
-                type: 'RevocationList2020Status',
-                revocationListIndex: '94567',
-                revocationListCredential: 'https://example.com/credentials/status/3',
-              },
-            },
-            documentLoader,
-            suite,
-          })
-
-          const result = await verifyVC({
-            vc: invalid,
-            documentLoader,
-            getSuite: getVerifySuite,
-          })
-
-          expect(result.success).toBeFalsy()
-          if (!result.success) {
-            expect(result.proofErrors).toBeUndefined()
-            expect(result.issuanceErrors).toBeUndefined()
-            expect(result.schemaErrors).toMatchInlineSnapshot(`
-              Array [
-                Object {
-                  "instancePath": "",
-                  "keyword": "additionalProperties",
-                  "message": "must NOT have additional properties",
-                  "params": Object {
-                    "additionalProperty": "credentialStatus",
-                  },
-                  "schemaPath": "#/additionalProperties",
-                },
-              ]
-            `)
-          }
-        })
       })
     })
   })
@@ -512,67 +461,6 @@ describe('verifyVP', () => {
             expect(result.credentialIssuanceErrors![0].errors).toHaveLength(1)
             expect(result.credentialIssuanceErrors![0].errors[0].type).toEqual('expired')
             expect(result.credentialIssuanceErrors![0].errors[0].message).toEqual(`VC expired at ${expirationDate}`)
-          }
-        })
-
-        it("the VP doesn't match the schema", async () => {
-          const vc = await signVC({
-            unsigned: unsignedVC,
-            documentLoader,
-            suite,
-          })
-          type PresentationSubmission = VP & {
-            presentation_submission: Record<string, unknown>
-          }
-          const vp = await signVP<PresentationSubmission>({
-            unsigned: {
-              '@context': [
-                'https://www.w3.org/2018/credentials/v1',
-                'https://w3id.org/security/suites/ed25519-2020/v1',
-                'https://identity.foundation/presentation-exchange/submission/v1',
-              ],
-              id: 'urn:uuid:9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-              type: ['VerifiablePresentation', 'PresentationSubmission'],
-              holder: 'did:example:holder',
-              verifiableCredential: [vc],
-              presentation_submission: {
-                id: 'a30e3b91-fb77-4d22-95fa-871689c322e2',
-                definition_id: '32f54163-7166-48f1-93d8-ff217bdb0653',
-                descriptor_map: [],
-              },
-            },
-            documentLoader,
-            suite: holderSuite,
-            proofPurposeOptions: {
-              challenge: 'challenge',
-              domain: 'domain',
-            },
-          })
-
-          const result = await verifyVP({
-            vp,
-            documentLoader,
-            getSuite: getVerifySuite,
-          })
-
-          expect(result.success).toBeFalsy()
-          if (!result.success) {
-            expect(result.proofErrors).toBeUndefined()
-            expect(result.credentialProofErrors).toBeUndefined()
-            expect(result.credentialIssuanceErrors).toBeUndefined()
-            expect(result.schemaErrors).toMatchInlineSnapshot(`
-              Array [
-                Object {
-                  "instancePath": "",
-                  "keyword": "additionalProperties",
-                  "message": "must NOT have additional properties",
-                  "params": Object {
-                    "additionalProperty": "presentation_submission",
-                  },
-                  "schemaPath": "#/additionalProperties",
-                },
-              ]
-            `)
           }
         })
       })

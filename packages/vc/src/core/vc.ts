@@ -2,17 +2,12 @@ import { FromSchema } from 'json-schema-to-ts'
 
 import { holderSchema, issuerSchema, contextSchema } from './shared'
 
-const vcSubjectItemSchema = {
+export const vcSubjectSchema = {
   type: 'object',
   properties: {
     id: { type: 'string', format: 'uri' },
   },
   required: [],
-  additionalProperties: true,
-} as const
-
-export const vcSubjectSchema = {
-  oneOf: [vcSubjectItemSchema, { type: 'array', items: vcSubjectItemSchema }],
 } as const
 
 export type VCSubject = FromSchema<typeof vcSubjectSchema>
@@ -29,7 +24,6 @@ export const vcProofSchema = {
         jws: { type: 'string' },
       },
       required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'jws'],
-      additionalProperties: false,
     },
     {
       type: 'object',
@@ -41,7 +35,6 @@ export const vcProofSchema = {
         proofValue: { type: 'string' },
       },
       required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'proofValue'],
-      additionalProperties: false,
     },
   ],
 } as const
@@ -64,14 +57,15 @@ export const vcSchema = {
     id: { type: 'string', format: 'uri' },
     type: vcTypeSchema,
     holder: holderSchema,
-    credentialSubject: vcSubjectSchema,
+    credentialSubject: {
+      oneOf: [vcSubjectSchema, { type: 'array', items: vcSubjectSchema }],
+    },
     issuanceDate: { type: 'string', format: 'date-time' },
     expirationDate: { type: 'string', format: 'date-time' },
     issuer: issuerSchema,
     proof: vcProofSchema,
   },
   required: ['@context', 'id', 'type', 'credentialSubject', 'issuanceDate', 'issuer', 'proof'],
-  additionalProperties: false,
 } as const
 
 export type VC = FromSchema<typeof vcSchema>

@@ -1,9 +1,10 @@
 {
   "name": "@bloomprotocol/waci-jose",
   "description": "WACI Implementation With JOSE",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Bloom Team <team@bloom.co>",
   "license": "Apache-2.0",
+  "respository": "https://github.com/hellobloom/ssi-sdk/tree/main/packages/waci-jose",
   "main": "dist/index.js",
   "module": "dist/waci-jose.esm.js",
   "typings": "dist/index.d.ts",
@@ -26,7 +27,7 @@
     "analyze": "size-limit --why"
   },
   "dependencies": {
-    "@bloomprotocol/waci-core": "^0.1.0",
+    "@bloomprotocol/waci-core": "^0.1.1",
     "jose": "^3.11.5"
   },
   "devDependencies": {
@@ -36,7 +37,19 @@
     "size-limit": "^4.10.2",
     "tsdx": "^0.14.1",
     "tslib": "^2.2.0",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-import": "^2.23.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.3.0"
   },
   "size-limit": [
     {

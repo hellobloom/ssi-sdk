@@ -17,7 +17,6 @@ export const vpProofSchema = {
         jws: { type: 'string' },
       },
       required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'challenge', 'domain', 'jws'],
-      additionalProperties: false,
     },
     {
       type: 'object',
@@ -31,7 +30,6 @@ export const vpProofSchema = {
         proofValue: { type: 'string' },
       },
       required: ['type', 'created', 'proofPurpose', 'verificationMethod', 'challenge', 'domain', 'proofValue'],
-      additionalProperties: false,
     },
   ],
 } as const
@@ -58,7 +56,6 @@ export const vpSchema = {
     proof: vpProofSchema,
   },
   required: ['@context', 'id', 'type', 'verifiableCredential', 'holder', 'proof'],
-  additionalProperties: false,
 } as const
 
 export type VP = FromSchema<typeof vpSchema>
