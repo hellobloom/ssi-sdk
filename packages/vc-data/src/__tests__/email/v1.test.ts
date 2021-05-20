@@ -61,7 +61,7 @@ describe('VCEmailPersonV1', () => {
         "https://www.w3.org/2018/credentials#issuanceDate": Array [
           Object {
             "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
-            "@value": "Wed May 19 2021",
+            "@value": "2021-05-20T00:00:00.000Z",
           },
         ],
         "https://www.w3.org/2018/credentials#issuer": Array [
@@ -126,7 +126,7 @@ describe('VCEmailOrganizationV1', () => {
         "https://www.w3.org/2018/credentials#issuanceDate": Array [
           Object {
             "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
-            "@value": "Wed May 19 2021",
+            "@value": "2021-05-20T00:00:00.000Z",
           },
         ],
         "https://www.w3.org/2018/credentials#issuer": Array [

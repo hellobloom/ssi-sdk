@@ -41,7 +41,7 @@ export const expandVC = async <V extends VC & { type: ['VerifiableCredential', s
     holder: {
       id: 'did:example:123',
     },
-    issuanceDate: new Date().toDateString(),
+    issuanceDate: '2021-05-20T00:00:00.000Z',
     issuer: {
       id: issuer.did,
     },
