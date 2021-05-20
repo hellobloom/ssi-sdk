@@ -86,7 +86,7 @@ const getHelperContextEntries = () => {
 type AMLPersonV1Mixin = CreateThing<
   'AMLPerson',
   {
-    hasAMLSearch: AMLSearchV1
+    hasAMLSearch: OneOrMore<AMLSearchV1>
   }
 >
 
