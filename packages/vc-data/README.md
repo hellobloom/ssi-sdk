@@ -5,6 +5,12 @@ This repository contains the suggested specification for Verifiable Credential d
 ## Installation
 
 ```
-npm install --save @bloomprotocol/vc-data
+npm i @bloomprotocol/vc-data
+```
+
+OR
+
+```
+yarn add @bloomprotocol/vc-data
 ```
 # vc-data

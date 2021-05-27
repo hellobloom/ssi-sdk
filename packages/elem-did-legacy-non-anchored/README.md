@@ -9,7 +9,13 @@ This library is for _legacy_ and _non-anchored_ Element DIDs __ONLY__! It is a s
 ## Installation
 
 ```
-npm install --save @bloomprocotol/elem-did-legacy-non-anchored
+npm i @bloomprotocol/elem-did-legacy-non-anchored
+```
+
+OR
+
+```
+yarn add @bloomprotocol/elem-did-legacy-non-anchored
 ```
 
 ## Usage
