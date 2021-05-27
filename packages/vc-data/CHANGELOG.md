@@ -1,3 +1,8 @@
+## 0.1.2
+
+- Upgrade to latest [@bloomprotocol/vc](https://www.npmjs.com/package/@bloomprotocol/vc)
+  - Includes a fix for `RemoveIndex`
+
 ## 0.1.1
 
 - `AMLPersonV1.hasAMLSearch` can now be a single search or an array searches

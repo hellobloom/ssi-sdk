@@ -137,8 +137,29 @@ export type ExtendableVCSubject<Data extends Record<string, any>> = VCSubject & 
   data: Data
 }
 
+type KnownKeys<T> = {
+  [K in keyof T]: string extends K ? never : number extends K ? never : K
+} extends { [K in keyof T]: infer U }
+  ? U
+  : never
+
+export type RemoveIndex2<T extends Record<any, any>> = Pick<T, KnownKeys<T>>
+
+type RemoveIndex3<T> = {
+  [P in keyof Required<T> as string extends P ? never : number extends P ? never : P]: T[P]
+}
+
+export type ExtendableVC2<Subject extends VCSubject | VCSubject[], Type extends string> = O.MergeUp<
+  O.Exclude<RemoveIndex3<VC>, { type: any; credentialSubject: any }>,
+  {
+    type: ['VerifiableCredential', Type, ...string[]]
+    credentialSubject: Subject extends any[] ? Subject : Subject | Subject[]
+    [key: string]: unknown
+  }
+>
+
 export type ExtendableVC<Subject extends VCSubject | VCSubject[], Type extends string> = Omit<
-  RemoveIndex<VC>,
+  RemoveIndex3<VC>,
   'credentialSubject' | 'type'
 > & {
   type: ['VerifiableCredential', Type, ...string[]]
