@@ -5,7 +5,13 @@ TypeScript types, JSON schemas, and signing and verifying functions for Verifiab
 ## Installation
 
 ```
-npm install --save @bloomprotocol/vc
+npm i @bloomprotocol/vc
+```
+
+OR
+
+```
+yarn add @bloomprotocol/vc
 ```
 
 ## Usage

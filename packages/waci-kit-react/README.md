@@ -12,7 +12,13 @@ Render a QR Code or button to [initiate a WACI interaction](https://identity.fou
 ## Installation
 
 ```
-npm install --save @bloomprotocol/waci-kit-react
+npm i @bloomprotocol/waci-kit-react
+```
+
+OR
+
+```
+yarn add @bloomprotocol/waci-kit-react
 ```
 
 ## Usage

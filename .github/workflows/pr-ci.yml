@@ -8,13 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup node 12
+      - name: Setup node 14
         uses: actions/setup-node@v2
         with:
-          node-version: 12.x
-      - run: npm ci
-      - run: npm run bootstap
-      - run: npm run lint
-      - run: npm run size
-      - run: npm run test
+          node-version: 14.x
+      - run: yarn install --frozen-lockfile
+      - run: yarn bootstap
+      - run: yarn lint
+      - run: yarn size
+      - run: yarn test
       - run: git diff --exit-code

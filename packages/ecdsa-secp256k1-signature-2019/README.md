@@ -18,3 +18,9 @@ See also related specs:
 ```
 npm i @bloomprotocol/ecdsa-secp256k1-signature-2019
 ```
+
+OR
+
+```
+yarn add @bloomprotocol/ecdsa-secp256k1-signature-2019
+```
