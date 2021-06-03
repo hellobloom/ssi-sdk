@@ -43,8 +43,8 @@ export type VCProof = FromSchema<typeof vcProofSchema>
 
 export const vcTypeSchema = {
   type: 'array',
-  items: [{ const: 'VerifiableCredential' }],
-  additionalItems: { type: 'string' },
+  items: { type: 'string' },
+  contains: { const: 'VerifiableCredential' },
   minItems: 1,
 } as const
 
