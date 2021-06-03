@@ -38,8 +38,8 @@ export type VPProof = FromSchema<typeof vpProofSchema>
 
 export const vpTypeSchema = {
   type: 'array',
-  items: [{ const: 'VerifiablePresentation' }],
-  additionalItems: { type: 'string' },
+  items: { type: 'string' },
+  contains: { const: 'VerifiablePresentation' },
   minItems: 1,
 } as const
 

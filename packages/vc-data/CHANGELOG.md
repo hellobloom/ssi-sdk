@@ -1,3 +1,7 @@
+## 0.1.3
+
+- Upgrade to latest [@bloomprotocol/vc](https://www.npmjs.com/package/@bloomprotocol/vc)
+
 ## 0.1.2
 
 - Upgrade to latest [@bloomprotocol/vc](https://www.npmjs.com/package/@bloomprotocol/vc)

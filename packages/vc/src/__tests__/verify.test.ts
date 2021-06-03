@@ -115,7 +115,7 @@ describe('verifyVC', () => {
           const invalid = await signVC({
             unsigned: {
               ...unsignedVC,
-              type: ['UniversityDegreeCredential', 'VerifiableCredential'],
+              type: 'VerifiableCredential',
             } as any,
             documentLoader,
             suite,
@@ -134,13 +134,13 @@ describe('verifyVC', () => {
             expect(result.schemaErrors).toMatchInlineSnapshot(`
               Array [
                 Object {
-                  "instancePath": "/type/0",
-                  "keyword": "const",
-                  "message": "must be equal to constant",
+                  "instancePath": "/type",
+                  "keyword": "type",
+                  "message": "must be array",
                   "params": Object {
-                    "allowedValue": "VerifiableCredential",
+                    "type": "array",
                   },
-                  "schemaPath": "#/properties/type/items/0/const",
+                  "schemaPath": "#/properties/type/type",
                 },
               ]
             `)
