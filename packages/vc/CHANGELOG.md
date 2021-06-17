@@ -1,3 +1,6 @@
+## 0.1.4
+
+- Add the optional "credentialSchema" property to VC
 ## 0.1.3
 
 - Loosen schema for "type" arrays

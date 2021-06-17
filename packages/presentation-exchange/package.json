@@ -1,7 +1,7 @@
 {
   "name": "@bloomprotocol/presentation-exchange",
   "description": "TypeScript types for Presentation Exchange",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "Bloom Protocol LLC <team@bloom.co>",
   "license": "Apache-2.0",
   "repository": "https://github.com/hellobloom/ssi-sdk/tree/main/packages/presentation-exchange",
@@ -19,7 +19,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test --passWithNoTests",
+    "test": "tsdx test --passWithNoTests --testPathPattern gen",
     "lint": "eslint src --format table --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "yarn lint -- --fix",
     "prepare": "yarn build",
@@ -28,11 +28,21 @@
     "analyze": "size-limit --why"
   },
   "dependencies": {
-    "json-schema-to-ts": "^1.6.3"
+    "@bloomprotocol/vc": "^0.1.4",
+    "ajv": "^8.2.0",
+    "ajv-formats": "^2.0.2",
+    "jsonpath-plus": "^5.0.7",
+    "json-schema-to-ts": "^1.6.3",
+    "ts-toolbelt": "^9.6.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.14.5",
     "@bloomprotocol/eslint-config": "2.0.0-beta.0",
     "@bloomprotocol/prettier-config": "2.0.0-beta.0",
+    "@bloomprotocol/ecdsa-secp256k1-signature-2019": "^0.1.1",
+    "@bloomprotocol/ecdsa-secp256k1-verification-key-2019": "^0.1.1",
+    "@bloomprotocol/elem-did-legacy-non-anchored": "^0.1.1",
+    "@bloomprotocol/vc-data": "^0.1.3",
     "@size-limit/preset-small-lib": "^4.10.2",
     "size-limit": "^4.10.2",
     "tsdx": "^0.14.1",

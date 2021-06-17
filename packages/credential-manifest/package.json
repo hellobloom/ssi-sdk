@@ -29,7 +29,8 @@
   },
   "dependencies": {
     "@bloomprotocol/presentation-exchange": "^0.1.2",
-    "json-schema-to-ts": "^1.6.3"
+    "json-schema-to-ts": "^1.6.3",
+    "jsonpath-plus": "^5.0.7"
   },
   "devDependencies": {
     "@bloomprotocol/eslint-config": "2.0.0-beta.0",

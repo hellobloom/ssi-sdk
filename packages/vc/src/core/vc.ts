@@ -12,6 +12,18 @@ export const vcSubjectSchema = {
 
 export type VCSubject = FromSchema<typeof vcSubjectSchema>
 
+export const vcSchemaSchema = {
+  type: 'object',
+  properties: {
+    id: { type: 'string', format: 'uri' },
+    type: { type: 'string', format: 'uri' },
+  },
+  required: ['id', 'type'],
+  additionalProperties: false,
+} as const
+
+export type VCSchema = FromSchema<typeof vcSchemaSchema>
+
 export const vcProofSchema = {
   oneOf: [
     {
@@ -59,6 +71,9 @@ export const vcSchema = {
     holder: holderSchema,
     credentialSubject: {
       oneOf: [vcSubjectSchema, { type: 'array', items: vcSubjectSchema }],
+    },
+    credentialSchema: {
+      oneOf: [vcSchemaSchema, { type: 'array', items: vcSchemaSchema }],
     },
     issuanceDate: { type: 'string', format: 'date-time' },
     expirationDate: { type: 'string', format: 'date-time' },
