@@ -1,7 +1,7 @@
 {
   "name": "@bloomprotocol/ecdsa-secp256k1-verification-key-2019",
   "description": "TypeScript library for generating and working with EcdsaSecp256k1VerificationKey2019 key pairs, for use with crypto-ld.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Bloom Team <team@bloom.co>",
   "license": "Apache-2.0",
   "repository": "https://github.com/hellobloom/ssi-sdk/tree/main/packages/ecdsa-secp256k1-verification-key-2019",
@@ -31,6 +31,7 @@
     "@types/create-hash": "^1.2.2",
     "@types/randombytes": "^2.0.0",
     "@types/secp256k1": "^4.0.2",
+    "@trust/keyto": "^1.0.1",
     "base58-universal": "^1.0.0",
     "base64url": "^3.0.1",
     "create-hash": "^1.2.0",
