@@ -68,11 +68,11 @@
   "size-limit": [
     {
       "path": "dist/ecdsa-secp256k1-verification-key-2019.cjs.production.min.js",
-      "limit": "85 KB"
+      "limit": "100 KB"
     },
     {
       "path": "dist/ecdsa-secp256k1-verification-key-2019.esm.js",
-      "limit": "85 KB"
+      "limit": "100 KB"
     }
   ]
 }
