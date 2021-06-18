@@ -80,32 +80,23 @@ export class EcdsaSecp256k1VerificationKey2019 extends cryptoLd.LDKeyPair {
     compressed,
     ...keyPairOptions
   }: Omit<EcdsaSecp256k1VerificationKey2019Options, 'publicKeyBase58' | 'privateKeyBase58'> & { seed?: Uint8Array; compressed?: boolean }) {
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const privateKey = seed || new Uint8Array(randomBytes(32))
-      const publicKey = secp256k1.publicKeyCreate(privateKey, compressed)
-
-      if (!secp256k1.privateKeyVerify(privateKey) || !secp256k1.publicKeyVerify(publicKey)) {
-        // eslint-disable-next-line no-continue
-        continue
-      }
-
-      const privateKeyBase58 = base58.encode(privateKey)
-      const publicKeyBase58 = base58.encode(publicKey)
-
-      console.log({ privateKey })
-      console.log({ publicKey })
-      console.log({ privateKeyHex: Buffer.from(privateKey).toString('hex') })
-      console.log({ publicKeyHex: Buffer.from(publicKey).toString('hex') })
-      console.log({ privateKeyBase58 })
-      console.log({ publicKeyBase58 })
-
-      return new EcdsaSecp256k1VerificationKey2019({
-        publicKeyBase58,
-        privateKeyBase58,
-        ...keyPairOptions,
-      })
+    if (seed && !secp256k1.privateKeyVerify(seed)) {
+      throw new Error('Provided seed is not a valid private key')
     }
+
+    let privateKey = seed
+
+    while (typeof privateKey === 'undefined' || !secp256k1.privateKeyVerify(privateKey)) {
+      privateKey = new Uint8Array(randomBytes(32))
+    }
+
+    const publicKey = secp256k1.publicKeyCreate(privateKey, compressed)
+
+    return new EcdsaSecp256k1VerificationKey2019({
+      publicKeyBase58: base58.encode(publicKey),
+      privateKeyBase58: base58.encode(privateKey),
+      ...keyPairOptions,
+    })
   }
 
   export({

@@ -1,7 +1,7 @@
 {
   "name": "@bloomprotocol/ecdsa-secp256k1-signature-2019",
   "description": "EcdsaSecp256k1Signature2019 Linked Data Proof suite for use with jsonld-signatures.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Bloom Team <team@bloom.co>",
   "license": "Apache-2.0",
   "repository": "https://github.com/hellobloom/ssi-sdk/tree/main/packages/ecdsa-secp256k1-signature-2019",
@@ -28,7 +28,7 @@
     "analyze": "size-limit --why"
   },
   "dependencies": {
-    "@bloomprotocol/ecdsa-secp256k1-verification-key-2019": "^0.1.1",
+    "@bloomprotocol/ecdsa-secp256k1-verification-key-2019": "^0.1.2",
     "jsonld": "^5.2.0",
     "jsonld-signatures": "^9.0.2"
   },
@@ -60,11 +60,11 @@
   "size-limit": [
     {
       "path": "dist/ecdsa-secp256k1-signature-2019.cjs.production.min.js",
-      "limit": "125 KB"
+      "limit": "140 KB"
     },
     {
       "path": "dist/ecdsa-secp256k1-signature-2019.esm.js",
-      "limit": "125 KB"
+      "limit": "140 KB"
     }
   ]
 }
