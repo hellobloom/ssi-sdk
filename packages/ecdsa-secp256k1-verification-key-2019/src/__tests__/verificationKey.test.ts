@@ -1,6 +1,6 @@
 import randomBytes from 'randombytes'
 
-import { EcdsaSecp256k1VerificationKey2019 } from '../index'
+import { EcdsaSecp256k1VerificationKey2019 } from '../verificationKey'
 
 import { privateKeyPair, publicKeyPair } from './__fixtures__'
 
@@ -41,7 +41,7 @@ describe('EcdsaSecp256k1VerificationKey2019', () => {
   })
 
   describe('generate', () => {
-    test('generates a key pair', async () => {
+    test.only('generates a key pair', async () => {
       const key = await EcdsaSecp256k1VerificationKey2019.generate({
         controller: 'did:example:hello',
         id: 'did:example:hello#123',
