@@ -1,4 +1,4 @@
-import { GovernmentOrgV1, PersonEV1, OrganizationEV1, getBaseV1ContextEntries, MonetaryAmountRV1 } from '../base'
+import { GovernmentOrgV1, PersonEV1, OrganizationEV1, getBaseV1ContextEntries, MonetaryAmountEV1, MonetaryAmountRV1 } from '../base'
 import {
   CreateThing,
   OneOrMore,
@@ -97,7 +97,7 @@ export type AccountV1 = CreateThing<
     accountTypeConfidence?: number
     accountStatements?: Array<AccountStatementV1>
     accountPayments?: Array<AccountPaymentV1>
-    hasValue?: ExpandThing<MonetaryAmountRV1>
+    hasValue?: OneOrMore<ExpandThing<MonetaryAmountRV1> | ExpandThing<MonetaryAmountEV1>>
     bankAccountCategory?: string
     hasIncome?: OneOrMore<BankAccountTransactionGroupV1>
     hasExpense?: OneOrMore<BankAccountTransactionGroupV1>
