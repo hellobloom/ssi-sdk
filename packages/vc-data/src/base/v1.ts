@@ -131,7 +131,7 @@ export const getBaseV1ContextEntries = () => {
     vocab: 'schema',
   })
 
-  const monetaryAmountRV1ContextEntry = createContextEntry<MonetaryAmountRV1Mixin>({
+  const monetaryAmountRV1ContextEntry = createContextEntry<MonetaryAmountEV1Mixin>({
     type: 'MonetaryAmount',
     typeIdBase: 'schema',
     fields: {
