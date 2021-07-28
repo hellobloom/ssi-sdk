@@ -1,6 +1,6 @@
 import { VC } from '@bloomprotocol/vc'
 
-import { InputDescriptor, SubmissionRequirementFrom, SubmissionRequirementFromNested } from './types'
+import { InputDescriptor, SubmissionRequirement, SubmissionRequirementFrom, SubmissionRequirementFromNested } from './types'
 
 import { satisfiesInputDescriptor, isSubmissionRequirementFrom } from './shared'
 
@@ -59,15 +59,29 @@ const findVCsForSubmissionRequirementFromNested = (
   }
 }
 
+export const isFindVCsForSubmissionRequirementFromResult = (result: any): result is FindVCsForSubmissionRequirementFromResult => {
+  return Array.isArray(result.satisfiedBy) && Array.isArray(result.satisfiedBy[0].vcs)
+}
+
+export const isFindVCsForSubmissionRequirementFromNestedResult = (
+  result: any,
+): result is FindVCsForSubmissionRequirementFromNestedResult => {
+  return Array.isArray(result.satisfiedBy) && Array.isArray(result.satisfiedBy[0].satisfiedBy)
+}
+
 export type FindVCsForSubmissionRequirementResult =
   | FindVCsForSubmissionRequirementFromNestedResult
   | FindVCsForSubmissionRequirementFromResult
 
-export const findVCsForSubmissionRequirement = (
-  submissionRequirement: SubmissionRequirementFromNested,
-  inputDescriptors: InputDescriptor[],
-  vcs: VC[],
-): FindVCsForSubmissionRequirementResult => {
+export const findVCsForSubmissionRequirement = ({
+  submissionRequirement,
+  inputDescriptors,
+  vcs,
+}: {
+  submissionRequirement: SubmissionRequirement
+  inputDescriptors: InputDescriptor[]
+  vcs: VC[]
+}): FindVCsForSubmissionRequirementResult => {
   if (isSubmissionRequirementFrom(submissionRequirement)) {
     return findVCsForSubmissionRequirementFrom(submissionRequirement, inputDescriptors, vcs)
   }

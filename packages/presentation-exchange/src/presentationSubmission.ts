@@ -7,6 +7,7 @@ import {
   InputDescriptor,
   PresentationDefinition,
   PresentationSubmission,
+  SubmissionRequirement,
   SubmissionRequirementFrom,
   SubmissionRequirementFromNested,
 } from './types'
@@ -44,10 +45,11 @@ const processPath = (item: DescriptorMapItem, json: Record<string, unknown>): Pr
     return processPath(item.path_nested, nestedJson)
   }
 
-  return result[0]
+  return {
+    success: true,
+    vc: result[0],
+  }
 }
-
-type ProcessDescriptorMapItemResult = BaseResult<{ id: string; vc: VC; inputDescriptor: InputDescriptor }, { id: string; error: string }>
 
 type ProcessDescriptorMapResult = BaseResult<
   { submittedVCs: { id: string; vc: VC; inputDescriptor: InputDescriptor }[] },
@@ -56,68 +58,56 @@ type ProcessDescriptorMapResult = BaseResult<
 
 const processDescriptorMap = (
   presentationSubmission: PresentationSubmission,
-  presentationDefintion: PresentationDefinition,
+  presentationDefinition: PresentationDefinition,
 ): ProcessDescriptorMapResult => {
-  const result = presentationSubmission.presentation_submission.descriptor_map.map<ProcessDescriptorMapItemResult>((item) => {
-    const inputDescriptor = presentationDefintion.input_descriptors.find(({ id }) => id === item.id)
+  const failed: { id: string; error: string }[] = []
+  const success: { id: string; vc: VC; inputDescriptor: InputDescriptor }[] = []
+
+  presentationSubmission.presentation_submission.descriptor_map.forEach((item) => {
+    const inputDescriptor = presentationDefinition.input_descriptors.find(({ id }) => id === item.id)
 
     if (!inputDescriptor) {
-      return {
-        success: false,
+      return failed.push({
         id: item.id,
         error: 'Could not find Input Descriptor for item',
-      }
+      })
     }
 
     const result = processPath(item, presentationSubmission)
 
     if (!result.success) {
-      return {
-        success: false,
+      return failed.push({
         id: item.id,
         error: result.error,
-      }
+      })
     }
 
     const { vc } = result
 
     if (!satisfiesInputDescriptor(inputDescriptor, vc)) {
-      return {
-        success: false,
+      return failed.push({
         id: item.id,
         error: 'VC does not satisfy input descriptor',
-      }
+      })
     }
 
-    return {
-      success: true,
+    return success.push({
       id: item.id,
       inputDescriptor,
       vc,
-    }
-  })
-
-  const failed: { id: string; error: string }[] = []
-  const success: { id: string; vc: VC; inputDescriptor: InputDescriptor }[] = []
-
-  result.forEach((item) => {
-    if (item.success) {
-      success.push(item)
-    } else {
-      failed.push(item)
-    }
+    })
   })
 
   if (failed.length > 0) {
     return {
       success: false,
-      errors: failed.map(({ id, error }) => ({ id, error })),
+      errors: failed,
     }
   }
 
   return {
     success: true,
-    submittedVCs: success.map(({ id, inputDescriptor, vc }) => ({ id, inputDescriptor, vc })),
+    submittedVCs: success,
   }
 }
 
@@ -131,13 +121,10 @@ const satisfiesSubmissionRequirementFrom = (
   const { from } = submissionRequirement
   const idsForSr = inputDescriptors.filter(({ group }) => group?.includes(from))
 
-  if (submissionRequirement.rule === 'all') {
-    const result = idsForSr.every(({ id }) => {
-      const found = submittedVCs.findIndex(({ inputDescriptor }) => id === inputDescriptor.id)
-      return found >= 0
-    })
+  const result = idsForSr.filter(({ id }) => submittedVCs.findIndex(({ inputDescriptor }) => id === inputDescriptor.id) >= 0)
 
-    if (!result) {
+  if (submissionRequirement.rule === 'all') {
+    if (result.length < idsForSr.length) {
       return {
         success: false,
         error: 'Not all submission requirements are met',
@@ -145,7 +132,6 @@ const satisfiesSubmissionRequirementFrom = (
     }
   } else if (submissionRequirement.rule === 'pick') {
     const { count, min, max } = submissionRequirement
-    const result = idsForSr.filter(({ id }) => submittedVCs.findIndex(({ inputDescriptor }) => id === inputDescriptor.id) >= 0)
 
     if (count && count !== result.length) {
       return {
@@ -181,7 +167,7 @@ const satisfiesSubmissionRequirementFromNested = (
 ): SatisfiesSubmissionRequirementFromNestedResult => {
   const { from_nested: fromNested } = submissionRequirement
 
-  const found = fromNested.filter((sr) => {
+  const result = fromNested.filter((sr: SubmissionRequirement) => {
     if (isSubmissionRequirementFrom(sr)) {
       return satisfiesSubmissionRequirementFrom(sr, inputDescriptors, submittedVCs).success
     }
@@ -190,27 +176,33 @@ const satisfiesSubmissionRequirementFromNested = (
   })
 
   if (submissionRequirement.rule === 'all') {
-    if (fromNested.length !== found.length) throw new Error('')
+    if (result.length !== fromNested.length) {
+      return {
+        success: false,
+        error: 'Not all submission requirements are met',
+      }
+    }
   } else if (submissionRequirement.rule === 'pick') {
     const { count, min, max } = submissionRequirement
-    if (count && count !== found.length) {
+
+    if (count && count !== result.length) {
       return {
         success: false,
-        error: `Expected ${count}, recieved ${found.length}`,
+        error: `Expected ${count}, recieved ${result.length}`,
       }
     }
 
-    if (min && min > found.length) {
+    if (min && min > result.length) {
       return {
         success: false,
-        error: `Expected at least ${min}, recieved ${found.length}`,
+        error: `Expected at least ${min}, recieved ${result.length}`,
       }
     }
 
-    if (max && max < found.length) {
+    if (max && max < result.length) {
       return {
         success: false,
-        error: `Expected no more than ${max}, recieved ${found.length}`,
+        error: `Expected no more than ${max}, recieved ${result.length}`,
       }
     }
   }
@@ -218,45 +210,75 @@ const satisfiesSubmissionRequirementFromNested = (
   return { success: true }
 }
 
-type SatisfiesPresentationDefinitionResult = BaseResult<{}, { decriptorMapItemErrors?: { id: string; error: string }[]; error?: string[] }>
+type SatisfiesPresentationDefinitionResult = BaseResult<
+  {},
+  {
+    error?: string
+    missingInputDescriptorError?: { id: string }[]
+    decriptorMapItemErrors?: { id: string; error: string }[]
+    submissionRequirementErrors?: string[]
+  }
+>
 
 export const satisfiesPresentationDefinition = ({
   presentationSubmission,
-  presentationDefintion,
+  presentationDefinition,
 }: {
   presentationSubmission: PresentationSubmission
-  presentationDefintion: PresentationDefinition
+  presentationDefinition: PresentationDefinition
 }): SatisfiesPresentationDefinitionResult => {
-  if (presentationDefintion.id !== presentationSubmission.presentation_submission.definition_id) {
+  if (presentationDefinition.id !== presentationSubmission.presentation_submission.definition_id) {
     return {
       success: false,
-      error: [''],
+      error: `Mismatched Presentation Definition IDs. Expected: ${presentationDefinition.id}, recieved: ${presentationSubmission.presentation_submission.definition_id}`,
     }
   }
 
-  const processDescriptorMapResult = processDescriptorMap(presentationSubmission, presentationDefintion)
+  const processDescriptorMapResult = processDescriptorMap(presentationSubmission, presentationDefinition)
 
   if (!processDescriptorMapResult.success) {
     return {
       success: false,
-      error: [''],
+      decriptorMapItemErrors: processDescriptorMapResult.errors,
     }
   }
 
-  if (presentationDefintion.submission_requirements) {
+  if (presentationDefinition.submission_requirements) {
     const { submittedVCs } = processDescriptorMapResult
-    const { input_descriptors: inputDescriptors } = presentationDefintion
-    const result = presentationDefintion.submission_requirements.every((submissionRequirement) => {
+    const { input_descriptors: inputDescriptors } = presentationDefinition
+
+    const submissionRequirementErrors: string[] = []
+
+    presentationDefinition.submission_requirements.forEach((submissionRequirement) => {
+      let result
+
       if (isSubmissionRequirementFrom(submissionRequirement)) {
-        return satisfiesSubmissionRequirementFrom(submissionRequirement, inputDescriptors, submittedVCs).success
+        result = satisfiesSubmissionRequirementFrom(submissionRequirement, inputDescriptors, submittedVCs)
+      } else {
+        result = satisfiesSubmissionRequirementFromNested(submissionRequirement, inputDescriptors, submittedVCs)
       }
-      return satisfiesSubmissionRequirementFromNested(submissionRequirement, inputDescriptors, submittedVCs).success
+
+      if (!result.success) submissionRequirementErrors.push(result.error)
     })
 
-    if (!result) {
+    if (submissionRequirementErrors.length > 0) {
       return {
         success: false,
-        error: [''],
+        submissionRequirementErrors,
+      }
+    }
+  } else {
+    const { submittedVCs } = processDescriptorMapResult
+    const { input_descriptors: inputDescriptors } = presentationDefinition
+
+    if (submittedVCs.length !== inputDescriptors.length) {
+      const missing = inputDescriptors
+        .filter(({ id }) => submittedVCs.findIndex((submittedVC) => submittedVC.id === id) < 0)
+        .map(({ id }) => ({ id }))
+
+      return {
+        success: false,
+        missingInputDescriptorError: missing,
       }
     }
   }

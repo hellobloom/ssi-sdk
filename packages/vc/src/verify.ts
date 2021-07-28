@@ -26,7 +26,7 @@ export type GetProofPurposeOptionsOptions = {
 
 export type GetProofPurposeOptionsFn = (
   options: GetProofPurposeOptionsOptions,
-) => Record<string, unknown> | Promise<Record<string, unknown>>
+) => Object | Promise<Record<string, unknown>>
 
 export type ProofError = Error
 

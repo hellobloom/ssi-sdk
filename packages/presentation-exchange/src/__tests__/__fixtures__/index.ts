@@ -92,6 +92,36 @@ export const createPresentationDefinition = ({
     submission_requirements,
   })
 
+export const createSubmissionRequirement = ({
+  name = 'Submission Requirement',
+  purpose,
+  rule,
+  count,
+  min,
+  max,
+  from,
+  from_nested,
+}: {
+  name?: string
+  purpose?: string
+  rule: 'pick' | 'all'
+  count?: number
+  min?: number
+  max?: number
+  from?: string
+  from_nested?: SubmissionRequirement[]
+}): SubmissionRequirement =>
+  removeUndefinedKeys({
+    name,
+    purpose,
+    rule,
+    count,
+    min,
+    max,
+    from,
+    from_nested,
+  }) as any
+
 const createInputDescriptor = ({ id, type, group, fields = [] }: { id: string; type: string; group?: string[]; fields?: Field[] }) => {
   const inputDescriptor: InputDescriptor = {
     id,
@@ -129,6 +159,34 @@ export const createPhoneInputDescriptor = ({ idSuffix, group }: { idSuffix?: str
 export const createAddressInputDescriptor = ({ idSuffix, group }: { idSuffix?: string; group?: string[] }) => {
   const id = `address_input${idSuffix ? `_${idSuffix}` : ''}`
   return createInputDescriptor({ id, group, type: 'AddressCredentialPersonV1' })
+}
+
+export const createAccountInputDescriptor = ({ idSuffix, group }: { idSuffix?: string; group?: string[] }) => {
+  const id = `account_input${idSuffix ? `_${idSuffix}` : ''}`
+  return createInputDescriptor({
+    id,
+    group,
+    type: 'AccountCredentialPersonV1',
+  })
+}
+
+export const createTwitterAccountInputDescriptor = ({ idSuffix, group }: { idSuffix?: string; group?: string[] }) => {
+  const id = `twitter_account_input${idSuffix ? `_${idSuffix}` : ''}`
+  return createInputDescriptor({
+    id,
+    group,
+    type: 'AccountCredentialPersonV1',
+    fields: [
+      {
+        path: ['$.credentialSubject.data.hasAccount.organization.name'],
+        purpose: 'This account credential must be for a Twitter account',
+        filter: {
+          type: 'string',
+          const: 'Twitter',
+        },
+      },
+    ],
+  })
 }
 
 export const createGoogleAccountInputDescriptor = ({ idSuffix, group }: { idSuffix?: string; group?: string[] }) => {

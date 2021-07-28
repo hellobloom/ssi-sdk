@@ -1,6 +1,6 @@
 import { FromSchema } from 'json-schema-to-ts'
 import { O } from 'ts-toolbelt'
-import { RemoveIndex, VP, vpSchema } from '../../../vc/dist'
+import { RemoveIndex, VP, vpSchema } from '@bloomprotocol/vc'
 
 export const descriptorMapItemSchema = {
   type: 'object',
