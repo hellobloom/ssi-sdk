@@ -123,7 +123,7 @@ export const getBaseV1ContextEntries = () => {
 
   const monetaryAmountRV1ContextEntry = createContextEntry<MonetaryAmountRV1Mixin>({
     type: 'MonetaryAmount',
-    typeIdBase: 'bloomSchema',
+    typeIdBase: 'schema',
     fields: {
       currency: 'schema',
       value: 'schema',
