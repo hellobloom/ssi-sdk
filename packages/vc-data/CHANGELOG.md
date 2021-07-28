@@ -1,3 +1,7 @@
+## 0.1.4
+
+- Add optional availableValue property in MonetaryAmountRV1 to distinguish available vs. current balance in [@bloomprotocol/vc-data](https://www.npmjs.com/package/@bloomprotocol/vc-data) and add context entry for MonetaryAmount 
+
 ## 0.1.3
 
 - Upgrade to latest [@bloomprotocol/vc](https://www.npmjs.com/package/@bloomprotocol/vc)

@@ -10,7 +10,7 @@ export type GovernmentOrgV1 =
   | CreateThing<'GovernmentOrganization'>
   | CreateThing<'AdministrativeArea'>
 
-export type MonetaryAmountRV1 = CreateThing<
+export type MonetaryAmountRV1Mixin = CreateThing<
   'MonetaryAmount',
   {
     currency: string
@@ -18,6 +18,7 @@ export type MonetaryAmountRV1 = CreateThing<
     availableValue?: number | string
   }
 >
+export type MonetaryAmountRV1 = ExtendThing<MonetaryAmountRV1Mixin, CreateThing<'MonetaryAmount'>>
 
 type PersonEV1Mixin = CreateThing<'PersonE'>
 
@@ -120,7 +121,19 @@ export const getBaseV1ContextEntries = () => {
     vocab: 'schema',
   })
 
-  return [personEV1ContextEntry, organizationEV1ContextEntry, credentialEntry, organizationalCredentialEntry]
+  const monetaryAmountRV1ContextEntry = createContextEntry<MonetaryAmountRV1Mixin>({
+    type: 'MonetaryAmount',
+    typeIdBase: 'bloomSchema',
+    fields: {
+      hasCredential: 'schema',
+      industry: 'bloomSchema',
+      identifiers: 'bloomSchema',
+    },
+    vocab: 'schema',
+  })
+
+
+  return [personEV1ContextEntry, organizationEV1ContextEntry, credentialEntry, organizationalCredentialEntry, monetaryAmountRV1ContextEntry]
 }
 
 export const getFHIRV1ContextEntries = () => {
