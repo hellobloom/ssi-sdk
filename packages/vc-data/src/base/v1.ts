@@ -132,7 +132,7 @@ export const getBaseV1ContextEntries = () => {
   })
 
   const monetaryAmountRV1ContextEntry = createContextEntry<MonetaryAmountEV1Mixin>({
-    type: 'MonetaryAmount',
+    type: 'MonetaryAmountE',
     typeIdBase: 'schema',
     fields: {
       currency: 'schema',
