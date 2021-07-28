@@ -97,7 +97,7 @@ export type AccountV1 = CreateThing<
     accountTypeConfidence?: number
     accountStatements?: Array<AccountStatementV1>
     accountPayments?: Array<AccountPaymentV1>
-    hasValue?: OneOrMore<MonetaryAmountRV1 | MonetaryAmountEV1>
+    hasValue?: OneOrMore<ExpandThing<MonetaryAmountRV1> | ExpandThing<MonetaryAmountEV1>>
     bankAccountCategory?: string
     hasIncome?: OneOrMore<BankAccountTransactionGroupV1>
     hasExpense?: OneOrMore<BankAccountTransactionGroupV1>
