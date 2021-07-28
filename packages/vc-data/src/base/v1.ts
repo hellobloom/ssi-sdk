@@ -10,15 +10,25 @@ export type GovernmentOrgV1 =
   | CreateThing<'GovernmentOrganization'>
   | CreateThing<'AdministrativeArea'>
 
-export type MonetaryAmountRV1Mixin = CreateThing<
-  'MonetaryAmount',
+type MonetaryAmount = CreateThing<'MonetaryAmount'>
+
+export type MonetaryAmountEV1Mixin = CreateThing<
+  'MonetaryAmountE',
   {
     currency?: string
     value?: number | string
     availableValue?: number | string
   }
 >
-export type MonetaryAmountRV1 = ExtendThing<MonetaryAmountRV1Mixin, CreateThing<'MonetaryAmount'>>
+export type MonetaryAmountEV1 = ExtendThing<MonetaryAmountEV1Mixin, MonetaryAmount>
+
+export type MonetaryAmountRV1 = CreateThing<
+  'MonetaryAmount',
+  {
+    currency: string
+    value: number | string
+  }
+>
 
 type PersonEV1Mixin = CreateThing<'PersonE'>
 
