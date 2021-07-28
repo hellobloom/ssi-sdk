@@ -15,6 +15,7 @@ export type MonetaryAmountRV1 = CreateThing<
   {
     currency: string
     value: number | string
+    availableValue?: number | string
   }
 >
 
