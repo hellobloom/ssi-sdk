@@ -13,8 +13,8 @@ export type GovernmentOrgV1 =
 export type MonetaryAmountRV1Mixin = CreateThing<
   'MonetaryAmount',
   {
-    currency: string
-    value: number | string
+    currency?: string
+    value?: number | string
     availableValue?: number | string
   }
 >
@@ -125,13 +125,12 @@ export const getBaseV1ContextEntries = () => {
     type: 'MonetaryAmount',
     typeIdBase: 'bloomSchema',
     fields: {
-      hasCredential: 'schema',
-      industry: 'bloomSchema',
-      identifiers: 'bloomSchema',
+      currency: 'bloomSchema',
+      value: 'bloomSchema',
+      availableValue: 'bloomSchema',
     },
     vocab: 'schema',
   })
-
 
   return [personEV1ContextEntry, organizationEV1ContextEntry, credentialEntry, organizationalCredentialEntry, monetaryAmountRV1ContextEntry]
 }
