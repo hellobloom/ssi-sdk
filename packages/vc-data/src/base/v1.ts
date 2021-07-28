@@ -125,8 +125,8 @@ export const getBaseV1ContextEntries = () => {
     type: 'MonetaryAmount',
     typeIdBase: 'bloomSchema',
     fields: {
-      currency: 'bloomSchema',
-      value: 'bloomSchema',
+      currency: 'schema',
+      value: 'schema',
       availableValue: 'bloomSchema',
     },
     vocab: 'schema',
