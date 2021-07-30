@@ -1,7 +1,7 @@
 import type { JSONSchema } from 'json-schema-to-ts'
 
 import type { Constraints, Field, InputDescriptor, IsHolder, PresentationDefinition, SameSubject, Schema, Statuses } from '../../../types'
-import { createPresentationDefinition, removeUndefinedKeys, validatePresentationDefintion as validate } from '../../__fixtures__'
+import { createPresentationDefinition, removeUndefinedKeys, validatePresentationDefinition as validate } from '../../__fixtures__'
 
 export const runTests = () => {
   const setInputDescriptors = (...inputDescriptors: InputDescriptor[]): PresentationDefinition =>
@@ -33,7 +33,8 @@ export const runTests = () => {
 
   test('is non-array', () => {
     const pd = setInputDescriptors()
-    pd.input_descriptors = createInputDescriptor({}) as any
+    // @ts-expect-error
+    pd.input_descriptors = createInputDescriptor({})
 
     expect(validate(pd)).toBeFalsy()
     expect(validate.errors).toMatchInlineSnapshot(`
@@ -53,7 +54,8 @@ export const runTests = () => {
 
   describe('id', () => {
     test('is non-string', () => {
-      const pd = setInputDescriptors(createInputDescriptor({ id: 123 as any }))
+      // @ts-expect-error
+      const pd = setInputDescriptors(createInputDescriptor({ id: 123 }))
 
       expect(validate(pd)).toBeFalsy()
       expect(validate.errors).toMatchInlineSnapshot(`
@@ -73,7 +75,8 @@ export const runTests = () => {
 
     test('is undefined', () => {
       const ido = createInputDescriptor({})
-      ido.id = undefined as any
+      // @ts-expect-error
+      ido.id = undefined
       const pd = setInputDescriptors(ido)
 
       expect(validate(pd)).toBeFalsy()
@@ -101,7 +104,8 @@ export const runTests = () => {
     })
 
     test('is non-string', () => {
-      const pd = setInputDescriptors(createInputDescriptor({ name: 123 as any }))
+      // @ts-expect-error
+      const pd = setInputDescriptors(createInputDescriptor({ name: 123 }))
 
       expect(validate(pd)).toBeFalsy()
       expect(validate.errors).toMatchInlineSnapshot(`
@@ -128,7 +132,8 @@ export const runTests = () => {
     })
 
     test('is non-string', () => {
-      const pd = setInputDescriptors(createInputDescriptor({ purpose: 123 as any }))
+      // @ts-expect-error
+      const pd = setInputDescriptors(createInputDescriptor({ purpose: 123 }))
 
       expect(validate(pd)).toBeFalsy()
       expect(validate.errors).toMatchInlineSnapshot(`
@@ -155,7 +160,8 @@ export const runTests = () => {
     })
 
     test('is array of non-string', () => {
-      const pd = setInputDescriptors(createInputDescriptor({ group: ['A', 1 as any] }))
+      // @ts-expect-error
+      const pd = setInputDescriptors(createInputDescriptor({ group: ['A', 1] }))
 
       expect(validate(pd)).toBeFalsy()
       expect(validate.errors).toMatchInlineSnapshot(`
@@ -174,7 +180,8 @@ export const runTests = () => {
     })
 
     test('is non-array', () => {
-      const pd = setInputDescriptors(createInputDescriptor({ group: 'A' as any }))
+      // @ts-expect-error
+      const pd = setInputDescriptors(createInputDescriptor({ group: 'A' }))
 
       expect(validate(pd)).toBeFalsy()
       expect(validate.errors).toMatchInlineSnapshot(`
@@ -195,7 +202,8 @@ export const runTests = () => {
 
   describe('schema', () => {
     test('is non-array', () => {
-      const pd = setInputDescriptors(createInputDescriptor({ schema: { uri: 'https://schema.org' } as any }))
+      // @ts-expect-error
+      const pd = setInputDescriptors(createInputDescriptor({ schema: { uri: 'https://schema.org' } }))
 
       expect(validate(pd)).toBeFalsy()
       expect(validate.errors).toMatchInlineSnapshot(`
@@ -215,7 +223,8 @@ export const runTests = () => {
 
     test('is undefined', () => {
       const ido = createInputDescriptor({})
-      ido.schema = undefined as any
+      // @ts-expect-error
+      ido.schema = undefined
       const pd = setInputDescriptors(ido)
 
       expect(validate(pd)).toBeFalsy()
@@ -255,7 +264,8 @@ export const runTests = () => {
       })
 
       test('is non-string', () => {
-        const pd = setInputDescriptors(createInputDescriptor({ schema: [{ uri: 123 as any }] }))
+        // @ts-expect-error
+        const pd = setInputDescriptors(createInputDescriptor({ schema: [{ uri: 123 }] }))
 
         expect(validate(pd)).toBeFalsy()
         expect(validate.errors).toMatchInlineSnapshot(`
@@ -274,7 +284,8 @@ export const runTests = () => {
       })
 
       test('is undefined', () => {
-        const pd = setInputDescriptors(createInputDescriptor({ schema: [{ uri: undefined as any }] }))
+        // @ts-expect-error
+        const pd = setInputDescriptors(createInputDescriptor({ schema: [{ uri: undefined }] }))
 
         expect(validate(pd)).toBeFalsy()
         expect(validate.errors).toMatchInlineSnapshot(`
@@ -295,7 +306,8 @@ export const runTests = () => {
 
     describe('required', () => {
       test('is non-boolean', () => {
-        const pd = setInputDescriptors(createInputDescriptor({ schema: [{ uri: 'https://schema.org', required: 'required' as any }] }))
+        // @ts-expect-error
+        const pd = setInputDescriptors(createInputDescriptor({ schema: [{ uri: 'https://schema.org', required: 'required' }] }))
 
         expect(validate(pd)).toBeFalsy()
         expect(validate.errors).toMatchInlineSnapshot(`
@@ -358,7 +370,8 @@ export const runTests = () => {
       })
 
       test('is non-enum value string', () => {
-        const pd = setConstraints(createConstraints({ limit_disclosure: 'limit_disclosure' as any }))
+        // @ts-expect-error
+        const pd = setConstraints(createConstraints({ limit_disclosure: 'limit_disclosure' }))
 
         expect(validate(pd)).toBeFalsy()
         expect(validate.errors).toMatchInlineSnapshot(`
@@ -380,7 +393,8 @@ export const runTests = () => {
       })
 
       test('is non-string', () => {
-        const pd = setConstraints(createConstraints({ limit_disclosure: 123 as any }))
+        // @ts-expect-error
+        const pd = setConstraints(createConstraints({ limit_disclosure: 123 }))
 
         expect(validate(pd)).toBeFalsy()
         expect(validate.errors).toMatchInlineSnapshot(`
@@ -425,7 +439,8 @@ export const runTests = () => {
           })
 
           test('is non-enum value string', () => {
-            const pd = setStatuses({ active: { directive: 'directive' as any } })
+            // @ts-expect-error
+            const pd = setStatuses({ active: { directive: 'directive' } })
 
             expect(validate(pd)).toBeFalsy()
             expect(validate.errors).toMatchInlineSnapshot(`
@@ -448,7 +463,8 @@ export const runTests = () => {
           })
 
           test('is non-string', () => {
-            const pd = setStatuses({ active: { directive: 123 as any } })
+            // @ts-expect-error
+            const pd = setStatuses({ active: { directive: 123 } })
 
             expect(validate(pd)).toBeFalsy()
             expect(validate.errors).toMatchInlineSnapshot(`
@@ -491,7 +507,8 @@ export const runTests = () => {
           })
 
           test('is non-enum value string', () => {
-            const pd = setStatuses({ suspended: { directive: 'directive' as any } })
+            // @ts-expect-error
+            const pd = setStatuses({ suspended: { directive: 'directive' } })
 
             expect(validate(pd)).toBeFalsy()
             expect(validate.errors).toMatchInlineSnapshot(`
@@ -514,7 +531,8 @@ export const runTests = () => {
           })
 
           test('is non-string', () => {
-            const pd = setStatuses({ suspended: { directive: 123 as any } })
+            // @ts-expect-error
+            const pd = setStatuses({ suspended: { directive: 123 } })
 
             expect(validate(pd)).toBeFalsy()
             expect(validate.errors).toMatchInlineSnapshot(`
@@ -557,7 +575,8 @@ export const runTests = () => {
           })
 
           test('is non-enum value string', () => {
-            const pd = setStatuses({ revoked: { directive: 'directive' as any } })
+            // @ts-expect-error
+            const pd = setStatuses({ revoked: { directive: 'directive' } })
 
             expect(validate(pd)).toBeFalsy()
             expect(validate.errors).toMatchInlineSnapshot(`
@@ -580,7 +599,8 @@ export const runTests = () => {
           })
 
           test('is non-string', () => {
-            const pd = setStatuses({ revoked: { directive: 123 as any } })
+            // @ts-expect-error
+            const pd = setStatuses({ revoked: { directive: 123 } })
 
             expect(validate(pd)).toBeFalsy()
             expect(validate.errors).toMatchInlineSnapshot(`
@@ -634,7 +654,8 @@ export const runTests = () => {
       })
 
       test('is non-array', () => {
-        const pd = setConstraints({ fields: createField({}) as any })
+        // @ts-expect-error
+        const pd = setConstraints({ fields: createField({}) })
 
         expect(validate(pd)).toBeFalsy()
         expect(validate.errors).toMatchInlineSnapshot(`
@@ -660,7 +681,8 @@ export const runTests = () => {
         })
 
         test('is non-string', () => {
-          const pd = setFields(createField({ id: 123 as any }))
+          // @ts-expect-error
+          const pd = setFields(createField({ id: 123 }))
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -699,7 +721,8 @@ export const runTests = () => {
 
       describe('path', () => {
         test('is array of non-string', () => {
-          const pd = setFields(createField({ path: ['$', 123 as any] }))
+          // @ts-expect-error
+          const pd = setFields(createField({ path: ['$', 123] }))
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -736,7 +759,8 @@ export const runTests = () => {
         })
 
         test('is non-array', () => {
-          const pd = setFields(createField({ path: '$' as any }))
+          // @ts-expect-error
+          const pd = setFields(createField({ path: '$' }))
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -773,8 +797,9 @@ export const runTests = () => {
         })
 
         test('is undefined', () => {
-          const field = createField({ path: ['$', 123 as any] })
-          field.path = undefined as any
+          const field = createField({})
+          // @ts-expect-error
+          field.path = undefined
           const pd = setFields(field)
 
           expect(validate(pd)).toBeFalsy()
@@ -820,7 +845,8 @@ export const runTests = () => {
         })
 
         test('is non-string', () => {
-          const pd = setFields(createField({ purpose: 123 as any }))
+          // @ts-expect-error
+          const pd = setFields(createField({ purpose: 123 }))
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -865,7 +891,8 @@ export const runTests = () => {
         })
 
         test('is non-object', () => {
-          const pd = setFields(createField({ filter: [] as any }))
+          // @ts-expect-error
+          const pd = setFields(createField({ filter: [] }))
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -958,7 +985,8 @@ export const runTests = () => {
         })
 
         test('is non-enum value string', () => {
-          const pd = setFields(createField({ filter: { type: 'object' }, predicate: 'predicate' as any }))
+          // @ts-expect-error
+          const pd = setFields(createField({ filter: { type: 'object' }, predicate: 'predicate' }))
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -998,7 +1026,8 @@ export const runTests = () => {
         })
 
         test('is non-string', () => {
-          const pd = setFields(createField({ filter: { type: 'object' }, predicate: 123 as any }))
+          // @ts-expect-error
+          const pd = setFields(createField({ filter: { type: 'object' }, predicate: 123 }))
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -1064,7 +1093,8 @@ export const runTests = () => {
       })
 
       test('is non-enum value string', () => {
-        const pd = setConstraints(createConstraints({ subject_is_issuer: 'subject_is_issuer' as any }))
+        // @ts-expect-error
+        const pd = setConstraints(createConstraints({ subject_is_issuer: 'subject_is_issuer' }))
 
         expect(validate(pd)).toBeFalsy()
         expect(validate.errors).toMatchInlineSnapshot(`
@@ -1086,7 +1116,8 @@ export const runTests = () => {
       })
 
       test('is non-string', () => {
-        const pd = setConstraints(createConstraints({ subject_is_issuer: 123 as any }))
+        // @ts-expect-error
+        const pd = setConstraints(createConstraints({ subject_is_issuer: 123 }))
 
         expect(validate(pd)).toBeFalsy()
         expect(validate.errors).toMatchInlineSnapshot(`
@@ -1115,7 +1146,8 @@ export const runTests = () => {
       })
 
       test('is non-array', () => {
-        const pd = setConstraints({ is_holder: { field_id: ['field_id'], directive: 'required' } as any })
+        // @ts-expect-error
+        const pd = setConstraints({ is_holder: { field_id: ['field_id'], directive: 'required' } })
 
         expect(validate(pd)).toBeFalsy()
         expect(validate.errors).toMatchInlineSnapshot(`
@@ -1135,7 +1167,8 @@ export const runTests = () => {
 
       describe('field_id', () => {
         test('is undefined', () => {
-          const pd = setIsHolder({ field_id: undefined as any, directive: 'required' })
+          // @ts-expect-error
+          const pd = setIsHolder({ field_id: undefined, directive: 'required' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -1154,7 +1187,8 @@ export const runTests = () => {
         })
 
         test('is non-array', () => {
-          const pd = setIsHolder({ field_id: 'field_id' as any, directive: 'required' })
+          // @ts-expect-error
+          const pd = setIsHolder({ field_id: 'field_id', directive: 'required' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -1173,7 +1207,8 @@ export const runTests = () => {
         })
 
         test('is array of non-string', () => {
-          const pd = setIsHolder({ field_id: ['field_id', 123] as any, directive: 'required' })
+          // @ts-expect-error
+          const pd = setIsHolder({ field_id: ['field_id', 123], directive: 'required' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -1208,7 +1243,8 @@ export const runTests = () => {
         })
 
         test('is non-enum value string', () => {
-          const pd = setIsHolder({ field_id: ['field_id'], directive: 'directive' as any })
+          // @ts-expect-error
+          const pd = setIsHolder({ field_id: ['field_id'], directive: 'directive' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -1230,7 +1266,8 @@ export const runTests = () => {
         })
 
         test('is non-string', () => {
-          const pd = setIsHolder({ field_id: ['field_id'], directive: 123 as any })
+          // @ts-expect-error
+          const pd = setIsHolder({ field_id: ['field_id'], directive: 123 })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -1249,7 +1286,8 @@ export const runTests = () => {
         })
 
         test('is undefined', () => {
-          const pd = setIsHolder({ field_id: ['field_id'], directive: undefined as any })
+          // @ts-expect-error
+          const pd = setIsHolder({ field_id: ['field_id'], directive: undefined })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -1279,7 +1317,8 @@ export const runTests = () => {
       })
 
       test('is non-array', () => {
-        const pd = setConstraints({ same_subject: { field_id: ['field_id'], directive: 'required' } as any })
+        // @ts-expect-error
+        const pd = setConstraints({ same_subject: { field_id: ['field_id'], directive: 'required' } })
 
         expect(validate(pd)).toBeFalsy()
         expect(validate.errors).toMatchInlineSnapshot(`
@@ -1299,7 +1338,8 @@ export const runTests = () => {
 
       describe('field_id', () => {
         test('is undefined', () => {
-          const pd = setSameSubject({ field_id: undefined as any, directive: 'required' })
+          // @ts-expect-error
+          const pd = setSameSubject({ field_id: undefined, directive: 'required' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -1318,7 +1358,8 @@ export const runTests = () => {
         })
 
         test('is non-array', () => {
-          const pd = setSameSubject({ field_id: 'field_id' as any, directive: 'required' })
+          // @ts-expect-error
+          const pd = setSameSubject({ field_id: 'field_id', directive: 'required' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -1337,7 +1378,8 @@ export const runTests = () => {
         })
 
         test('is array of non-string', () => {
-          const pd = setSameSubject({ field_id: ['field_id', 123] as any, directive: 'required' })
+          // @ts-expect-error
+          const pd = setSameSubject({ field_id: ['field_id', 123], directive: 'required' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -1372,7 +1414,8 @@ export const runTests = () => {
         })
 
         test('is non-enum value string', () => {
-          const pd = setSameSubject({ field_id: ['field_id'], directive: 'directive' as any })
+          // @ts-expect-error
+          const pd = setSameSubject({ field_id: ['field_id'], directive: 'directive' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -1394,7 +1437,8 @@ export const runTests = () => {
         })
 
         test('is non-string', () => {
-          const pd = setSameSubject({ field_id: ['field_id'], directive: 123 as any })
+          // @ts-expect-error
+          const pd = setSameSubject({ field_id: ['field_id'], directive: 123 })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -1413,7 +1457,8 @@ export const runTests = () => {
         })
 
         test('is undefined', () => {
-          const pd = setSameSubject({ field_id: ['field_id'], directive: undefined as any })
+          // @ts-expect-error
+          const pd = setSameSubject({ field_id: ['field_id'], directive: undefined })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`

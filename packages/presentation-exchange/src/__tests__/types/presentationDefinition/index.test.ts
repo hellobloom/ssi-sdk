@@ -1,7 +1,7 @@
 import * as inputDescriptor from './inputDescriptor'
 import * as submissionRequirement from './submissionRequirement'
 
-import { createPresentationDefinition, validatePresentationDefintion as validate } from '../../__fixtures__'
+import { createPresentationDefinition, validatePresentationDefinition as validate } from '../../__fixtures__'
 import { BaseJwtFormatSchema, BaseLdpFormatSchema, Format, PresentationDefinition } from '../../../types'
 
 describe('Presentation Definition Schema', () => {
@@ -13,7 +13,8 @@ describe('Presentation Definition Schema', () => {
 
   describe('id', () => {
     test('is non-string', () => {
-      const pd = createPresentationDefinition({ id: 123 as any })
+      // @ts-expect-error
+      const pd = createPresentationDefinition({ id: 123 })
 
       expect(validate(pd)).toBeFalsy()
       expect(validate.errors).toMatchInlineSnapshot(`
@@ -33,7 +34,8 @@ describe('Presentation Definition Schema', () => {
 
     test('is undefined', () => {
       const pd = createPresentationDefinition({})
-      pd.id = undefined as any
+      // @ts-expect-error
+      pd.id = undefined
 
       expect(validate(pd)).toBeFalsy()
       expect(validate.errors).toMatchInlineSnapshot(`
@@ -64,7 +66,8 @@ describe('Presentation Definition Schema', () => {
     })
 
     test('is non-string', () => {
-      const pd = createPresentationDefinition({ name: 123 as any })
+      // @ts-expect-error
+      const pd = createPresentationDefinition({ name: 123 })
 
       expect(validate(pd)).toBeFalsy()
       expect(validate.errors).toMatchInlineSnapshot(`
@@ -91,7 +94,8 @@ describe('Presentation Definition Schema', () => {
     })
 
     test('is non-string', () => {
-      const pd = createPresentationDefinition({ purpose: 123 as any })
+      // @ts-expect-error
+      const pd = createPresentationDefinition({ purpose: 123 })
 
       expect(validate(pd)).toBeFalsy()
       expect(validate.errors).toMatchInlineSnapshot(`
@@ -147,7 +151,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is array of non-string', () => {
-          const pd = setJWTFormat({ alg: ['EdDSA', 123 as any] })
+          // @ts-expect-error
+          const pd = setJWTFormat({ alg: ['EdDSA', 123] })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -166,7 +171,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is non-array', () => {
-          const pd = setJWTFormat({ alg: 'EdDSA' as any })
+          // @ts-expect-error
+          const pd = setJWTFormat({ alg: 'EdDSA' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -185,7 +191,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is undefined', () => {
-          const pd = setJWTFormat({ alg: undefined as any })
+          // @ts-expect-error
+          const pd = setJWTFormat({ alg: undefined })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -235,7 +242,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is array of non-string', () => {
-          const pd = setJWTVCFormat({ alg: ['EdDSA', 123 as any] })
+          // @ts-expect-error
+          const pd = setJWTVCFormat({ alg: ['EdDSA', 123] })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -254,7 +262,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is non-array', () => {
-          const pd = setJWTVCFormat({ alg: 'EdDSA' as any })
+          // @ts-expect-error
+          const pd = setJWTVCFormat({ alg: 'EdDSA' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -273,7 +282,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is undefined', () => {
-          const pd = setJWTVCFormat({ alg: undefined as any })
+          // @ts-expect-error
+          const pd = setJWTVCFormat({ alg: undefined })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -323,7 +333,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is array of non-string', () => {
-          const pd = setJWTVPFormat({ alg: ['EdDSA', 123 as any] })
+          // @ts-expect-error
+          const pd = setJWTVPFormat({ alg: ['EdDSA', 123] })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -342,7 +353,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is non-array', () => {
-          const pd = setJWTVPFormat({ alg: 'EdDSA' as any })
+          // @ts-expect-error
+          const pd = setJWTVPFormat({ alg: 'EdDSA' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -361,7 +373,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is undefined', () => {
-          const pd = setJWTVPFormat({ alg: undefined as any })
+          // @ts-expect-error
+          const pd = setJWTVPFormat({ alg: undefined })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -411,7 +424,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is array of non-string', () => {
-          const pd = setLDPFormat({ proof_type: ['JsonWebSignature2020', 123 as any] })
+          // @ts-expect-error
+          const pd = setLDPFormat({ proof_type: ['JsonWebSignature2020', 123] })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -430,7 +444,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is non-array', () => {
-          const pd = setLDPFormat({ proof_type: 'JsonWebSignature2020' as any })
+          // @ts-expect-error
+          const pd = setLDPFormat({ proof_type: 'JsonWebSignature2020' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -449,7 +464,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is undefined', () => {
-          const pd = setLDPFormat({ proof_type: undefined as any })
+          // @ts-expect-error
+          const pd = setLDPFormat({ proof_type: undefined })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -499,7 +515,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is array of non-string', () => {
-          const pd = setLDPVCFormat({ proof_type: ['JsonWebSignature2020', 123 as any] })
+          // @ts-expect-error
+          const pd = setLDPVCFormat({ proof_type: ['JsonWebSignature2020', 123] })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -518,7 +535,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is non-array', () => {
-          const pd = setLDPVCFormat({ proof_type: 'JsonWebSignature2020' as any })
+          // @ts-expect-error
+          const pd = setLDPVCFormat({ proof_type: 'JsonWebSignature2020' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -537,7 +555,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is undefined', () => {
-          const pd = setLDPVCFormat({ proof_type: undefined as any })
+          // @ts-expect-error
+          const pd = setLDPVCFormat({ proof_type: undefined })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -587,7 +606,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is array of non-string', () => {
-          const pd = setLDPVPFormat({ proof_type: ['JsonWebSignature2020', 123 as any] })
+          // @ts-expect-error
+          const pd = setLDPVPFormat({ proof_type: ['JsonWebSignature2020', 123] })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -606,7 +626,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is non-array', () => {
-          const pd = setLDPVPFormat({ proof_type: 'JsonWebSignature2020' as any })
+          // @ts-expect-error
+          const pd = setLDPVPFormat({ proof_type: 'JsonWebSignature2020' })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`
@@ -625,7 +646,8 @@ describe('Presentation Definition Schema', () => {
         })
 
         test('is undefined', () => {
-          const pd = setLDPVPFormat({ proof_type: undefined as any })
+          // @ts-expect-error
+          const pd = setLDPVPFormat({ proof_type: undefined })
 
           expect(validate(pd)).toBeFalsy()
           expect(validate.errors).toMatchInlineSnapshot(`

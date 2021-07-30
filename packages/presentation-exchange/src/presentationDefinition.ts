@@ -5,7 +5,7 @@ import { InputDescriptor, SubmissionRequirement, SubmissionRequirementFrom, Subm
 import { satisfiesInputDescriptor, isSubmissionRequirementFrom } from './shared'
 
 export const findVCsForInputDescriptor = (inputDescriptor: InputDescriptor, vcs: VC[]) => {
-  return vcs.filter((vc) => satisfiesInputDescriptor(inputDescriptor, vc))
+  return vcs.filter((vc) => satisfiesInputDescriptor(inputDescriptor, vc).success)
 }
 
 type SatisfiedBy = {

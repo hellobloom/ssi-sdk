@@ -5,7 +5,18 @@ import { EcdsaSecp256k1VerificationKey2019 } from '@bloomprotocol/ecdsa-secp256k
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
 
-import { Field, Format, InputDescriptor, PresentationDefinition, presentationDefinitionSchema, SubmissionRequirement } from '../../types'
+import {
+  DescriptorMap,
+  DescriptorMapItem,
+  Field,
+  Format,
+  InputDescriptor,
+  PresentationDefinition,
+  presentationDefinitionSchema,
+  PresentationSubmission,
+  presentationSubmissionSchema,
+  SubmissionRequirement,
+} from '../../types'
 
 const credentialsContextDoc = require('./contexts/credentials-v1.json')
 const examplesContextDoc = require('./contexts/examples-v1.json')
@@ -67,6 +78,55 @@ export const removeUndefinedKeys = <T extends Record<string, unknown>>(obj: T) =
   Object.keys(copy).forEach((key) => (copy[key] === undefined ? delete copy[key] : {}))
   return copy
 }
+
+export const createPresentationSubmission = ({
+  id = '123',
+  definition_id = 'definition_id',
+  descriptor_map = [],
+}: {
+  id?: string
+  definition_id?: string
+  descriptor_map?: DescriptorMap
+}): PresentationSubmission =>
+  removeUndefinedKeys({
+    '@context': ['https://www.w3.org/2018/credentials/v1', 'https://identity.foundation/presentation-exchange/submission/v1'],
+    id: `urn:example:${id}`,
+    type: ['VerifiablePresentation', 'PresentationSubmission'],
+    presentation_submission: {
+      id,
+      definition_id,
+      descriptor_map,
+    },
+    verifiableCredential: [],
+    holder: 'did:example:123',
+    proof: {
+      type: '',
+      proofPurpose: 'authentication',
+      verificationMethod: '',
+      created: new Date().toISOString(),
+      challenge: '',
+      domain: '',
+      jws: '',
+    },
+  })
+
+export const createDescriptorMapItem = ({
+  id = 'descriptor_id',
+  format = 'ldp_vc',
+  path = '$.verifiableCredential[0]',
+  path_nested,
+}: {
+  id?: string
+  format?: 'jwt' | 'jwt_vc' | 'jwt_vp' | 'ldp' | 'ldp_vc' | 'ldp_vp'
+  path?: string
+  path_nested?: DescriptorMapItem
+}): DescriptorMapItem =>
+  removeUndefinedKeys({
+    id,
+    format,
+    path,
+    path_nested,
+  })
 
 export const createPresentationDefinition = ({
   id = '32f54163-7166-48f1-93d8-ff217bdb0653',
@@ -208,4 +268,6 @@ export const createGoogleAccountInputDescriptor = ({ idSuffix, group }: { idSuff
   })
 }
 
-export const validatePresentationDefintion = addFormats(new Ajv()).compile<PresentationDefinition>(presentationDefinitionSchema)
+export const validatePresentationDefinition = addFormats(new Ajv()).compile<PresentationDefinition>(presentationDefinitionSchema)
+
+export const validatePresentationSubmission = addFormats(new Ajv()).compile<PresentationSubmission>(presentationSubmissionSchema)

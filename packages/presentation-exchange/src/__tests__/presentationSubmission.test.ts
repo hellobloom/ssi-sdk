@@ -1307,15 +1307,13 @@ describe('Presentation Submission', () => {
           })
 
           if (!result.success) {
-            expect(result.error).toBeUndefined()
-            expect(result.submissionRequirementErrors).toBeUndefined()
-            expect(result.decriptorMapItemErrors).toBeUndefined()
-            expect(result.missingInputDescriptorError).toMatchInlineSnapshot(`
-              Array [
-                Object {
-                  "id": "address_input",
-                },
-              ]
+            expect(result.error).toMatchInlineSnapshot(`
+              Object {
+                "missing": Array [
+                  "address_input",
+                ],
+                "type": "inputDescriptors",
+              }
             `)
           } else {
             expect(result.success).toBeFalsy()
@@ -1385,16 +1383,18 @@ describe('Presentation Submission', () => {
           })
 
           if (!result.success) {
-            expect(result.error).toBeUndefined()
-            expect(result.submissionRequirementErrors).toBeUndefined()
-            expect(result.missingInputDescriptorError).toBeUndefined()
-            expect(result.decriptorMapItemErrors).toMatchInlineSnapshot(`
-              Array [
-                Object {
-                  "error": "Could not find Input Descriptor for item",
-                  "id": "address_input",
-                },
-              ]
+            expect(result.error).toMatchInlineSnapshot(`
+              Object {
+                "errors": Array [
+                  Object {
+                    "error": Object {
+                      "type": "notFound",
+                    },
+                    "id": "address_input",
+                  },
+                ],
+                "type": "descriptorMap",
+              }
             `)
           } else {
             expect(result.success).toBeFalsy()
@@ -1403,31 +1403,842 @@ describe('Presentation Submission', () => {
       })
 
       describe('when there are Submission Requirements', () => {
-        describe('with out nesting', () => {
-          test('rule = "all"', () => {})
+        describe('without nesting', () => {
+          test('rule = "all"', async () => {
+            const emailInputDescriptor = createEmailInputDescriptor({ group: ['A'] })
+            const phoneInputDescriptor = createPhoneInputDescriptor({ group: ['A'] })
+            const googleInputDescriptor = createGoogleAccountInputDescriptor({ group: ['A'] })
+            const twitterInputDescriptor = createTwitterAccountInputDescriptor({ group: ['A'] })
+            const addressInputDescriptor = createAddressInputDescriptor({ group: ['A'] })
+
+            const presentationDefinition = createPresentationDefinition({
+              input_descriptors: [
+                emailInputDescriptor,
+                phoneInputDescriptor,
+                googleInputDescriptor,
+                twitterInputDescriptor,
+                addressInputDescriptor,
+              ],
+              submission_requirements: [createSubmissionRequirement({ rule: 'all', from: 'A' })],
+            })
+
+            const presentationSubmission = await signVP<PresentationSubmission>({
+              unsigned: {
+                '@context': ['https://www.w3.org/2018/credentials/v1', 'https://identity.foundation/presentation-exchange/submission/v1'],
+                type: ['VerifiablePresentation', 'PresentationSubmission'],
+                presentation_submission: {
+                  id: 'a30e3b91-fb77-4d22-95fa-871689c322e2',
+                  definition_id: presentationDefinition.id,
+                  descriptor_map: [
+                    {
+                      id: emailInputDescriptor.id,
+                      format: 'ldp_vc',
+                      path: '$.verifiableCredential[0]',
+                    },
+                    {
+                      id: phoneInputDescriptor.id,
+                      format: 'ldp_vc',
+                      path: '$.verifiableCredential[1]',
+                    },
+                    {
+                      id: googleInputDescriptor.id,
+                      format: 'ldp_vc',
+                      path: '$.verifiableCredential[2]',
+                    },
+                    {
+                      id: twitterInputDescriptor.id,
+                      format: 'ldp_vc',
+                      path: '$.verifiableCredential[3]',
+                    },
+                  ],
+                },
+                verifiableCredential: [emailVC, phoneVC, googleVC, twitterVC],
+                holder: holder1.did,
+              },
+              proofPurposeOptions: {
+                challenge: 'challenge',
+                domain: 'domain',
+              },
+              suite: getSuiteFor(holder1),
+              documentLoader,
+            })
+
+            const result = satisfiesPresentationDefinition({
+              presentationDefinition,
+              presentationSubmission,
+            })
+
+            if (!result.success) {
+              expect(result.error).toMatchInlineSnapshot(`
+                Object {
+                  "errors": Array [
+                    Object {
+                      "error": Object {
+                        "missing": Array [
+                          "address_input",
+                        ],
+                        "type": "all",
+                      },
+                      "submissionRequirement": Object {
+                        "from": "A",
+                        "name": "Submission Requirement",
+                        "rule": "all",
+                      },
+                    },
+                  ],
+                  "type": "submissionRequirements",
+                }
+              `)
+            } else {
+              expect(result.success).toBeFalsy()
+            }
+          })
 
           describe('rule = "pick"', () => {
-            test('count', () => {})
+            test('count', async () => {
+              const emailInputDescriptor = createEmailInputDescriptor({ group: ['A'] })
+              const phoneInputDescriptor = createPhoneInputDescriptor({ group: ['A'] })
+              const googleInputDescriptor = createGoogleAccountInputDescriptor({ group: ['A'] })
+              const twitterInputDescriptor = createTwitterAccountInputDescriptor({ group: ['A'] })
+              const addressInputDescriptor = createAddressInputDescriptor({ group: ['A'] })
 
-            test('min', () => {})
+              const presentationDefinition = createPresentationDefinition({
+                input_descriptors: [
+                  emailInputDescriptor,
+                  phoneInputDescriptor,
+                  googleInputDescriptor,
+                  twitterInputDescriptor,
+                  addressInputDescriptor,
+                ],
+                submission_requirements: [createSubmissionRequirement({ rule: 'pick', count: 2, from: 'A' })],
+              })
 
-            test('max', () => {})
+              const presentationSubmission = await signVP<PresentationSubmission>({
+                unsigned: {
+                  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://identity.foundation/presentation-exchange/submission/v1'],
+                  type: ['VerifiablePresentation', 'PresentationSubmission'],
+                  presentation_submission: {
+                    id: 'a30e3b91-fb77-4d22-95fa-871689c322e2',
+                    definition_id: presentationDefinition.id,
+                    descriptor_map: [
+                      {
+                        id: googleInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[0]',
+                      },
+                    ],
+                  },
+                  verifiableCredential: [googleVC],
+                  holder: holder1.did,
+                },
+                proofPurposeOptions: {
+                  challenge: 'challenge',
+                  domain: 'domain',
+                },
+                suite: getSuiteFor(holder1),
+                documentLoader,
+              })
 
-            test('min + max', () => {})
+              const result = satisfiesPresentationDefinition({
+                presentationDefinition,
+                presentationSubmission,
+              })
+
+              if (!result.success) {
+                expect(result.error).toMatchInlineSnapshot(`
+                  Object {
+                    "errors": Array [
+                      Object {
+                        "error": Object {
+                          "expected": 2,
+                          "recieved": 1,
+                          "subtype": "count",
+                          "type": "pick",
+                        },
+                        "submissionRequirement": Object {
+                          "count": 2,
+                          "from": "A",
+                          "name": "Submission Requirement",
+                          "rule": "pick",
+                        },
+                      },
+                    ],
+                    "type": "submissionRequirements",
+                  }
+                `)
+              } else {
+                expect(result.success).toBeFalsy()
+              }
+            })
+
+            test('min', async () => {
+              const emailInputDescriptor = createEmailInputDescriptor({ group: ['A'] })
+              const phoneInputDescriptor = createPhoneInputDescriptor({ group: ['A'] })
+              const googleInputDescriptor = createGoogleAccountInputDescriptor({ group: ['A'] })
+              const twitterInputDescriptor = createTwitterAccountInputDescriptor({ group: ['A'] })
+              const addressInputDescriptor = createAddressInputDescriptor({ group: ['A'] })
+
+              const presentationDefinition = createPresentationDefinition({
+                input_descriptors: [
+                  emailInputDescriptor,
+                  phoneInputDescriptor,
+                  googleInputDescriptor,
+                  twitterInputDescriptor,
+                  addressInputDescriptor,
+                ],
+                submission_requirements: [createSubmissionRequirement({ rule: 'pick', min: 2, from: 'A' })],
+              })
+
+              const presentationSubmission = await signVP<PresentationSubmission>({
+                unsigned: {
+                  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://identity.foundation/presentation-exchange/submission/v1'],
+                  type: ['VerifiablePresentation', 'PresentationSubmission'],
+                  presentation_submission: {
+                    id: 'a30e3b91-fb77-4d22-95fa-871689c322e2',
+                    definition_id: presentationDefinition.id,
+                    descriptor_map: [
+                      {
+                        id: googleInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[0]',
+                      },
+                    ],
+                  },
+                  verifiableCredential: [googleVC],
+                  holder: holder1.did,
+                },
+                proofPurposeOptions: {
+                  challenge: 'challenge',
+                  domain: 'domain',
+                },
+                suite: getSuiteFor(holder1),
+                documentLoader,
+              })
+
+              const result = satisfiesPresentationDefinition({
+                presentationDefinition,
+                presentationSubmission,
+              })
+
+              if (!result.success) {
+                expect(result.error).toMatchInlineSnapshot(`
+                  Object {
+                    "errors": Array [
+                      Object {
+                        "error": Object {
+                          "minExpected": 2,
+                          "recieved": 1,
+                          "subtype": "min",
+                          "type": "pick",
+                        },
+                        "submissionRequirement": Object {
+                          "from": "A",
+                          "min": 2,
+                          "name": "Submission Requirement",
+                          "rule": "pick",
+                        },
+                      },
+                    ],
+                    "type": "submissionRequirements",
+                  }
+                `)
+              } else {
+                expect(result.success).toBeFalsy()
+              }
+            })
+
+            test('max', async () => {
+              const emailInputDescriptor = createEmailInputDescriptor({ group: ['A'] })
+              const phoneInputDescriptor = createPhoneInputDescriptor({ group: ['A'] })
+              const googleInputDescriptor = createGoogleAccountInputDescriptor({ group: ['A'] })
+              const twitterInputDescriptor = createTwitterAccountInputDescriptor({ group: ['A'] })
+              const addressInputDescriptor = createAddressInputDescriptor({ group: ['A'] })
+
+              const presentationDefinition = createPresentationDefinition({
+                input_descriptors: [
+                  emailInputDescriptor,
+                  phoneInputDescriptor,
+                  googleInputDescriptor,
+                  twitterInputDescriptor,
+                  addressInputDescriptor,
+                ],
+                submission_requirements: [createSubmissionRequirement({ rule: 'pick', max: 2, from: 'A' })],
+              })
+
+              const presentationSubmission = await signVP<PresentationSubmission>({
+                unsigned: {
+                  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://identity.foundation/presentation-exchange/submission/v1'],
+                  type: ['VerifiablePresentation', 'PresentationSubmission'],
+                  presentation_submission: {
+                    id: 'a30e3b91-fb77-4d22-95fa-871689c322e2',
+                    definition_id: presentationDefinition.id,
+                    descriptor_map: [
+                      {
+                        id: googleInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[0]',
+                      },
+                      {
+                        id: twitterInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[1]',
+                      },
+                      {
+                        id: addressInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[2]',
+                      },
+                    ],
+                  },
+                  verifiableCredential: [googleVC, twitterVC, addressVC],
+                  holder: holder1.did,
+                },
+                proofPurposeOptions: {
+                  challenge: 'challenge',
+                  domain: 'domain',
+                },
+                suite: getSuiteFor(holder1),
+                documentLoader,
+              })
+
+              const result = satisfiesPresentationDefinition({
+                presentationDefinition,
+                presentationSubmission,
+              })
+
+              if (!result.success) {
+                expect(result.error).toMatchInlineSnapshot(`
+                  Object {
+                    "errors": Array [
+                      Object {
+                        "error": Object {
+                          "maxExpected": 2,
+                          "recieved": 3,
+                          "subtype": "max",
+                          "type": "pick",
+                        },
+                        "submissionRequirement": Object {
+                          "from": "A",
+                          "max": 2,
+                          "name": "Submission Requirement",
+                          "rule": "pick",
+                        },
+                      },
+                    ],
+                    "type": "submissionRequirements",
+                  }
+                `)
+              } else {
+                expect(result.success).toBeFalsy()
+              }
+            })
           })
         })
 
         describe('with nesting', () => {
-          test('rule = "all"', () => {})
+          test('rule = "all"', async () => {
+            const emailInputDescriptor = createEmailInputDescriptor({ group: ['A'] })
+            const phoneInputDescriptor = createPhoneInputDescriptor({ group: ['A'] })
+            const googleInputDescriptor = createGoogleAccountInputDescriptor({ group: ['B'] })
+            const twitterInputDescriptor = createTwitterAccountInputDescriptor({ group: ['B'] })
+            const addressInputDescriptor = createAddressInputDescriptor({ group: ['C'] })
+
+            const presentationDefinition = createPresentationDefinition({
+              input_descriptors: [
+                emailInputDescriptor,
+                phoneInputDescriptor,
+                googleInputDescriptor,
+                twitterInputDescriptor,
+                addressInputDescriptor,
+              ],
+              submission_requirements: [
+                createSubmissionRequirement({
+                  rule: 'all',
+                  from_nested: [
+                    {
+                      rule: 'pick',
+                      count: 2,
+                      from: 'A',
+                    },
+                    {
+                      rule: 'all',
+                      from: 'B',
+                    },
+                    {
+                      rule: 'pick',
+                      min: 1,
+                      from: 'C',
+                    },
+                  ],
+                }),
+              ],
+            })
+
+            const presentationSubmission = await signVP<PresentationSubmission>({
+              unsigned: {
+                '@context': ['https://www.w3.org/2018/credentials/v1', 'https://identity.foundation/presentation-exchange/submission/v1'],
+                type: ['VerifiablePresentation', 'PresentationSubmission'],
+                presentation_submission: {
+                  id: 'a30e3b91-fb77-4d22-95fa-871689c322e2',
+                  definition_id: presentationDefinition.id,
+                  descriptor_map: [
+                    {
+                      id: phoneInputDescriptor.id,
+                      format: 'ldp_vc',
+                      path: '$.verifiableCredential[0]',
+                    },
+                    {
+                      id: emailInputDescriptor.id,
+                      format: 'ldp_vc',
+                      path: '$.verifiableCredential[1]',
+                    },
+                    {
+                      id: googleInputDescriptor.id,
+                      format: 'ldp_vc',
+                      path: '$.verifiableCredential[2]',
+                    },
+                    {
+                      id: twitterInputDescriptor.id,
+                      format: 'ldp_vc',
+                      path: '$.verifiableCredential[3]',
+                    },
+                  ],
+                },
+                verifiableCredential: [phoneVC, emailVC, googleVC, twitterVC],
+                holder: holder1.did,
+              },
+              proofPurposeOptions: {
+                challenge: 'challenge',
+                domain: 'domain',
+              },
+              suite: getSuiteFor(holder1),
+              documentLoader,
+            })
+
+            const result = satisfiesPresentationDefinition({
+              presentationDefinition,
+              presentationSubmission,
+            })
+
+            if (!result.success) {
+              expect(result.error).toMatchInlineSnapshot(`
+                Object {
+                  "errors": Array [
+                    Object {
+                      "error": Object {
+                        "missing": Array [
+                          Object {
+                            "error": Object {
+                              "minExpected": 1,
+                              "recieved": 0,
+                              "subtype": "min",
+                              "type": "pick",
+                            },
+                            "submissionRequirement": Object {
+                              "from": "C",
+                              "min": 1,
+                              "rule": "pick",
+                            },
+                          },
+                        ],
+                        "type": "all",
+                      },
+                      "submissionRequirement": Object {
+                        "from_nested": Array [
+                          Object {
+                            "count": 2,
+                            "from": "A",
+                            "rule": "pick",
+                          },
+                          Object {
+                            "from": "B",
+                            "rule": "all",
+                          },
+                          Object {
+                            "from": "C",
+                            "min": 1,
+                            "rule": "pick",
+                          },
+                        ],
+                        "name": "Submission Requirement",
+                        "rule": "all",
+                      },
+                    },
+                  ],
+                  "type": "submissionRequirements",
+                }
+              `)
+            } else {
+              expect(result.success).toBeFalsy()
+            }
+          })
 
           describe('rule = "pick"', () => {
-            test('count', () => {})
+            test('count', async () => {
+              const emailInputDescriptor = createEmailInputDescriptor({ group: ['A'] })
+              const phoneInputDescriptor = createPhoneInputDescriptor({ group: ['A'] })
+              const googleInputDescriptor = createGoogleAccountInputDescriptor({ group: ['B'] })
+              const twitterInputDescriptor = createTwitterAccountInputDescriptor({ group: ['B'] })
+              const addressInputDescriptor = createAddressInputDescriptor({ group: ['C'] })
 
-            test('min', () => {})
+              const presentationDefinition = createPresentationDefinition({
+                input_descriptors: [
+                  emailInputDescriptor,
+                  phoneInputDescriptor,
+                  googleInputDescriptor,
+                  twitterInputDescriptor,
+                  addressInputDescriptor,
+                ],
+                submission_requirements: [
+                  createSubmissionRequirement({
+                    rule: 'pick',
+                    count: 2,
+                    from_nested: [
+                      {
+                        rule: 'pick',
+                        count: 2,
+                        from: 'A',
+                      },
+                      {
+                        rule: 'all',
+                        from: 'B',
+                      },
+                      {
+                        rule: 'pick',
+                        min: 1,
+                        from: 'C',
+                      },
+                    ],
+                  }),
+                ],
+              })
 
-            test('max', () => {})
+              const presentationSubmission = await signVP<PresentationSubmission>({
+                unsigned: {
+                  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://identity.foundation/presentation-exchange/submission/v1'],
+                  type: ['VerifiablePresentation', 'PresentationSubmission'],
+                  presentation_submission: {
+                    id: 'a30e3b91-fb77-4d22-95fa-871689c322e2',
+                    definition_id: presentationDefinition.id,
+                    descriptor_map: [
+                      {
+                        id: phoneInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[0]',
+                      },
+                      {
+                        id: emailInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[1]',
+                      },
+                    ],
+                  },
+                  verifiableCredential: [phoneVC, emailVC],
+                  holder: holder1.did,
+                },
+                proofPurposeOptions: {
+                  challenge: 'challenge',
+                  domain: 'domain',
+                },
+                suite: getSuiteFor(holder1),
+                documentLoader,
+              })
 
-            test('min + max', () => {})
+              const result = satisfiesPresentationDefinition({
+                presentationDefinition,
+                presentationSubmission,
+              })
+
+              if (!result.success) {
+                expect(result.error).toMatchInlineSnapshot(`
+                  Object {
+                    "errors": Array [
+                      Object {
+                        "error": Object {
+                          "expected": 2,
+                          "recieved": 1,
+                          "subtype": "count",
+                          "type": "pick",
+                        },
+                        "submissionRequirement": Object {
+                          "count": 2,
+                          "from_nested": Array [
+                            Object {
+                              "count": 2,
+                              "from": "A",
+                              "rule": "pick",
+                            },
+                            Object {
+                              "from": "B",
+                              "rule": "all",
+                            },
+                            Object {
+                              "from": "C",
+                              "min": 1,
+                              "rule": "pick",
+                            },
+                          ],
+                          "name": "Submission Requirement",
+                          "rule": "pick",
+                        },
+                      },
+                    ],
+                    "type": "submissionRequirements",
+                  }
+                `)
+              } else {
+                expect(result.success).toBeFalsy()
+              }
+            })
+
+            test('min', async () => {
+              const emailInputDescriptor = createEmailInputDescriptor({ group: ['A'] })
+              const phoneInputDescriptor = createPhoneInputDescriptor({ group: ['A'] })
+              const googleInputDescriptor = createGoogleAccountInputDescriptor({ group: ['B'] })
+              const twitterInputDescriptor = createTwitterAccountInputDescriptor({ group: ['B'] })
+              const addressInputDescriptor = createAddressInputDescriptor({ group: ['C'] })
+
+              const presentationDefinition = createPresentationDefinition({
+                input_descriptors: [
+                  emailInputDescriptor,
+                  phoneInputDescriptor,
+                  googleInputDescriptor,
+                  twitterInputDescriptor,
+                  addressInputDescriptor,
+                ],
+                submission_requirements: [
+                  createSubmissionRequirement({
+                    rule: 'pick',
+                    min: 2,
+                    from_nested: [
+                      {
+                        rule: 'pick',
+                        count: 2,
+                        from: 'A',
+                      },
+                      {
+                        rule: 'all',
+                        from: 'B',
+                      },
+                      {
+                        rule: 'pick',
+                        min: 1,
+                        from: 'C',
+                      },
+                    ],
+                  }),
+                ],
+              })
+
+              const presentationSubmission = await signVP<PresentationSubmission>({
+                unsigned: {
+                  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://identity.foundation/presentation-exchange/submission/v1'],
+                  type: ['VerifiablePresentation', 'PresentationSubmission'],
+                  presentation_submission: {
+                    id: 'a30e3b91-fb77-4d22-95fa-871689c322e2',
+                    definition_id: presentationDefinition.id,
+                    descriptor_map: [
+                      {
+                        id: phoneInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[0]',
+                      },
+                      {
+                        id: emailInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[1]',
+                      },
+                    ],
+                  },
+                  verifiableCredential: [phoneVC, emailVC],
+                  holder: holder1.did,
+                },
+                proofPurposeOptions: {
+                  challenge: 'challenge',
+                  domain: 'domain',
+                },
+                suite: getSuiteFor(holder1),
+                documentLoader,
+              })
+
+              const result = satisfiesPresentationDefinition({
+                presentationDefinition,
+                presentationSubmission,
+              })
+
+              if (!result.success) {
+                expect(result.error).toMatchInlineSnapshot(`
+                  Object {
+                    "errors": Array [
+                      Object {
+                        "error": Object {
+                          "minExpected": 2,
+                          "recieved": 1,
+                          "subtype": "min",
+                          "type": "pick",
+                        },
+                        "submissionRequirement": Object {
+                          "from_nested": Array [
+                            Object {
+                              "count": 2,
+                              "from": "A",
+                              "rule": "pick",
+                            },
+                            Object {
+                              "from": "B",
+                              "rule": "all",
+                            },
+                            Object {
+                              "from": "C",
+                              "min": 1,
+                              "rule": "pick",
+                            },
+                          ],
+                          "min": 2,
+                          "name": "Submission Requirement",
+                          "rule": "pick",
+                        },
+                      },
+                    ],
+                    "type": "submissionRequirements",
+                  }
+                `)
+              } else {
+                expect(result.success).toBeFalsy()
+              }
+            })
+
+            test('max', async () => {
+              const emailInputDescriptor = createEmailInputDescriptor({ group: ['A'] })
+              const phoneInputDescriptor = createPhoneInputDescriptor({ group: ['A'] })
+              const googleInputDescriptor = createGoogleAccountInputDescriptor({ group: ['B'] })
+              const twitterInputDescriptor = createTwitterAccountInputDescriptor({ group: ['B'] })
+              const addressInputDescriptor = createAddressInputDescriptor({ group: ['C'] })
+
+              const presentationDefinition = createPresentationDefinition({
+                input_descriptors: [
+                  emailInputDescriptor,
+                  phoneInputDescriptor,
+                  googleInputDescriptor,
+                  twitterInputDescriptor,
+                  addressInputDescriptor,
+                ],
+                submission_requirements: [
+                  createSubmissionRequirement({
+                    rule: 'pick',
+                    max: 2,
+                    from_nested: [
+                      {
+                        rule: 'pick',
+                        count: 2,
+                        from: 'A',
+                      },
+                      {
+                        rule: 'all',
+                        from: 'B',
+                      },
+                      {
+                        rule: 'pick',
+                        min: 1,
+                        from: 'C',
+                      },
+                    ],
+                  }),
+                ],
+              })
+
+              const presentationSubmission = await signVP<PresentationSubmission>({
+                unsigned: {
+                  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://identity.foundation/presentation-exchange/submission/v1'],
+                  type: ['VerifiablePresentation', 'PresentationSubmission'],
+                  presentation_submission: {
+                    id: 'a30e3b91-fb77-4d22-95fa-871689c322e2',
+                    definition_id: presentationDefinition.id,
+                    descriptor_map: [
+                      {
+                        id: phoneInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[0]',
+                      },
+                      {
+                        id: emailInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[1]',
+                      },
+                      {
+                        id: googleInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[2]',
+                      },
+                      {
+                        id: twitterInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[3]',
+                      },
+                      {
+                        id: addressInputDescriptor.id,
+                        format: 'ldp_vc',
+                        path: '$.verifiableCredential[4]',
+                      },
+                    ],
+                  },
+                  verifiableCredential: [phoneVC, emailVC, googleVC, twitterVC, addressVC],
+                  holder: holder1.did,
+                },
+                proofPurposeOptions: {
+                  challenge: 'challenge',
+                  domain: 'domain',
+                },
+                suite: getSuiteFor(holder1),
+                documentLoader,
+              })
+
+              const result = satisfiesPresentationDefinition({
+                presentationDefinition,
+                presentationSubmission,
+              })
+
+              if (!result.success) {
+                expect(result.error).toMatchInlineSnapshot(`
+                  Object {
+                    "errors": Array [
+                      Object {
+                        "error": Object {
+                          "maxExpected": 2,
+                          "recieved": 3,
+                          "subtype": "max",
+                          "type": "pick",
+                        },
+                        "submissionRequirement": Object {
+                          "from_nested": Array [
+                            Object {
+                              "count": 2,
+                              "from": "A",
+                              "rule": "pick",
+                            },
+                            Object {
+                              "from": "B",
+                              "rule": "all",
+                            },
+                            Object {
+                              "from": "C",
+                              "min": 1,
+                              "rule": "pick",
+                            },
+                          ],
+                          "max": 2,
+                          "name": "Submission Requirement",
+                          "rule": "pick",
+                        },
+                      },
+                    ],
+                    "type": "submissionRequirements",
+                  }
+                `)
+              } else {
+                expect(result.success).toBeFalsy()
+              }
+            })
           })
         })
       })
