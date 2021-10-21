@@ -6,8 +6,61 @@ import {
   VCSAccountOrganizationV1,
   getVCAccountOrganizationV1Context,
   AccountV1,
+  BankAccountTransactionGroupV1,
 } from '../../account/v1'
 import { expandVC } from '../__fixtures__'
+
+const income: BankAccountTransactionGroupV1 = {
+  '@type': 'BankAccountTransactionGroup',
+  identifier: 1234,
+  startDate: '2020-06-01T00:00:00.000Z',
+  endDate: '2021-06-01T00:00:00.000Z',
+  cashflowCategory: 'category',
+  cashflowSubcategory: 'subcategory',
+  payrollAgency: true,
+  memo: 'memo',
+  length: 10,
+  payee: 'payee',
+  payer: 'payer',
+  rank: 'rank',
+  frequency: 'daily',
+  periodicity: 1,
+  valueStddev: {
+    '@type': 'MonetaryAmount',
+    value: '100',
+    currency: 'USD',
+    maxValue: '100',
+  },
+  valueTotal: {
+    '@type': 'MonetaryAmount',
+    value: '100',
+    currency: 'USD',
+    maxValue: '100',
+  },
+  valueMean: {
+    '@type': 'MonetaryAmount',
+    value: '100',
+    currency: 'USD',
+    maxValue: '100',
+  },
+  valueMedian: {
+    '@type': 'MonetaryAmount',
+    value: '100',
+    currency: 'USD',
+    maxValue: '100',
+  },
+  transactions: {
+    '@type': 'BankAccountTransaction',
+    transactionType: 'credit',
+    value: {
+      '@type': 'MonetaryAmount',
+      value: '100',
+      currency: 'USD',
+      maxValue: '100',
+    },
+    memo: 'memo',
+  },
+}
 
 const account: AccountV1 = {
   '@type': 'Account',
@@ -188,6 +241,7 @@ describe('VCAccountPersonV1', () => {
       data: {
         '@type': ['Person', 'PersonE', 'AccountPerson'],
         hasAccount: account,
+        hasIncome: income,
         name: 'Bob Belcher',
       },
       context: getVCAccountPersonV1Context(),
@@ -827,6 +881,205 @@ describe('VCAccountPersonV1', () => {
                     ],
                   },
                 ],
+                "https://schema.bloom.co/hasIncome": Array [
+                  Object {
+                    "@type": Array [
+                      "https://schema.bloom.co/BankAccountTransactionGroup",
+                    ],
+                    "https://schema.bloom.co/cashflowCategory": Array [
+                      Object {
+                        "@value": "category",
+                      },
+                    ],
+                    "https://schema.bloom.co/cashflowSubcategory": Array [
+                      Object {
+                        "@value": "subcategory",
+                      },
+                    ],
+                    "https://schema.bloom.co/endDate": Array [
+                      Object {
+                        "@value": "2021-06-01T00:00:00.000Z",
+                      },
+                    ],
+                    "https://schema.bloom.co/frequency": Array [
+                      Object {
+                        "@value": "daily",
+                      },
+                    ],
+                    "https://schema.bloom.co/identifier": Array [
+                      Object {
+                        "@value": 1234,
+                      },
+                    ],
+                    "https://schema.bloom.co/length": Array [
+                      Object {
+                        "@value": 10,
+                      },
+                    ],
+                    "https://schema.bloom.co/memo": Array [
+                      Object {
+                        "@value": "memo",
+                      },
+                    ],
+                    "https://schema.bloom.co/payee": Array [
+                      Object {
+                        "@value": "payee",
+                      },
+                    ],
+                    "https://schema.bloom.co/payer": Array [
+                      Object {
+                        "@value": "payer",
+                      },
+                    ],
+                    "https://schema.bloom.co/payrollAgency": Array [
+                      Object {
+                        "@value": true,
+                      },
+                    ],
+                    "https://schema.bloom.co/periodicity": Array [
+                      Object {
+                        "@value": 1,
+                      },
+                    ],
+                    "https://schema.bloom.co/rank": Array [
+                      Object {
+                        "@value": "rank",
+                      },
+                    ],
+                    "https://schema.bloom.co/startDate": Array [
+                      Object {
+                        "@value": "2020-06-01T00:00:00.000Z",
+                      },
+                    ],
+                    "https://schema.bloom.co/transactions": Array [
+                      Object {
+                        "@type": Array [
+                          "https://schema.bloom.co/BankAccountTransaction",
+                        ],
+                        "https://schema.bloom.co/memo": Array [
+                          Object {
+                            "@value": "memo",
+                          },
+                        ],
+                        "https://schema.bloom.co/transactionType": Array [
+                          Object {
+                            "@value": "credit",
+                          },
+                        ],
+                        "https://schema.bloom.co/value": Array [
+                          Object {
+                            "@type": Array [
+                              "https://schema.org/MonetaryAmount",
+                            ],
+                            "https://schema.org/currency": Array [
+                              Object {
+                                "@value": "USD",
+                              },
+                            ],
+                            "https://schema.org/maxValue": Array [
+                              Object {
+                                "@value": "100",
+                              },
+                            ],
+                            "https://schema.org/value": Array [
+                              Object {
+                                "@value": "100",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                    "https://schema.bloom.co/valueMean": Array [
+                      Object {
+                        "@type": Array [
+                          "https://schema.org/MonetaryAmount",
+                        ],
+                        "https://schema.org/currency": Array [
+                          Object {
+                            "@value": "USD",
+                          },
+                        ],
+                        "https://schema.org/maxValue": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                        "https://schema.org/value": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                      },
+                    ],
+                    "https://schema.bloom.co/valueMedian": Array [
+                      Object {
+                        "@type": Array [
+                          "https://schema.org/MonetaryAmount",
+                        ],
+                        "https://schema.org/currency": Array [
+                          Object {
+                            "@value": "USD",
+                          },
+                        ],
+                        "https://schema.org/maxValue": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                        "https://schema.org/value": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                      },
+                    ],
+                    "https://schema.bloom.co/valueStddev": Array [
+                      Object {
+                        "@type": Array [
+                          "https://schema.org/MonetaryAmount",
+                        ],
+                        "https://schema.org/currency": Array [
+                          Object {
+                            "@value": "USD",
+                          },
+                        ],
+                        "https://schema.org/maxValue": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                        "https://schema.org/value": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                      },
+                    ],
+                    "https://schema.bloom.co/valueTotal": Array [
+                      Object {
+                        "@type": Array [
+                          "https://schema.org/MonetaryAmount",
+                        ],
+                        "https://schema.org/currency": Array [
+                          Object {
+                            "@value": "USD",
+                          },
+                        ],
+                        "https://schema.org/maxValue": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                        "https://schema.org/value": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
                 "https://schema.org/name": Array [
                   Object {
                     "@value": "Bob Belcher",
@@ -866,6 +1119,7 @@ describe('VCAccountOrganizationV1', () => {
       data: {
         '@type': ['Organization', 'OrganizationE', 'AccountOrganization'],
         hasAccount: account,
+        hasIncome: income,
         name: "Bob's Burgers",
       },
       context: getVCAccountOrganizationV1Context(),
@@ -1501,6 +1755,205 @@ describe('VCAccountOrganizationV1', () => {
                     "https://schema.bloom.co/startDate": Array [
                       Object {
                         "@value": "2020-06-01T00:00:00.000Z",
+                      },
+                    ],
+                  },
+                ],
+                "https://schema.bloom.co/hasIncome": Array [
+                  Object {
+                    "@type": Array [
+                      "https://schema.bloom.co/BankAccountTransactionGroup",
+                    ],
+                    "https://schema.bloom.co/cashflowCategory": Array [
+                      Object {
+                        "@value": "category",
+                      },
+                    ],
+                    "https://schema.bloom.co/cashflowSubcategory": Array [
+                      Object {
+                        "@value": "subcategory",
+                      },
+                    ],
+                    "https://schema.bloom.co/endDate": Array [
+                      Object {
+                        "@value": "2021-06-01T00:00:00.000Z",
+                      },
+                    ],
+                    "https://schema.bloom.co/frequency": Array [
+                      Object {
+                        "@value": "daily",
+                      },
+                    ],
+                    "https://schema.bloom.co/identifier": Array [
+                      Object {
+                        "@value": 1234,
+                      },
+                    ],
+                    "https://schema.bloom.co/length": Array [
+                      Object {
+                        "@value": 10,
+                      },
+                    ],
+                    "https://schema.bloom.co/memo": Array [
+                      Object {
+                        "@value": "memo",
+                      },
+                    ],
+                    "https://schema.bloom.co/payee": Array [
+                      Object {
+                        "@value": "payee",
+                      },
+                    ],
+                    "https://schema.bloom.co/payer": Array [
+                      Object {
+                        "@value": "payer",
+                      },
+                    ],
+                    "https://schema.bloom.co/payrollAgency": Array [
+                      Object {
+                        "@value": true,
+                      },
+                    ],
+                    "https://schema.bloom.co/periodicity": Array [
+                      Object {
+                        "@value": 1,
+                      },
+                    ],
+                    "https://schema.bloom.co/rank": Array [
+                      Object {
+                        "@value": "rank",
+                      },
+                    ],
+                    "https://schema.bloom.co/startDate": Array [
+                      Object {
+                        "@value": "2020-06-01T00:00:00.000Z",
+                      },
+                    ],
+                    "https://schema.bloom.co/transactions": Array [
+                      Object {
+                        "@type": Array [
+                          "https://schema.bloom.co/BankAccountTransaction",
+                        ],
+                        "https://schema.bloom.co/memo": Array [
+                          Object {
+                            "@value": "memo",
+                          },
+                        ],
+                        "https://schema.bloom.co/transactionType": Array [
+                          Object {
+                            "@value": "credit",
+                          },
+                        ],
+                        "https://schema.bloom.co/value": Array [
+                          Object {
+                            "@type": Array [
+                              "https://schema.org/MonetaryAmount",
+                            ],
+                            "https://schema.org/currency": Array [
+                              Object {
+                                "@value": "USD",
+                              },
+                            ],
+                            "https://schema.org/maxValue": Array [
+                              Object {
+                                "@value": "100",
+                              },
+                            ],
+                            "https://schema.org/value": Array [
+                              Object {
+                                "@value": "100",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                    "https://schema.bloom.co/valueMean": Array [
+                      Object {
+                        "@type": Array [
+                          "https://schema.org/MonetaryAmount",
+                        ],
+                        "https://schema.org/currency": Array [
+                          Object {
+                            "@value": "USD",
+                          },
+                        ],
+                        "https://schema.org/maxValue": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                        "https://schema.org/value": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                      },
+                    ],
+                    "https://schema.bloom.co/valueMedian": Array [
+                      Object {
+                        "@type": Array [
+                          "https://schema.org/MonetaryAmount",
+                        ],
+                        "https://schema.org/currency": Array [
+                          Object {
+                            "@value": "USD",
+                          },
+                        ],
+                        "https://schema.org/maxValue": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                        "https://schema.org/value": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                      },
+                    ],
+                    "https://schema.bloom.co/valueStddev": Array [
+                      Object {
+                        "@type": Array [
+                          "https://schema.org/MonetaryAmount",
+                        ],
+                        "https://schema.org/currency": Array [
+                          Object {
+                            "@value": "USD",
+                          },
+                        ],
+                        "https://schema.org/maxValue": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                        "https://schema.org/value": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                      },
+                    ],
+                    "https://schema.bloom.co/valueTotal": Array [
+                      Object {
+                        "@type": Array [
+                          "https://schema.org/MonetaryAmount",
+                        ],
+                        "https://schema.org/currency": Array [
+                          Object {
+                            "@value": "USD",
+                          },
+                        ],
+                        "https://schema.org/maxValue": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
+                        "https://schema.org/value": Array [
+                          Object {
+                            "@value": "100",
+                          },
+                        ],
                       },
                     ],
                   },

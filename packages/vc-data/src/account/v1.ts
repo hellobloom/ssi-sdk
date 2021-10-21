@@ -253,7 +253,7 @@ type AccountOrganizationV1Mixin = CreateThing<
   'AccountOrganization',
   {
     hasAccount: OneOrMore<AccountV1>
-    hasIncome: 'bloomSchema'
+    hasIncome: OneOrMore<BankAccountTransactionGroupV1>
   }
 >
 
