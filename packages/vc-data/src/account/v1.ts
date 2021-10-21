@@ -67,7 +67,7 @@ export type BankAccountTransactionGroupV1 = CreateThing<
     frequency?: string // 'daily', 'weekly', 'biweekly', 'monthly', 'semiMonthly', 'annually', 'irregular', ...
     periodicity?: number
     valueStddev?: ExpandThing<MonetaryAmountRV1>
-    valueTotal?: ExpandThing<MonetaryAmountRV1>
+    valueTotal?: OneOrMore<ExpandThing<MonetaryAmountRV1>>
     valueMean?: ExpandThing<MonetaryAmountRV1>
     valueMedian?: ExpandThing<MonetaryAmountRV1>
     transactions?: OneOrMore<BankAccountTransactionV1>
@@ -218,6 +218,7 @@ type AccountPersonV1Mixin = CreateThing<
   'AccountPerson',
   {
     hasAccount: OneOrMore<AccountV1>
+    hasIncome?: OneOrMore<BankAccountTransactionGroupV1>
   }
 >
 
@@ -233,6 +234,7 @@ export const getVCAccountPersonV1Context = () => {
     typeIdBase: 'bloomSchema',
     fields: {
       hasAccount: 'bloomSchema',
+      hasIncome: 'bloomSchema',
     },
     vocab: 'schema',
   })
@@ -251,6 +253,7 @@ type AccountOrganizationV1Mixin = CreateThing<
   'AccountOrganization',
   {
     hasAccount: OneOrMore<AccountV1>
+    hasIncome: 'bloomSchema'
   }
 >
 
@@ -266,6 +269,7 @@ export const getVCAccountOrganizationV1Context = () => {
     typeIdBase: 'bloomSchema',
     fields: {
       hasAccount: 'bloomSchema',
+      hasIncome: 'bloomSchema',
     },
     vocab: 'schema',
   })
