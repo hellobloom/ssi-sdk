@@ -1,5 +1,13 @@
 import { PersonEV1, OrganizationEV1, getBaseV1ContextEntries, GovernmentOrgV1 } from '../base/v1'
-import { CreateThing, ExtendThing, ExtendableVC, ExtendableVCSubject, ExpandThing, createContextEntry, createVCContextEntry } from '../util'
+import {
+  CreateThing,
+  ExtendThing,
+  ExtendableVC,
+  ExtendableVCSubject,
+  ExpandThing,
+  createContextEntry,
+  createVCContextEntry,
+} from '../util/v1'
 
 // Helper Types
 

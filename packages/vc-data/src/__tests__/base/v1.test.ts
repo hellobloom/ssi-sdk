@@ -1,4 +1,4 @@
-import { combineContextEntries, ExpandThing, SimpleThing } from '../../util'
+import { combineContextEntries, ExpandThing, SimpleThing } from '../../util/v1'
 import { getBaseV1ContextEntries, PersonEV1, OrganizationEV1, CredentialV1, OrganizationalCredentialV1 } from '../../base/v1'
 
 const jsonld = require('jsonld')

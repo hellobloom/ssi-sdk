@@ -8,7 +8,7 @@ import {
   OneOrMore,
   createContextEntry,
   createVCContextEntry,
-} from '../util'
+} from '../util/v1'
 
 // Helper Types
 

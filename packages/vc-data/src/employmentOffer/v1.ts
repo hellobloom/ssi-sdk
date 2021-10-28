@@ -10,7 +10,7 @@ import {
   createContextEntry,
   createVCContextEntry,
   CreateExpandedThing,
-} from '../util'
+} from '../util/v1'
 
 type EmploymentInterviewV1 = CreateThing<
   'EmploymentInterview', // becomes @type
