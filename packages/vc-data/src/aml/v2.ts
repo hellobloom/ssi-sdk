@@ -88,6 +88,7 @@ const getHelperContextEntries = () => {
 
 export type AMLPersonV2 = {
   '@type': 'AMLPerson'
+  nationality?: string
   hasAMLSearch: OneOrMore<AMLSearchV2>
 }
 
@@ -97,7 +98,10 @@ export const getVCAMLPersonV2ContextConfig = () => {
   const amlPersonContext = createSubjectContext<AMLPersonV2>({
     type: 'AMLPerson',
     base: 'bloomSchema',
-    properties: { hasAMLSearch: 'bloomSchema' },
+    properties: {
+      nationality: 'bloomSchema',
+      hasAMLSearch: 'bloomSchema',
+    },
   })
 
   return createContextConfig<VCAMLPersonV2Type>({
