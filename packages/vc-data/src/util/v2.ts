@@ -31,6 +31,10 @@ export type MergeSubjects<S1 extends SimpleThing, S2 extends SimpleThing> = {
   '@type': FlattenAndDedupeType<S1, S2>
 } & O.MergeUp<OmitType<S1>, OmitType<S2>>
 
+export type PartialSubject<S extends SimpleThing> = {
+  '@type': S['@type']
+} & Partial<OmitType<S>>
+
 export type CreateVCType<Types extends string[], S extends SimpleThing> = Omit<RemoveIndex<VC>, 'type' | 'credentialSubject'> & {
   type: ['VerifiableCredential', ...Types]
   credentialSubject: OneOrMore<{ data: S }>
