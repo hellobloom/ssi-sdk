@@ -2,6 +2,13 @@ import { CreateVCType, createSubjectContext, createContextConfig, createContext,
 
 // Helper Types
 
+export type AMLHitCriteriaV2 = {
+  '@type': 'AMLHitCriteria'
+  identifier?: string
+  name?: string
+  matchDegree?: string | number
+}
+
 export type AMLListV2 = {
   '@type': 'AMLList'
   name?: string
@@ -12,6 +19,7 @@ export type AMLHitV2 = {
   '@type': 'AMLHit'
   identifier?: string
   name?: string
+  hasCriteria?: AMLHitCriteriaV2
 }
 
 export type AMLSearchV2 = {
@@ -43,6 +51,17 @@ const getHelperContextEntries = () => {
     properties: {
       identifier: 'bloomSchema',
       name: 'bloomSchema',
+      hasCriteria: 'bloomSchema',
+    },
+  })
+
+  const amlHitCriteria = createSubjectContext<AMLHitCriteriaV2>({
+    type: 'AMLHitCriteria',
+    base: 'bloomSchema',
+    properties: {
+      identifier: 'bloomSchema',
+      name: 'bloomSchema',
+      matchDegree: 'bloomSchema',
     },
   })
 
@@ -62,7 +81,7 @@ const getHelperContextEntries = () => {
     },
   })
 
-  return [amlListEntry, amlHitEntry, amlSearchEntry]
+  return [amlListEntry, amlHitEntry, amlHitCriteria, amlSearchEntry]
 }
 
 // Person Realated

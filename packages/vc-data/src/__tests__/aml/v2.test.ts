@@ -26,6 +26,12 @@ describe('VCAMLPersonV2', () => {
               '@type': 'AMLHit',
               identifier: '1234',
               name: 'AML Hit 1',
+              hasCriteria: {
+                '@type': 'AMLHitCriteria',
+                name: 'AML Hit Criteria 1',
+                identifier: '1234',
+                matchDegree: '50',
+              },
             },
           ],
           flagType: 'type',
@@ -78,6 +84,28 @@ describe('VCAMLPersonV2', () => {
                       Object {
                         "@type": Array [
                           "https://schema.bloom.co/AMLHit",
+                        ],
+                        "https://schema.bloom.co/hasCriteria": Array [
+                          Object {
+                            "@type": Array [
+                              "https://schema.bloom.co/AMLHitCriteria",
+                            ],
+                            "https://schema.bloom.co/identifier": Array [
+                              Object {
+                                "@value": "1234",
+                              },
+                            ],
+                            "https://schema.bloom.co/matchDegree": Array [
+                              Object {
+                                "@value": "50",
+                              },
+                            ],
+                            "https://schema.bloom.co/name": Array [
+                              Object {
+                                "@value": "AML Hit Criteria 1",
+                              },
+                            ],
+                          },
                         ],
                         "https://schema.bloom.co/identifier": Array [
                           Object {
