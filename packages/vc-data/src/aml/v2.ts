@@ -19,7 +19,7 @@ export type AMLHitV2 = {
   '@type': 'AMLHit'
   identifier?: string
   name?: string
-  hasCriteria?: AMLHitCriteriaV2
+  hasCriteria?: OneOrMore<AMLHitCriteriaV2>
 }
 
 export type AMLSearchV2 = {
