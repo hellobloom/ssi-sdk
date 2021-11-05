@@ -17,6 +17,30 @@ export const monetaryAmountV2Context = createSubjectContext<MonetaryAmountV2>({
   },
 })
 
+// Incomplete re: schema.org/PropertyValue but captures needed parts
+export type PropertyValueV2 = {
+  '@type': 'PropertyValue'
+  maxValue?: number
+  minValue?: number
+  propertyID?: string
+  unitCode?: string
+  unitText?: string
+  value?: string
+}
+
+export const propertyValueV2Context = createSubjectContext<PropertyValueV2>({
+  type: 'PropertyValue',
+  base: 'schema',
+  properties: {
+    maxValue: 'schema',
+    minValue: 'schema',
+    propertyID: 'schema',
+    unitCode: 'schema',
+    unitText: 'schema',
+    value: 'schema',
+  },
+})
+
 export type PostalAddressV2 = {
   '@type': 'PostalAddress'
   addressCountry?: string
@@ -27,7 +51,7 @@ export type PostalAddressV2 = {
   streetAddress?: string
 }
 
-export const postalAddresscV2Context = createSubjectContext<PostalAddressV2>({
+export const postalAddressV2Context = createSubjectContext<PostalAddressV2>({
   type: 'PostalAddress',
   base: 'schema',
   properties: {

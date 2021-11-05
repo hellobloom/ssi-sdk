@@ -84,7 +84,7 @@ const getHelperContextEntries = () => {
   return [amlListEntry, amlHitEntry, amlHitCriteria, amlSearchEntry]
 }
 
-// Person Realated
+// Person-related
 
 export type AMLPersonV2 = {
   '@type': 'AMLPerson'
