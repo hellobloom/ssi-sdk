@@ -17,4 +17,5 @@ export * from './nationalid'
 export * from './phone'
 export * from './trade'
 
-export * from './util'
+export * as util from './util'
+export * from './util/v1'

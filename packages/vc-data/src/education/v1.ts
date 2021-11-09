@@ -8,7 +8,7 @@ import {
   createContextEntry,
   createVCContextEntry,
   CreateExpandedThing,
-} from '../util'
+} from '../util/v1'
 
 // Person Related
 

@@ -1,5 +1,13 @@
 import { OrganizationEV1, getBaseV1ContextEntries } from '../base'
-import { CreateThing, ExpandThing, ExtendThing, ExtendableVC, ExtendableVCSubject, createContextEntry, createVCContextEntry } from '../util'
+import {
+  CreateThing,
+  ExpandThing,
+  ExtendThing,
+  ExtendableVC,
+  ExtendableVCSubject,
+  createContextEntry,
+  createVCContextEntry,
+} from '../util/v1'
 
 // Lean Entity Related
 

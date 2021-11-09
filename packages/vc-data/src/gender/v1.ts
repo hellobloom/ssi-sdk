@@ -9,7 +9,7 @@ import {
   createVCContextEntry,
   OneOrMore,
   CreateExpandedThing,
-} from '../util'
+} from '../util/v1'
 
 // Person Related
 

@@ -1,4 +1,4 @@
-import { createContextEntry, combineContextEntries } from '../util'
+import { createContextEntry, combineContextEntries } from '../../util/v1'
 
 describe('createContextEntry', () => {
   it('returns a context with no vocab set', () => {

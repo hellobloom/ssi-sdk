@@ -1,7 +1,7 @@
 import { R4 } from '@ahryman40k/ts-fhir-types'
 
 import { FHIRPatientE, getFHIRV1ContextEntries } from '../base/v1'
-import { CreateThing, ExtendableVC, ExtendableVCSubject, createContextEntry, createVCContextEntry, OneOrMore } from '../util'
+import { CreateThing, ExtendableVC, ExtendableVCSubject, createContextEntry, createVCContextEntry, OneOrMore } from '../util/v1'
 
 export type ImmunizationV1 = CreateThing<
   'Immunization',

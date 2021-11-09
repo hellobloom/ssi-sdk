@@ -1,5 +1,5 @@
 import { R4 } from '@ahryman40k/ts-fhir-types'
-import { CreateThing, ExtendThing, OneOrMore, createContextEntry, ExpandThing, CreateExpandedThing } from '../util'
+import { CreateThing, ExtendThing, OneOrMore, createContextEntry, ExpandThing, CreateExpandedThing } from '../util/v1'
 
 export type GovernmentOrgV1 =
   | CreateThing<'Country'>

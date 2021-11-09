@@ -1,6 +1,6 @@
 import { R4 } from '@ahryman40k/ts-fhir-types'
 
-import { CreateThing, ExtendableVC, ExtendableVCSubject, createContextEntry, createVCContextEntry, OneOrMore } from '../util'
+import { CreateThing, ExtendableVC, ExtendableVCSubject, createContextEntry, createVCContextEntry, OneOrMore } from '../util/v1'
 import { FHIRPatientE } from '../base/v1'
 
 /// ///////////////////////////////////////////////////////////

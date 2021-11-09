@@ -9,7 +9,7 @@ import {
   ExtendableVCSubject,
   createContextEntry,
   createVCContextEntry,
-} from '../util'
+} from '../util/v1'
 
 // Person Related
 
