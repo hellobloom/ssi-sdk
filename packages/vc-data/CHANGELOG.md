@@ -13,6 +13,7 @@
   - iddocument
   - name
   - phone
+  - identity
 
 ## 0.1.4
 
