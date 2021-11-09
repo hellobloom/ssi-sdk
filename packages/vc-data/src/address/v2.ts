@@ -1,5 +1,5 @@
 import { CreateVCType, createSubjectContext, createContextConfig, createContext } from '../util/v2'
-import { PostalAddressV2, postalAddresscV2Context } from '../base/v2'
+import { PostalAddressV2, postalAddressV2Context } from '../base/v2'
 
 export type AddressPersonV2 = {
   '@type': 'AddressPerson'
@@ -17,7 +17,7 @@ export const getVCAddressPersonV2ContextConfig = () => {
 
   return createContextConfig<VCAddressPersonV2Type>({
     type: 'AddressCredentialPersonV2',
-    subjects: [phonePersonContext, postalAddresscV2Context],
+    subjects: [phonePersonContext, postalAddressV2Context],
   })
 }
 
