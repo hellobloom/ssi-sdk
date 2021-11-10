@@ -88,6 +88,7 @@ export const getVCIDDocumentPersonV2ContextConfig = () => {
       tamperResult: 'bloomSchema',
       selfieImage: 'bloomSchema',
       hasIDDocument: 'bloomSchema',
+      nameMatch: 'bloomSchema',
       faceMatch: 'bloomSchema',
       birthDateMatch: 'bloomSchema',
       issuingCountryMatch: 'bloomSchema',
