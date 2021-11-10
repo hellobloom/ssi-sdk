@@ -43,7 +43,7 @@ export type IDDocumentV2 = {
 
 export type IDDocumentMatchV2 = {
   '@type': 'IDDocumentMatch'
-  isMatch?: boolean
+  isMatch?: string // Recomended 'match' | 'partial_match' | 'no_match'
   score?: number
   transactionId?: string
   criteria?: string // Face, DOB, etc.
