@@ -54,7 +54,7 @@ export type IDDocumentRoleV2 = {
   tamperResult?: string
   selfieImage?: string
   faceMatch?: OneOrMore<IDDocumentFaceMatchV2>
-  hasIDDocument: IDDocumentV2
+  hasIDDocument: OneOrMore<IDDocumentV2>
 }
 
 export type IDDocumentPersonV2 = {
