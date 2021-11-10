@@ -57,6 +57,7 @@ export type IDDocumentRoleV2 = {
 
   hasIDDocument: OneOrMore<IDDocumentV2>
 
+  nameMatch?: OneOrMore<IDDocumentMatchV2>
   faceMatch?: OneOrMore<IDDocumentMatchV2>
   birthDateMatch?: OneOrMore<IDDocumentMatchV2>
   issuingCountryMatch?: OneOrMore<IDDocumentMatchV2>
@@ -87,6 +88,7 @@ export const getVCIDDocumentPersonV2ContextConfig = () => {
       tamperResult: 'bloomSchema',
       selfieImage: 'bloomSchema',
       hasIDDocument: 'bloomSchema',
+      nameMatch: 'bloomSchema',
       faceMatch: 'bloomSchema',
       birthDateMatch: 'bloomSchema',
       issuingCountryMatch: 'bloomSchema',
