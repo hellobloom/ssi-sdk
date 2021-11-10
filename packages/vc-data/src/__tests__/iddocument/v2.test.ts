@@ -13,10 +13,11 @@ describe('VCIDDocumentPersonV2', () => {
           tamperResult: '...',
           selfieImage: 'base64:...',
           faceMatch: {
-            '@type': 'IDDocumentFaceMatch',
+            '@type': 'IDDocumentMatch',
             isMatch: true,
             score: 100,
             transactionId: '123',
+            criteria: 'face',
           },
           hasIDDocument: {
             '@type': 'IDDocument',
@@ -68,7 +69,12 @@ describe('VCIDDocumentPersonV2', () => {
                     "https://schema.bloom.co/faceMatch": Array [
                       Object {
                         "@type": Array [
-                          "https://schema.bloom.co/IDDocumentFaceMatch",
+                          "https://schema.bloom.co/IDDocumentMatch",
+                        ],
+                        "https://schema.bloom.co/criteria": Array [
+                          Object {
+                            "@value": "face",
+                          },
                         ],
                         "https://schema.bloom.co/isMatch": Array [
                           Object {
