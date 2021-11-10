@@ -14,7 +14,7 @@ describe('VCIDDocumentPersonV2', () => {
           selfieImage: 'base64:...',
           faceMatch: {
             '@type': 'IDDocumentMatch',
-            isMatch: true,
+            isMatch: 'match',
             score: 100,
             transactionId: '123',
             criteria: 'face',
@@ -78,7 +78,7 @@ describe('VCIDDocumentPersonV2', () => {
                         ],
                         "https://schema.bloom.co/isMatch": Array [
                           Object {
-                            "@value": true,
+                            "@value": "match",
                           },
                         ],
                         "https://schema.bloom.co/score": Array [
