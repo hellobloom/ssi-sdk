@@ -20,8 +20,8 @@ export type IDDocumentClassV2 =
 
 export type IDDocumentIssuerV2 = {
   '@type': 'IDDocumentIssuer'
-  name: string
-  id: string
+  name?: string
+  id?: string
 }
 
 export type IDDocumentV2 = {
