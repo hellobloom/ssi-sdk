@@ -41,11 +41,12 @@ export type IDDocumentV2 = {
   keesingCode?: string
 }
 
-export type IDDocumentFaceMatchV2 = {
-  '@type': 'IDDocumentFaceMatch'
+export type IDDocumentMatchV2 = {
+  '@type': 'IDDocumentMatch'
   isMatch?: boolean
   score?: number
   transactionId?: string
+  criteria?: string // Face, DOB, etc.
 }
 
 export type IDDocumentRoleV2 = {
@@ -53,8 +54,13 @@ export type IDDocumentRoleV2 = {
   authenticationResult?: string
   tamperResult?: string
   selfieImage?: string
-  faceMatch?: OneOrMore<IDDocumentFaceMatchV2>
+
   hasIDDocument: OneOrMore<IDDocumentV2>
+
+  faceMatch?: OneOrMore<IDDocumentMatchV2>
+  birthDateMatch?: OneOrMore<IDDocumentMatchV2>
+  issuingCountryMatch?: OneOrMore<IDDocumentMatchV2>
+  expirationDateMatch?: OneOrMore<IDDocumentMatchV2>
 }
 
 export type IDDocumentPersonV2 = {
@@ -80,18 +86,22 @@ export const getVCIDDocumentPersonV2ContextConfig = () => {
       authenticationResult: 'bloomSchema',
       tamperResult: 'bloomSchema',
       selfieImage: 'bloomSchema',
-      faceMatch: 'bloomSchema',
       hasIDDocument: 'bloomSchema',
+      faceMatch: 'bloomSchema',
+      birthDateMatch: 'bloomSchema',
+      issuingCountryMatch: 'bloomSchema',
+      expirationDateMatch: 'bloomSchema',
     },
   })
 
-  const idDocFaceMatchContext = createSubjectContext<IDDocumentFaceMatchV2>({
-    type: 'IDDocumentFaceMatch',
+  const idDocMatchContext = createSubjectContext<IDDocumentMatchV2>({
+    type: 'IDDocumentMatch',
     base: 'bloomSchema',
     properties: {
       transactionId: 'bloomSchema',
       isMatch: 'bloomSchema',
       score: 'bloomSchema',
+      criteria: 'bloomSchema',
     },
   })
 
@@ -126,7 +136,7 @@ export const getVCIDDocumentPersonV2ContextConfig = () => {
 
   return createContextConfig<VCIDDocumentPersonV2Type>({
     type: 'IDDocumentCredentialPersonV2',
-    subjects: [idDocPersonContext, idDocRoleContext, idDocFaceMatchContext, idDocContext, idDocumentIssuer],
+    subjects: [idDocPersonContext, idDocRoleContext, idDocMatchContext, idDocContext, idDocumentIssuer],
   })
 }
 
