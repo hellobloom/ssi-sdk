@@ -28,12 +28,17 @@ export const WACIButtonElement: FC<'a', WACIButtonElementProps> = ({ data, ...pr
       throw new Error(`Unknown size: ${(props as any).size}`)
   }
 
+  const href =
+    typeof props.__hrefBuilder === 'undefined'
+      ? `https://bloom.co/download?payload=${window.btoa(JSON.stringify(data))}`
+      : props.__hrefBuilder(data)
+
   return (
     <a
-      {...forwardProps(props, 'size', 'type', 'invert', 'ref')}
+      {...forwardProps(props, 'size', 'type', 'invert', '__hrefBuilder', 'ref')}
       target="_blank"
       rel="noreferrer noopener"
-      href={`https://bloom.co/download?payload=${window.btoa(JSON.stringify(data))}`}
+      href={href}
       id={id}
     >
       {children}

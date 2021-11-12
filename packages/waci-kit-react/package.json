@@ -1,5 +1,5 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "@bloomprotocol/waci-kit-react",
   "description": "Render a QR Code or button to initiate a WACI interaction",
   "author": "Bloom Team <team@bloom.co>",

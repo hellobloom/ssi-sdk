@@ -15,18 +15,22 @@ export type LargeButtonType = 'log-in' | 'sign-up' | 'connect' | 'bloom' | 'veri
 
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
-export type SmallButtonOptions = {
+type BaseButtonOptions = {
+  __hrefBuilder?: (data: CommonWACIElementProps['data']) => string
+}
+
+export type SmallButtonOptions = BaseButtonOptions & {
   size: 'sm'
   type: SmallButtonType
   invert?: boolean
 }
 
-export type MediumButtonOptions = {
+export type MediumButtonOptions = BaseButtonOptions & {
   size: 'md'
   type: MediumButtonType
 }
 
-export type LargeButtonOptions = {
+export type LargeButtonOptions = BaseButtonOptions & {
   size: 'lg'
   type: LargeButtonType
 }
