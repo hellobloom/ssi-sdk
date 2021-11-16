@@ -102,6 +102,7 @@ export type AccountV1 = CreateThing<
     hasIncome?: OneOrMore<BankAccountTransactionGroupV1>
     hasExpense?: OneOrMore<BankAccountTransactionGroupV1>
     hasTransactions?: OneOrMore<BankAccountTransactionV1>
+    verified?: boolean
   }
 >
 
@@ -198,6 +199,7 @@ const getHelperContextEntries = () => {
       hasIncome: 'bloomSchema',
       hasExpense: 'bloomSchema',
       hasTransactions: 'bloomSchema',
+      verified: 'bloomSchema',
     },
   })
 
