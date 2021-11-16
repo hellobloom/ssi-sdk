@@ -27,6 +27,7 @@ export type AccountV2 = {
   hasIncome?: OneOrMore<BankAccountTransactionGroupV2>
   hasExpense?: OneOrMore<BankAccountTransactionGroupV2>
   hasValue?: MonetaryAmountV2
+  verified?: boolean
 }
 
 const getHelperContextEntries = () => {
@@ -42,6 +43,7 @@ const getHelperContextEntries = () => {
       hasIncome: 'bloomSchema',
       hasExpense: 'bloomSchema',
       hasValue: 'bloomSchema',
+      verified: 'bloomSchema',
     },
   })
 
