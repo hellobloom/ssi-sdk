@@ -17,7 +17,7 @@ describe('VCAMLPersonV2', () => {
               name: 'My AML List',
               identifier: 'US_ABC',
               author: {
-                '@type': ['Organization', 'OrganizationE'],
+                '@type': 'Organization',
                 name: 'US Department Of Whatever',
               },
               url: 'https://amllist.com',
@@ -137,8 +137,7 @@ describe('VCAMLPersonV2', () => {
                         "https://schema.bloom.co/author": Array [
                           Object {
                             "@type": Array [
-                              "Organization",
-                              "https://schema.bloom.co/OrganizationE",
+                              "https://schema.org/Organization",
                             ],
                             "https://schema.org/name": Array [
                               Object {

@@ -1,4 +1,4 @@
-import { OrganizationEV1, getBaseV1ContextEntries } from '../base/v1'
+import { OrganizationV2, organizationV2Context } from '../base/v2'
 import { CreateVCType, createSubjectContext, createContextConfig, createContext, OneOrMore } from '../util/v2'
 
 // Helper Types
@@ -14,7 +14,7 @@ export type AMLListV2 = {
   '@type': 'AMLList'
   name?: string
   identifier?: string
-  author?: OneOrMore<OrganizationEV1>
+  author?: OneOrMore<OrganizationV2>
   url?: string
 }
 
@@ -111,7 +111,7 @@ export const getVCAMLPersonV2ContextConfig = () => {
 
   return createContextConfig<VCAMLPersonV2Type>({
     type: 'AMLCredentialPersonV2',
-    subjects: [amlPersonContext, ...getHelperContextEntries(), ...getBaseV1ContextEntries()],
+    subjects: [amlPersonContext, organizationV2Context].concat(getHelperContextEntries()),
   })
 }
 
