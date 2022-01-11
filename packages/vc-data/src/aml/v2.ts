@@ -12,6 +12,7 @@ export type AMLHitCriteriaV2 = {
 export type AMLListV2 = {
   '@type': 'AMLList'
   name?: string
+  identifier?: string
   url?: string
 }
 
@@ -41,6 +42,7 @@ const getHelperContextEntries = () => {
     base: 'bloomSchema',
     properties: {
       name: 'schema',
+      identifier: 'schema',
       url: 'schema',
     },
   })
