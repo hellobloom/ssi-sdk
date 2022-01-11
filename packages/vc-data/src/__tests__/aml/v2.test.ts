@@ -15,6 +15,7 @@ describe('VCAMLPersonV2', () => {
             {
               '@type': 'AMLList',
               name: 'My AML List',
+              identifier: 'US_ABC',
               url: 'https://amllist.com',
             },
           ],
@@ -128,6 +129,11 @@ describe('VCAMLPersonV2', () => {
                       Object {
                         "@type": Array [
                           "https://schema.bloom.co/AMLList",
+                        ],
+                        "https://schema.org/identifier": Array [
+                          Object {
+                            "@value": "US_ABC",
+                          },
                         ],
                         "https://schema.org/name": Array [
                           Object {
