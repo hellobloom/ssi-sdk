@@ -64,6 +64,7 @@ type OrganizationEV1Mixin = CreateThing<
   {
     hasCredential?: OneOrMore<ExpandThing<OrganizationalCredentialV1> | ExpandThing<CredentialV1>>
     industry?: OneOrMore<string>
+    name?: OneOrMore<string>
     identifiers?: OneOrMore<CreateExpandedThing<'PropertyValue'> | string | number>
   }
 >
@@ -100,6 +101,7 @@ export const getBaseV1ContextEntries = () => {
     type: 'OrganizationE',
     typeIdBase: 'bloomSchema',
     fields: {
+      name: 'schema',
       hasCredential: 'schema',
       industry: 'bloomSchema',
       identifiers: 'bloomSchema',

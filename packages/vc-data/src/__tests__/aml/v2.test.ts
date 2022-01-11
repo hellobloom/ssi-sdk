@@ -16,6 +16,10 @@ describe('VCAMLPersonV2', () => {
               '@type': 'AMLList',
               name: 'My AML List',
               identifier: 'US_ABC',
+              author: {
+                '@type': ['Organization', 'OrganizationE'],
+                name: 'US Department Of Whatever',
+              },
               url: 'https://amllist.com',
             },
           ],
@@ -130,17 +134,30 @@ describe('VCAMLPersonV2', () => {
                         "@type": Array [
                           "https://schema.bloom.co/AMLList",
                         ],
-                        "https://schema.org/identifier": Array [
+                        "https://schema.bloom.co/author": Array [
+                          Object {
+                            "@type": Array [
+                              "Organization",
+                              "https://schema.bloom.co/OrganizationE",
+                            ],
+                            "https://schema.org/name": Array [
+                              Object {
+                                "@value": "US Department Of Whatever",
+                              },
+                            ],
+                          },
+                        ],
+                        "https://schema.bloom.co/identifier": Array [
                           Object {
                             "@value": "US_ABC",
                           },
                         ],
-                        "https://schema.org/name": Array [
+                        "https://schema.bloom.co/name": Array [
                           Object {
                             "@value": "My AML List",
                           },
                         ],
-                        "https://schema.org/url": Array [
+                        "https://schema.bloom.co/url": Array [
                           Object {
                             "@value": "https://amllist.com",
                           },
