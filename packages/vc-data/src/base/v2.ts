@@ -63,3 +63,16 @@ export const postalAddressV2Context = createSubjectContext<PostalAddressV2>({
     streetAddress: 'schema',
   },
 })
+
+export type OrganizationV2 = {
+  '@type': 'Organization'
+  name?: string
+}
+
+export const organizationV2Context = createSubjectContext<OrganizationV2>({
+  type: 'Organization',
+  base: 'schema',
+  properties: {
+    name: 'schema',
+  },
+})

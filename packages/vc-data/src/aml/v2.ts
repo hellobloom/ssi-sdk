@@ -1,3 +1,4 @@
+import { OrganizationV2, organizationV2Context } from '../base/v2'
 import { CreateVCType, createSubjectContext, createContextConfig, createContext, OneOrMore } from '../util/v2'
 
 // Helper Types
@@ -12,6 +13,8 @@ export type AMLHitCriteriaV2 = {
 export type AMLListV2 = {
   '@type': 'AMLList'
   name?: string
+  identifier?: string
+  author?: OneOrMore<OrganizationV2>
   url?: string
 }
 
@@ -40,8 +43,10 @@ const getHelperContextEntries = () => {
     type: 'AMLList',
     base: 'bloomSchema',
     properties: {
-      name: 'schema',
-      url: 'schema',
+      name: 'bloomSchema',
+      identifier: 'bloomSchema',
+      author: 'bloomSchema',
+      url: 'bloomSchema',
     },
   })
 
@@ -106,7 +111,7 @@ export const getVCAMLPersonV2ContextConfig = () => {
 
   return createContextConfig<VCAMLPersonV2Type>({
     type: 'AMLCredentialPersonV2',
-    subjects: [amlPersonContext].concat(getHelperContextEntries()),
+    subjects: [amlPersonContext, organizationV2Context].concat(getHelperContextEntries()),
   })
 }
 
