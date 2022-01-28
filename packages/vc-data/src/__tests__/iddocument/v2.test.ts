@@ -21,6 +21,7 @@ describe('VCIDDocumentPersonV2', () => {
           },
           hasIDDocument: {
             '@type': 'IDDocument',
+            identifier: '123123123',
             issuer: {
               '@type': 'IDDocumentIssuer',
               name: 'New Jersey',
