@@ -26,7 +26,7 @@ export type IDDocumentIssuerV2 = {
 
 export type IDDocumentV2 = {
   '@type': 'IDDocument'
-  identifier: IDDocumentIssuerV2
+  identifier: string
   issuer: IDDocumentIssuerV2
   documentType?: string
   issueDate?: string
