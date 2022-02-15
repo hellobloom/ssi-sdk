@@ -64,15 +64,74 @@ export const postalAddressV2Context = createSubjectContext<PostalAddressV2>({
   },
 })
 
+export type GenericOrgType = { '@type': string; name?: string }
+
 export type OrganizationV2 = {
   '@type': 'Organization'
-  name?: string
-}
+} & Omit<GenericOrgType, '@type'>
 
-export const organizationV2Context = createSubjectContext<OrganizationV2>({
-  type: 'Organization',
-  base: 'schema',
-  properties: {
-    name: 'schema',
-  },
-})
+export type CountryV2 = {
+  '@type': 'Country'
+} & Omit<GenericOrgType, '@type'>
+
+export type StateV2 = {
+  '@type': 'State'
+} & Omit<GenericOrgType, '@type'>
+
+export type CityV2 = {
+  '@type': 'City'
+} & Omit<GenericOrgType, '@type'>
+
+export type CorporationV2 = {
+  '@type': 'Corporation'
+} & Omit<GenericOrgType, '@type'>
+
+export type GovernmentOrganizationV2 = {
+  '@type': 'GovernmentOrganization'
+} & Omit<GenericOrgType, '@type'>
+
+export type AdministrativeAreaV2 = {
+  '@type': 'AdministrativeArea'
+} & Omit<GenericOrgType, '@type'>
+
+export type GovernmentOrgV2 =
+  | CountryV2
+  | StateV2
+  | CityV2
+  | OrganizationV2
+  | CorporationV2
+  | GovernmentOrganizationV2
+  | AdministrativeAreaV2
+
+export const genericOrgContext = <T extends GenericOrgType>(typeName: T['@type']) =>
+  createSubjectContext<{ '@type': T['@type'] } & Omit<GenericOrgType, '@type'>>({
+    type: typeName,
+    base: 'schema',
+    properties: {
+      name: 'schema',
+    },
+  })
+
+export const organizationV2Context = genericOrgContext<OrganizationV2>('Organization')
+
+export const countryV2Context = genericOrgContext<OrganizationV2>('Organization')
+
+export const stateV2Context = genericOrgContext<StateV2>('State')
+
+export const cityV2Context = genericOrgContext<CityV2>('City')
+
+export const corporationV2Context = genericOrgContext<CorporationV2>('Corporation')
+
+export const governmentOrganizationV2Context = genericOrgContext<GovernmentOrganizationV2>('GovernmentOrganization')
+
+export const administrativeAreaV2Context = genericOrgContext<AdministrativeAreaV2>('AdministrativeArea')
+
+export const governmentOrgContexts = [
+  organizationV2Context,
+  countryV2Context,
+  stateV2Context,
+  cityV2Context,
+  corporationV2Context,
+  governmentOrganizationV2Context,
+  administrativeAreaV2Context,
+]
