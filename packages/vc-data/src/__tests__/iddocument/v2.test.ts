@@ -21,6 +21,7 @@ describe('VCIDDocumentPersonV2', () => {
           },
           hasIDDocument: {
             '@type': 'IDDocument',
+            identifier: '123123123',
             issuer: {
               '@type': 'IDDocumentIssuer',
               name: 'New Jersey',
@@ -136,6 +137,11 @@ describe('VCIDDocumentPersonV2', () => {
                         "https://schema.bloom.co/idClassName": Array [
                           Object {
                             "@value": "class-name",
+                          },
+                        ],
+                        "https://schema.bloom.co/identifier": Array [
+                          Object {
+                            "@value": "123123123",
                           },
                         ],
                         "https://schema.bloom.co/issueDate": Array [

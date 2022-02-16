@@ -26,7 +26,8 @@ export type IDDocumentIssuerV2 = {
 
 export type IDDocumentV2 = {
   '@type': 'IDDocument'
-  issuer: IDDocumentIssuerV2
+  identifier?: string
+  issuer?: IDDocumentIssuerV2
   documentType?: string
   issueDate?: string
   issueType?: string
@@ -111,6 +112,7 @@ export const getVCIDDocumentPersonV2ContextConfig = () => {
     type: 'IDDocument',
     base: 'bloomSchema',
     properties: {
+      identifier: 'bloomSchema',
       issuer: 'bloomSchema',
       documentType: 'bloomSchema',
       issueDate: 'bloomSchema',
