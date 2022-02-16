@@ -1,5 +1,5 @@
-import { OrganizationV2, organizationV2Context } from '../base/v2'
 import { CreateVCType, createSubjectContext, createContextConfig, createContext, OneOrMore } from '../util/v2'
+import { OrganizationV2, organizationV2Context, PropertyValueV2, propertyValueV2Context } from '../base/v2'
 
 // Helper Types
 
@@ -93,8 +93,9 @@ const getHelperContextEntries = () => {
 
 export type AMLPersonV2 = {
   '@type': 'AMLPerson'
-  nationality?: string
   hasAMLSearch: OneOrMore<AMLSearchV2>
+  identifier?: OneOrMore<PropertyValueV2>
+  nationality?: string
 }
 
 export type VCAMLPersonV2Type = 'AMLCredentialPersonV2'
@@ -104,6 +105,7 @@ export const getVCAMLPersonV2ContextConfig = () => {
     type: 'AMLPerson',
     base: 'bloomSchema',
     properties: {
+      identifier: 'bloomSchema',
       nationality: 'bloomSchema',
       hasAMLSearch: 'bloomSchema',
     },
@@ -111,7 +113,7 @@ export const getVCAMLPersonV2ContextConfig = () => {
 
   return createContextConfig<VCAMLPersonV2Type>({
     type: 'AMLCredentialPersonV2',
-    subjects: [amlPersonContext, organizationV2Context].concat(getHelperContextEntries()),
+    subjects: [amlPersonContext, organizationV2Context, propertyValueV2Context].concat(getHelperContextEntries()),
   })
 }
 
