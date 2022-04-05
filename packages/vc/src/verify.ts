@@ -216,7 +216,7 @@ type VerifyVPIssuanceResponseSuccess = {
 
 type VerifyVPIssuanceResponseFailure = {
   success: false
-  credentialErorrs?: { id: string; errors: IssuanceError[] }[]
+  credentialErrors?: { id: string; errors: IssuanceError[] }[]
 }
 
 type VerifyVPIssuanceResponse = VerifyVPIssuanceResponseSuccess | VerifyVPIssuanceResponseFailure
@@ -224,22 +224,22 @@ type VerifyVPIssuanceResponse = VerifyVPIssuanceResponseSuccess | VerifyVPIssuan
 type VerifyVPIssuance = (opts: { vp: VP }) => VerifyVPIssuanceResponse
 
 const verifyVPIssuance: VerifyVPIssuance = ({ vp }) => {
-  const credentialErorrs: { id: string; errors: IssuanceError[] }[] = []
+  const credentialErrors: { id: string; errors: IssuanceError[] }[] = []
 
   vp.verifiableCredential.forEach((vc) => {
     const result = verifyVCIssuance({ vc })
     if (!result.success) {
-      credentialErorrs.push({
+      credentialErrors.push({
         id: vc.id,
         errors: result.errors,
       })
     }
   })
 
-  if (credentialErorrs.length > 0) {
+  if (credentialErrors.length > 0) {
     return {
       success: false,
-      credentialErorrs,
+      credentialErrors,
     }
   }
 
@@ -382,7 +382,7 @@ export const verifyVP = async <VPType extends VP = VP>({
   if (!issuanceResult.success) {
     return {
       success: false,
-      credentialIssuanceErrors: issuanceResult.credentialErorrs,
+      credentialIssuanceErrors: issuanceResult.credentialErrors,
     }
   }
 
