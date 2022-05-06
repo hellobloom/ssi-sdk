@@ -33,9 +33,16 @@ describe('VCAMLPersonV2', () => {
               name: 'AML Hit 1',
               hasCriteria: {
                 '@type': 'AMLHitCriteria',
-                name: 'AML Hit Criteria 1',
                 identifier: '1234',
                 matchDegree: '50',
+                dateOfBirth: '1987-01-01',
+                documentType: 'passport',
+                documentIdentifier: 'ABC123',
+                location: '192 Birch Parkway',
+                countryCode: 'US',
+                name: 'Bob Michelson',
+                primaryName: true,
+                lowQualityNameMatch: false,
               },
             },
           ],
@@ -95,9 +102,39 @@ describe('VCAMLPersonV2', () => {
                             "@type": Array [
                               "https://schema.bloom.co/AMLHitCriteria",
                             ],
+                            "https://schema.bloom.co/countryCode": Array [
+                              Object {
+                                "@value": "US",
+                              },
+                            ],
+                            "https://schema.bloom.co/dateOfBirth": Array [
+                              Object {
+                                "@value": "1987-01-01",
+                              },
+                            ],
+                            "https://schema.bloom.co/documentIdentifier": Array [
+                              Object {
+                                "@value": "ABC123",
+                              },
+                            ],
+                            "https://schema.bloom.co/documentType": Array [
+                              Object {
+                                "@value": "passport",
+                              },
+                            ],
                             "https://schema.bloom.co/identifier": Array [
                               Object {
                                 "@value": "1234",
+                              },
+                            ],
+                            "https://schema.bloom.co/location": Array [
+                              Object {
+                                "@value": "192 Birch Parkway",
+                              },
+                            ],
+                            "https://schema.bloom.co/lowQualityNameMatch": Array [
+                              Object {
+                                "@value": false,
                               },
                             ],
                             "https://schema.bloom.co/matchDegree": Array [
@@ -107,7 +144,12 @@ describe('VCAMLPersonV2', () => {
                             ],
                             "https://schema.bloom.co/name": Array [
                               Object {
-                                "@value": "AML Hit Criteria 1",
+                                "@value": "Bob Michelson",
+                              },
+                            ],
+                            "https://schema.bloom.co/primaryName": Array [
+                              Object {
+                                "@value": true,
                               },
                             ],
                           },
