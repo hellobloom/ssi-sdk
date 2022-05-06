@@ -5,9 +5,23 @@ import { OrganizationV2, organizationV2Context, PropertyValueV2, propertyValueV2
 
 export type AMLHitCriteriaV2 = {
   '@type': 'AMLHitCriteria'
+
   identifier?: string
-  name?: string
+
   matchDegree?: string | number
+
+  dateOfBirth?: string
+
+  documentType?: string
+  documentIdentifier?: string
+
+  location?: string
+  countryCode?: string
+
+  name?: string
+  primaryName?: boolean
+
+  lowQualityNameMatch?: boolean
 }
 
 export type AMLListV2 = {
@@ -65,8 +79,15 @@ const getHelperContextEntries = () => {
     base: 'bloomSchema',
     properties: {
       identifier: 'bloomSchema',
-      name: 'bloomSchema',
       matchDegree: 'bloomSchema',
+      dateOfBirth: 'bloomSchema',
+      documentType: 'bloomSchema',
+      documentIdentifier: 'bloomSchema',
+      location: 'bloomSchema',
+      countryCode: 'bloomSchema',
+      name: 'bloomSchema',
+      primaryName: 'bloomSchema',
+      lowQualityNameMatch: 'bloomSchema',
     },
   })
 
