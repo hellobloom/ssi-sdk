@@ -2,6 +2,7 @@ import { CreateVCType, createSubjectContext, createContextConfig, createContext,
 import { PostalAddressV2, postalAddressV2Context, PropertyValueV2, propertyValueV2Context } from '../base/v2'
 
 export type PossibleMatchVals = 'match' | 'partial_match' | 'no_match' | 'no_data' | 'no_input'
+export type PossibleCheckVals = 'success' | 'failure' | 'not_checked'
 
 export type AddressCheckV2 = {
   '@type': 'AddressCheck'
@@ -12,13 +13,13 @@ export type AddressCheckV2 = {
 
 export type IdentityCheckV2 = {
   '@type': 'IdentityCheck'
-  status?: 'success' | 'failure'
+  status?: PossibleCheckVals
   createdAt?: string
   completedAt?: string
 
   // General checks
-  riskCheck?: 'success' | 'failure'
-  selfieCheck?: 'success' | 'failure'
+  riskCheck?: PossibleCheckVals
+  selfieCheck?: PossibleCheckVals
 
   // Individually validated attributes
   addressCheck?: AddressCheckV2
@@ -28,7 +29,7 @@ export type IdentityCheckV2 = {
   phoneCheck?: PossibleMatchVals
 
   // Active SMS verification, as opposed to passive database lookup
-  smsCheck?: 'success' | 'failure'
+  smsCheck?: PossibleCheckVals
 }
 
 const getHelperContextEntries = () => {
