@@ -1,7 +1,11 @@
 {
   "name": "@bloomprotocol/vc-data",
   "description": "Data types for verifiable credentials (forked from @affinidi/vc-data)",
+<<<<<<< HEAD
   "version": "0.1.20",
+=======
+  "version": "0.1.16",
+>>>>>>> feat/id-doc-num
   "author": "Bloom Team <team@bloom.co>",
   "license": "Apache-2.0",
   "repository": "https://github.com/hellobloom/ssi-sdk/tree/main/packages/vc-data",
