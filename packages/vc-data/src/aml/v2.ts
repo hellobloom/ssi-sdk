@@ -126,8 +126,8 @@ export const getVCAMLPersonV2ContextConfig = () => {
     type: 'AMLPerson',
     base: 'bloomSchema',
     properties: {
-      identifier: 'bloomSchema',
-      nationality: 'bloomSchema',
+      identifier: 'schema',
+      nationality: 'schema',
       hasAMLSearch: 'bloomSchema',
     },
   })
