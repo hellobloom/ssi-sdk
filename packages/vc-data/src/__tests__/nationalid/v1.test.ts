@@ -48,23 +48,11 @@ describe('VCNatIDNumPersonV1', () => {
                   "https://schema.bloom.co/PersonE",
                   "https://schema.bloom.co/NatIDNumPerson",
                 ],
-                "https://schema.bloom.co/nationality": Array [
+                "https://schema.org/nationality": Array [
                   Object {
                     "@type": Array [
                       "https://schema.org/Role",
                       "https://schema.bloom.co/NationalityRole",
-                    ],
-                    "https://schema.bloom.co/nationality": Array [
-                      Object {
-                        "@type": Array [
-                          "https://schema.org/Country",
-                        ],
-                        "https://schema.org/name": Array [
-                          Object {
-                            "@value": "United States Of America",
-                          },
-                        ],
-                      },
                     ],
                     "https://schema.org/identifier": Array [
                       Object {
@@ -80,6 +68,18 @@ describe('VCNatIDNumPersonV1', () => {
                         "https://schema.org/value": Array [
                           Object {
                             "@value": "123-12-1234",
+                          },
+                        ],
+                      },
+                    ],
+                    "https://schema.org/nationality": Array [
+                      Object {
+                        "@type": Array [
+                          "https://schema.org/Country",
+                        ],
+                        "https://schema.org/name": Array [
+                          Object {
+                            "@value": "United States Of America",
                           },
                         ],
                       },
@@ -151,23 +151,11 @@ describe('VCNatIDNumOrganizationV1', () => {
                   "https://schema.bloom.co/OrganizationE",
                   "https://schema.bloom.co/NatIDNumOrganization",
                 ],
-                "https://schema.bloom.co/nationality": Array [
+                "https://schema.org/nationality": Array [
                   Object {
                     "@type": Array [
                       "https://schema.org/Role",
                       "https://schema.bloom.co/NationalityRole",
-                    ],
-                    "https://schema.bloom.co/nationality": Array [
-                      Object {
-                        "@type": Array [
-                          "https://schema.org/Country",
-                        ],
-                        "https://schema.org/name": Array [
-                          Object {
-                            "@value": "United States Of America",
-                          },
-                        ],
-                      },
                     ],
                     "https://schema.org/identifier": Array [
                       Object {
@@ -183,6 +171,18 @@ describe('VCNatIDNumOrganizationV1', () => {
                         "https://schema.org/value": Array [
                           Object {
                             "@value": "123-123-123",
+                          },
+                        ],
+                      },
+                    ],
+                    "https://schema.org/nationality": Array [
+                      Object {
+                        "@type": Array [
+                          "https://schema.org/Country",
+                        ],
+                        "https://schema.org/name": Array [
+                          Object {
+                            "@value": "United States Of America",
                           },
                         ],
                       },

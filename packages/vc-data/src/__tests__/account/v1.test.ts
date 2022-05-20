@@ -364,11 +364,6 @@ describe('VCAccountPersonV1', () => {
                             "@value": "daily",
                           },
                         ],
-                        "https://schema.bloom.co/identifier": Array [
-                          Object {
-                            "@value": 1234,
-                          },
-                        ],
                         "https://schema.bloom.co/length": Array [
                           Object {
                             "@value": 10,
@@ -534,6 +529,11 @@ describe('VCAccountPersonV1', () => {
                                 "@value": "100",
                               },
                             ],
+                          },
+                        ],
+                        "https://schema.org/identifier": Array [
+                          Object {
+                            "@value": 1234,
                           },
                         ],
                       },
@@ -563,11 +563,6 @@ describe('VCAccountPersonV1', () => {
                             "@value": "daily",
                           },
                         ],
-                        "https://schema.bloom.co/identifier": Array [
-                          Object {
-                            "@value": 1234,
-                          },
-                        ],
                         "https://schema.bloom.co/length": Array [
                           Object {
                             "@value": 10,
@@ -733,6 +728,11 @@ describe('VCAccountPersonV1', () => {
                                 "@value": "100",
                               },
                             ],
+                          },
+                        ],
+                        "https://schema.org/identifier": Array [
+                          Object {
+                            "@value": 1234,
                           },
                         ],
                       },
@@ -835,29 +835,12 @@ describe('VCAccountPersonV1', () => {
                         ],
                       },
                     ],
-                    "https://schema.bloom.co/identifier": Array [
-                      Object {
-                        "@value": "1234",
-                      },
-                    ],
                     "https://schema.bloom.co/organization": Array [
                       Object {
                         "@type": Array [
                           "https://schema.org/Organization",
                           "https://schema.bloom.co/OrganizationE",
                           "https://schema.bloom.co/OrganizationAccount",
-                        ],
-                        "https://schema.bloom.co/nationality": Array [
-                          Object {
-                            "@type": Array [
-                              "https://schema.org/State",
-                            ],
-                            "https://schema.org/name": Array [
-                              Object {
-                                "@value": "Washington",
-                              },
-                            ],
-                          },
                         ],
                         "https://schema.bloom.co/serviceTypes": Array [
                           Object {
@@ -872,11 +855,28 @@ describe('VCAccountPersonV1', () => {
                             "@value": "My Org",
                           },
                         ],
+                        "https://schema.org/nationality": Array [
+                          Object {
+                            "@type": Array [
+                              "https://schema.org/State",
+                            ],
+                            "https://schema.org/name": Array [
+                              Object {
+                                "@value": "Washington",
+                              },
+                            ],
+                          },
+                        ],
                       },
                     ],
                     "https://schema.bloom.co/startDate": Array [
                       Object {
                         "@value": "2020-06-01T00:00:00.000Z",
+                      },
+                    ],
+                    "https://schema.org/identifier": Array [
+                      Object {
+                        "@value": "1234",
                       },
                     ],
                   },
@@ -904,11 +904,6 @@ describe('VCAccountPersonV1', () => {
                     "https://schema.bloom.co/frequency": Array [
                       Object {
                         "@value": "daily",
-                      },
-                    ],
-                    "https://schema.bloom.co/identifier": Array [
-                      Object {
-                        "@value": 1234,
                       },
                     ],
                     "https://schema.bloom.co/length": Array [
@@ -1076,6 +1071,11 @@ describe('VCAccountPersonV1', () => {
                             "@value": "100",
                           },
                         ],
+                      },
+                    ],
+                    "https://schema.org/identifier": Array [
+                      Object {
+                        "@value": 1234,
                       },
                     ],
                   },
@@ -1242,11 +1242,6 @@ describe('VCAccountOrganizationV1', () => {
                             "@value": "daily",
                           },
                         ],
-                        "https://schema.bloom.co/identifier": Array [
-                          Object {
-                            "@value": 1234,
-                          },
-                        ],
                         "https://schema.bloom.co/length": Array [
                           Object {
                             "@value": 10,
@@ -1412,6 +1407,11 @@ describe('VCAccountOrganizationV1', () => {
                                 "@value": "100",
                               },
                             ],
+                          },
+                        ],
+                        "https://schema.org/identifier": Array [
+                          Object {
+                            "@value": 1234,
                           },
                         ],
                       },
@@ -1441,11 +1441,6 @@ describe('VCAccountOrganizationV1', () => {
                             "@value": "daily",
                           },
                         ],
-                        "https://schema.bloom.co/identifier": Array [
-                          Object {
-                            "@value": 1234,
-                          },
-                        ],
                         "https://schema.bloom.co/length": Array [
                           Object {
                             "@value": 10,
@@ -1611,6 +1606,11 @@ describe('VCAccountOrganizationV1', () => {
                                 "@value": "100",
                               },
                             ],
+                          },
+                        ],
+                        "https://schema.org/identifier": Array [
+                          Object {
+                            "@value": 1234,
                           },
                         ],
                       },
@@ -1713,29 +1713,12 @@ describe('VCAccountOrganizationV1', () => {
                         ],
                       },
                     ],
-                    "https://schema.bloom.co/identifier": Array [
-                      Object {
-                        "@value": "1234",
-                      },
-                    ],
                     "https://schema.bloom.co/organization": Array [
                       Object {
                         "@type": Array [
                           "https://schema.org/Organization",
                           "https://schema.bloom.co/OrganizationE",
                           "https://schema.bloom.co/OrganizationAccount",
-                        ],
-                        "https://schema.bloom.co/nationality": Array [
-                          Object {
-                            "@type": Array [
-                              "https://schema.org/State",
-                            ],
-                            "https://schema.org/name": Array [
-                              Object {
-                                "@value": "Washington",
-                              },
-                            ],
-                          },
                         ],
                         "https://schema.bloom.co/serviceTypes": Array [
                           Object {
@@ -1750,11 +1733,28 @@ describe('VCAccountOrganizationV1', () => {
                             "@value": "My Org",
                           },
                         ],
+                        "https://schema.org/nationality": Array [
+                          Object {
+                            "@type": Array [
+                              "https://schema.org/State",
+                            ],
+                            "https://schema.org/name": Array [
+                              Object {
+                                "@value": "Washington",
+                              },
+                            ],
+                          },
+                        ],
                       },
                     ],
                     "https://schema.bloom.co/startDate": Array [
                       Object {
                         "@value": "2020-06-01T00:00:00.000Z",
+                      },
+                    ],
+                    "https://schema.org/identifier": Array [
+                      Object {
+                        "@value": "1234",
                       },
                     ],
                   },
@@ -1782,11 +1782,6 @@ describe('VCAccountOrganizationV1', () => {
                     "https://schema.bloom.co/frequency": Array [
                       Object {
                         "@value": "daily",
-                      },
-                    ],
-                    "https://schema.bloom.co/identifier": Array [
-                      Object {
-                        "@value": 1234,
                       },
                     ],
                     "https://schema.bloom.co/length": Array [
@@ -1954,6 +1949,11 @@ describe('VCAccountOrganizationV1', () => {
                             "@value": "100",
                           },
                         ],
+                      },
+                    ],
+                    "https://schema.org/identifier": Array [
+                      Object {
+                        "@value": 1234,
                       },
                     ],
                   },

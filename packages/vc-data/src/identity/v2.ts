@@ -102,7 +102,7 @@ export const getVCIdentityPersonV2ContextConfig = () => {
 
       address: 'schema',
       hasIdentityCheck: 'bloomSchema',
-      identifier: 'bloomSchema',
+      identifier: 'schema',
     },
   })
 

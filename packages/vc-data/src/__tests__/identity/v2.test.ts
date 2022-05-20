@@ -74,23 +74,6 @@ describe('VCIdentityPersonV2', () => {
                     ],
                   },
                 ],
-                "https://schema.bloom.co/identifier": Array [
-                  Object {
-                    "@type": Array [
-                      "https://schema.org/PropertyValue",
-                    ],
-                    "https://schema.org/propertyID": Array [
-                      Object {
-                        "@value": "ssn",
-                      },
-                    ],
-                    "https://schema.org/value": Array [
-                      Object {
-                        "@value": "333-33-3333",
-                      },
-                    ],
-                  },
-                ],
                 "https://schema.org/additionalName": Array [
                   Object {
                     "@value": "foobar",
@@ -126,6 +109,23 @@ describe('VCIdentityPersonV2', () => {
                 "https://schema.org/givenName": Array [
                   Object {
                     "@value": "foobar",
+                  },
+                ],
+                "https://schema.org/identifier": Array [
+                  Object {
+                    "@type": Array [
+                      "https://schema.org/PropertyValue",
+                    ],
+                    "https://schema.org/propertyID": Array [
+                      Object {
+                        "@value": "ssn",
+                      },
+                    ],
+                    "https://schema.org/value": Array [
+                      Object {
+                        "@value": "333-33-3333",
+                      },
+                    ],
                   },
                 ],
                 "https://schema.org/name": Array [

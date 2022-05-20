@@ -173,7 +173,7 @@ const getHelperContextEntries = () => {
     properties: {
       name: 'schema',
       serviceTypes: 'bloomSchema',
-      nationality: 'bloomSchema',
+      nationality: 'schema',
     },
   })
 

@@ -91,21 +91,16 @@ describe('VCAMLPersonV1', () => {
                         "@type": Array [
                           "https://schema.bloom.co/AMLHit",
                         ],
-                        "https://schema.bloom.co/identifier": Array [
+                        "https://schema.org/identifier": Array [
                           Object {
                             "@value": "1234",
                           },
                         ],
-                        "https://schema.bloom.co/name": Array [
+                        "https://schema.org/name": Array [
                           Object {
                             "@value": "AML Hit 1",
                           },
                         ],
-                      },
-                    ],
-                    "https://schema.bloom.co/identifier": Array [
-                      Object {
-                        "@value": "1234",
                       },
                     ],
                     "https://schema.bloom.co/lists": Array [
@@ -133,6 +128,11 @@ describe('VCAMLPersonV1', () => {
                     "https://schema.bloom.co/score": Array [
                       Object {
                         "@value": "0",
+                      },
+                    ],
+                    "https://schema.org/identifier": Array [
+                      Object {
+                        "@value": "1234",
                       },
                     ],
                   },
@@ -250,21 +250,16 @@ describe('VCAMLOrganizationV1', () => {
                         "@type": Array [
                           "https://schema.bloom.co/AMLHit",
                         ],
-                        "https://schema.bloom.co/identifier": Array [
+                        "https://schema.org/identifier": Array [
                           Object {
                             "@value": "1234",
                           },
                         ],
-                        "https://schema.bloom.co/name": Array [
+                        "https://schema.org/name": Array [
                           Object {
                             "@value": "AML Hit 1",
                           },
                         ],
-                      },
-                    ],
-                    "https://schema.bloom.co/identifier": Array [
-                      Object {
-                        "@value": "1234",
                       },
                     ],
                     "https://schema.bloom.co/lists": Array [
@@ -292,6 +287,11 @@ describe('VCAMLOrganizationV1', () => {
                     "https://schema.bloom.co/score": Array [
                       Object {
                         "@value": "0",
+                      },
+                    ],
+                    "https://schema.org/identifier": Array [
+                      Object {
+                        "@value": "1234",
                       },
                     ],
                   },

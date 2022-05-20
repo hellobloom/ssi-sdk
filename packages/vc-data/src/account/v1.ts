@@ -150,7 +150,7 @@ const getHelperContextEntries = () => {
     type: 'BankAccountTransactionGroup',
     typeIdBase: 'bloomSchema',
     fields: {
-      identifier: 'bloomSchema',
+      identifier: 'schema',
       startDate: 'bloomSchema',
       endDate: 'bloomSchema',
       cashflowCategory: 'bloomSchema',
@@ -176,7 +176,7 @@ const getHelperContextEntries = () => {
     typeIdBase: 'bloomSchema',
     fields: {
       serviceTypes: 'bloomSchema',
-      nationality: 'bloomSchema',
+      nationality: 'schema',
     },
   })
 
@@ -185,8 +185,8 @@ const getHelperContextEntries = () => {
     typeIdBase: 'bloomSchema',
     fields: {
       name: 'schema',
-      identifier: 'bloomSchema',
-      description: 'bloomSchema',
+      identifier: 'schema',
+      description: 'schema',
       organization: 'bloomSchema',
       startDate: 'bloomSchema',
       endDate: 'bloomSchema',

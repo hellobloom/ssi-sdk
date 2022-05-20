@@ -57,10 +57,10 @@ const getHelperContextEntries = () => {
     type: 'AMLList',
     base: 'bloomSchema',
     properties: {
-      name: 'bloomSchema',
-      identifier: 'bloomSchema',
-      author: 'bloomSchema',
-      url: 'bloomSchema',
+      name: 'schema',
+      identifier: 'schema',
+      author: 'schema',
+      url: 'schema',
     },
   })
 
@@ -68,8 +68,8 @@ const getHelperContextEntries = () => {
     type: 'AMLHit',
     base: 'bloomSchema',
     properties: {
-      identifier: 'bloomSchema',
-      name: 'bloomSchema',
+      identifier: 'schema',
+      name: 'schema',
       hasCriteria: 'bloomSchema',
     },
   })
@@ -78,14 +78,14 @@ const getHelperContextEntries = () => {
     type: 'AMLHitCriteria',
     base: 'bloomSchema',
     properties: {
-      identifier: 'bloomSchema',
+      identifier: 'schema',
       matchDegree: 'bloomSchema',
       dateOfBirth: 'bloomSchema',
       documentType: 'bloomSchema',
       documentIdentifier: 'bloomSchema',
       location: 'bloomSchema',
       countryCode: 'bloomSchema',
-      name: 'bloomSchema',
+      name: 'schema',
       primaryName: 'bloomSchema',
       lowQualityNameMatch: 'bloomSchema',
     },
@@ -99,7 +99,7 @@ const getHelperContextEntries = () => {
       hitNumber: 'bloomSchema',
       lists: 'bloomSchema',
       recordId: 'bloomSchema',
-      identifier: 'bloomSchema',
+      identifier: 'schema',
       score: 'bloomSchema',
       hits: 'bloomSchema',
       flagType: 'bloomSchema',
