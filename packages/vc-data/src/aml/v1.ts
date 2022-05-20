@@ -57,7 +57,7 @@ const getHelperContextEntries = () => {
     type: 'AMLHit',
     typeIdBase: 'bloomSchema',
     fields: {
-      identifier: 'bloomSchema',
+      identifier: 'schema',
       name: 'bloomSchema',
     },
   })
@@ -70,7 +70,7 @@ const getHelperContextEntries = () => {
       hitNumber: 'bloomSchema',
       lists: 'bloomSchema',
       recordId: 'bloomSchema',
-      identifier: 'bloomSchema',
+      identifier: 'schema',
       score: 'bloomSchema',
       hits: 'bloomSchema',
       flagType: 'bloomSchema',

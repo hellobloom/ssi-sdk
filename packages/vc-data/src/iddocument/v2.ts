@@ -112,7 +112,7 @@ export const getVCIDDocumentPersonV2ContextConfig = () => {
     type: 'IDDocument',
     base: 'bloomSchema',
     properties: {
-      identifier: 'bloomSchema',
+      identifier: 'schema',
       issuer: 'bloomSchema',
       documentType: 'bloomSchema',
       issueDate: 'bloomSchema',
