@@ -122,11 +122,6 @@ describe('VCAMLPersonV2', () => {
                                 "@value": "passport",
                               },
                             ],
-                            "https://schema.bloom.co/identifier": Array [
-                              Object {
-                                "@value": "1234",
-                              },
-                            ],
                             "https://schema.bloom.co/location": Array [
                               Object {
                                 "@value": "192 Birch Parkway",
@@ -142,33 +137,33 @@ describe('VCAMLPersonV2', () => {
                                 "@value": "50",
                               },
                             ],
-                            "https://schema.bloom.co/name": Array [
-                              Object {
-                                "@value": "Bob Michelson",
-                              },
-                            ],
                             "https://schema.bloom.co/primaryName": Array [
                               Object {
                                 "@value": true,
                               },
                             ],
+                            "https://schema.org/identifier": Array [
+                              Object {
+                                "@value": "1234",
+                              },
+                            ],
+                            "https://schema.org/name": Array [
+                              Object {
+                                "@value": "Bob Michelson",
+                              },
+                            ],
                           },
                         ],
-                        "https://schema.bloom.co/identifier": Array [
+                        "https://schema.org/identifier": Array [
                           Object {
                             "@value": "1234",
                           },
                         ],
-                        "https://schema.bloom.co/name": Array [
+                        "https://schema.org/name": Array [
                           Object {
                             "@value": "AML Hit 1",
                           },
                         ],
-                      },
-                    ],
-                    "https://schema.bloom.co/identifier": Array [
-                      Object {
-                        "@value": "1234",
                       },
                     ],
                     "https://schema.bloom.co/lists": Array [
@@ -176,7 +171,7 @@ describe('VCAMLPersonV2', () => {
                         "@type": Array [
                           "https://schema.bloom.co/AMLList",
                         ],
-                        "https://schema.bloom.co/author": Array [
+                        "https://schema.org/author": Array [
                           Object {
                             "@type": Array [
                               "https://schema.org/Organization",
@@ -188,17 +183,17 @@ describe('VCAMLPersonV2', () => {
                             ],
                           },
                         ],
-                        "https://schema.bloom.co/identifier": Array [
+                        "https://schema.org/identifier": Array [
                           Object {
                             "@value": "US_ABC",
                           },
                         ],
-                        "https://schema.bloom.co/name": Array [
+                        "https://schema.org/name": Array [
                           Object {
                             "@value": "My AML List",
                           },
                         ],
-                        "https://schema.bloom.co/url": Array [
+                        "https://schema.org/url": Array [
                           Object {
                             "@value": "https://amllist.com",
                           },
@@ -213,6 +208,11 @@ describe('VCAMLPersonV2', () => {
                     "https://schema.bloom.co/score": Array [
                       Object {
                         "@value": "0",
+                      },
+                    ],
+                    "https://schema.org/identifier": Array [
+                      Object {
+                        "@value": "1234",
                       },
                     ],
                   },

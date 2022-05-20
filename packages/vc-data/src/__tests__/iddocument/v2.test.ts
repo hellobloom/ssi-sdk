@@ -139,11 +139,6 @@ describe('VCIDDocumentPersonV2', () => {
                             "@value": "class-name",
                           },
                         ],
-                        "https://schema.bloom.co/identifier": Array [
-                          Object {
-                            "@value": "123123123",
-                          },
-                        ],
                         "https://schema.bloom.co/issueDate": Array [
                           Object {
                             "@value": "2021-10-27T23:36:52.781Z",
@@ -169,6 +164,11 @@ describe('VCIDDocumentPersonV2', () => {
                         "https://schema.bloom.co/keesingCode": Array [
                           Object {
                             "@value": "...",
+                          },
+                        ],
+                        "https://schema.org/identifier": Array [
+                          Object {
+                            "@value": "123123123",
                           },
                         ],
                       },
