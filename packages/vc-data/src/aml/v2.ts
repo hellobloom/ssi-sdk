@@ -1,13 +1,27 @@
-import { OrganizationV2, organizationV2Context } from '../base/v2'
 import { CreateVCType, createSubjectContext, createContextConfig, createContext, OneOrMore } from '../util/v2'
+import { OrganizationV2, organizationV2Context, PropertyValueV2, propertyValueV2Context } from '../base/v2'
 
 // Helper Types
 
 export type AMLHitCriteriaV2 = {
   '@type': 'AMLHitCriteria'
+
   identifier?: string
-  name?: string
+
   matchDegree?: string | number
+
+  dateOfBirth?: string
+
+  documentType?: string
+  documentIdentifier?: string
+
+  location?: string
+  countryCode?: string
+
+  name?: string
+  primaryName?: boolean
+
+  lowQualityNameMatch?: boolean
 }
 
 export type AMLListV2 = {
@@ -65,8 +79,15 @@ const getHelperContextEntries = () => {
     base: 'bloomSchema',
     properties: {
       identifier: 'bloomSchema',
-      name: 'bloomSchema',
       matchDegree: 'bloomSchema',
+      dateOfBirth: 'bloomSchema',
+      documentType: 'bloomSchema',
+      documentIdentifier: 'bloomSchema',
+      location: 'bloomSchema',
+      countryCode: 'bloomSchema',
+      name: 'bloomSchema',
+      primaryName: 'bloomSchema',
+      lowQualityNameMatch: 'bloomSchema',
     },
   })
 
@@ -93,8 +114,9 @@ const getHelperContextEntries = () => {
 
 export type AMLPersonV2 = {
   '@type': 'AMLPerson'
-  nationality?: string
   hasAMLSearch: OneOrMore<AMLSearchV2>
+  identifier?: OneOrMore<PropertyValueV2>
+  nationality?: string
 }
 
 export type VCAMLPersonV2Type = 'AMLCredentialPersonV2'
@@ -104,6 +126,7 @@ export const getVCAMLPersonV2ContextConfig = () => {
     type: 'AMLPerson',
     base: 'bloomSchema',
     properties: {
+      identifier: 'bloomSchema',
       nationality: 'bloomSchema',
       hasAMLSearch: 'bloomSchema',
     },
@@ -111,7 +134,7 @@ export const getVCAMLPersonV2ContextConfig = () => {
 
   return createContextConfig<VCAMLPersonV2Type>({
     type: 'AMLCredentialPersonV2',
-    subjects: [amlPersonContext, organizationV2Context].concat(getHelperContextEntries()),
+    subjects: [amlPersonContext, organizationV2Context, propertyValueV2Context].concat(getHelperContextEntries()),
   })
 }
 
