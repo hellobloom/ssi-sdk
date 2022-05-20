@@ -57,10 +57,10 @@ const getHelperContextEntries = () => {
     type: 'AMLList',
     base: 'bloomSchema',
     properties: {
-      name: 'bloomSchema',
+      name: 'schema',
       identifier: 'schema',
-      author: 'bloomSchema',
-      url: 'bloomSchema',
+      author: 'schema',
+      url: 'schema',
     },
   })
 
@@ -69,7 +69,7 @@ const getHelperContextEntries = () => {
     base: 'bloomSchema',
     properties: {
       identifier: 'schema',
-      name: 'bloomSchema',
+      name: 'schema',
       hasCriteria: 'bloomSchema',
     },
   })
@@ -85,7 +85,7 @@ const getHelperContextEntries = () => {
       documentIdentifier: 'bloomSchema',
       location: 'bloomSchema',
       countryCode: 'bloomSchema',
-      name: 'bloomSchema',
+      name: 'schema',
       primaryName: 'bloomSchema',
       lowQualityNameMatch: 'bloomSchema',
     },

@@ -58,7 +58,7 @@ const getHelperContextEntries = () => {
     typeIdBase: 'bloomSchema',
     fields: {
       identifier: 'schema',
-      name: 'bloomSchema',
+      name: 'schema',
     },
   })
 

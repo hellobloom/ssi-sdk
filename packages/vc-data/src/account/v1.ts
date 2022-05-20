@@ -176,7 +176,7 @@ const getHelperContextEntries = () => {
     typeIdBase: 'bloomSchema',
     fields: {
       serviceTypes: 'bloomSchema',
-      nationality: 'bloomSchema',
+      nationality: 'schema',
     },
   })
 
@@ -186,7 +186,7 @@ const getHelperContextEntries = () => {
     fields: {
       name: 'schema',
       identifier: 'schema',
-      description: 'bloomSchema',
+      description: 'schema',
       organization: 'bloomSchema',
       startDate: 'bloomSchema',
       endDate: 'bloomSchema',

@@ -46,7 +46,7 @@ const getHelperContextEntries = () => {
     type: 'NationalityRole',
     typeIdBase: 'bloomSchema',
     fields: {
-      nationality: 'bloomSchema',
+      nationality: 'schema',
       identifier: 'schema',
     },
     vocab: 'schema',
@@ -75,7 +75,7 @@ export const getVCNatIDNumPersonV1Context = () => {
     type: 'NatIDNumPerson',
     typeIdBase: 'bloomSchema',
     fields: {
-      nationality: 'bloomSchema',
+      nationality: 'schema',
     },
     vocab: 'schema',
   })
@@ -108,7 +108,7 @@ export const getVCNatIDNumOrganizationV1Context = () => {
     type: 'NatIDNumOrganization',
     typeIdBase: 'bloomSchema',
     fields: {
-      nationality: 'bloomSchema',
+      nationality: 'schema',
     },
     vocab: 'schema',
   })
