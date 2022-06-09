@@ -25,6 +25,7 @@ export type BankAccountTransactionGroupV2 = {
   startDate?: string
   endDate?: string
   valueTotal?: OneOrMore<MonetaryAmountV2>
+  valueAnnualMean?: OneOrMore<MonetaryAmountV2>
   transactions?: OneOrMore<BankAccountTransactionV2>
 }
 
@@ -156,6 +157,7 @@ const getHelperContextEntries = () => {
     type: 'BankAccountTransactionGroup',
     base: 'bloomSchema',
     properties: {
+      valueAnnualMean: 'bloomSchema',
       cashflowCategory: 'bloomSchema',
       cashflowSubcategory: 'bloomSchema',
       startDate: 'schema',
