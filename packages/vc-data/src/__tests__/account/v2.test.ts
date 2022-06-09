@@ -14,7 +14,7 @@ const income: BankAccountTransactionGroupV2 = {
   cashflowCategory: 'category',
   cashflowSubcategory: 'subcategory',
   valueTotal: {
-    '@type': 'MonetrayAmount',
+    '@type': 'MonetaryAmount',
     value: '100',
     currency: 'USD',
   },
@@ -29,7 +29,7 @@ const account: AccountV2 = {
   },
   accountType: 'accountType',
   hasValue: {
-    '@type': 'MonetrayAmount',
+    '@type': 'MonetaryAmount',
     value: '1000',
     currency: 'USD',
     availableValue: '100',
@@ -42,7 +42,7 @@ const account: AccountV2 = {
     cashflowCategory: 'category',
     cashflowSubcategory: 'subcategory',
     valueTotal: {
-      '@type': 'MonetrayAmount',
+      '@type': 'MonetaryAmount',
       value: '100',
       currency: 'USD',
     },
@@ -103,7 +103,7 @@ describe('VCAccountPersonV2', () => {
                         "https://schema.bloom.co/valueTotal": Array [
                           Object {
                             "@type": Array [
-                              "https://schema.org/MonetrayAmount",
+                              "https://schema.org/MonetaryAmount",
                             ],
                             "https://schema.org/currency": Array [
                               Object {
@@ -147,7 +147,7 @@ describe('VCAccountPersonV2', () => {
                         "https://schema.bloom.co/valueTotal": Array [
                           Object {
                             "@type": Array [
-                              "https://schema.org/MonetrayAmount",
+                              "https://schema.org/MonetaryAmount",
                             ],
                             "https://schema.org/currency": Array [
                               Object {
@@ -176,7 +176,7 @@ describe('VCAccountPersonV2', () => {
                     "https://schema.bloom.co/hasValue": Array [
                       Object {
                         "@type": Array [
-                          "https://schema.org/MonetrayAmount",
+                          "https://schema.org/MonetaryAmount",
                         ],
                         "https://schema.org/availableValue": Array [
                           Object {
@@ -232,7 +232,7 @@ describe('VCAccountPersonV2', () => {
                     "https://schema.bloom.co/valueTotal": Array [
                       Object {
                         "@type": Array [
-                          "https://schema.org/MonetrayAmount",
+                          "https://schema.org/MonetaryAmount",
                         ],
                         "https://schema.org/currency": Array [
                           Object {

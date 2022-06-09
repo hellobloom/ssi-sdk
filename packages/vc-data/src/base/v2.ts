@@ -1,14 +1,14 @@
 import { createSubjectContext } from '../util/v2'
 
 export type MonetaryAmountV2 = {
-  '@type': 'MonetrayAmount'
+  '@type': 'MonetaryAmount'
   currency?: string
   value?: number | string
   availableValue?: number | string
 }
 
 export const monetaryAmountV2Context = createSubjectContext<MonetaryAmountV2>({
-  type: 'MonetrayAmount',
+  type: 'MonetaryAmount',
   base: 'schema',
   properties: {
     currency: 'schema',
