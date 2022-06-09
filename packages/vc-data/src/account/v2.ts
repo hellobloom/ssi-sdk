@@ -28,9 +28,11 @@ export type BankAccountTransactionGroupV2 = {
   transactions?: OneOrMore<BankAccountTransactionV2>
 }
 
-export type AccountOrganizationV2 = {
+export type AccountOrganizationV2 = Omit<OrganizationV2, '@type'> & {
   '@type': 'AccountOrganization'
   name: string
+  serviceTypes?: Array<string>
+  nationality?: GovernmentOrgV2
 }
 
 export type AccountStatementV2 = {
@@ -73,12 +75,6 @@ export type AccountV2 = {
   organization?: AccountOrganizationV2
   startDate?: string
   verified?: boolean
-}
-
-export type OrganizationAccountV2 = Omit<OrganizationV2, '@type'> & {
-  '@type': 'OrganizationAccount'
-  serviceTypes?: Array<string>
-  nationality?: GovernmentOrgV2
 }
 
 const getHelperContextEntries = () => {
@@ -141,6 +137,8 @@ const getHelperContextEntries = () => {
     base: 'bloomSchema',
     properties: {
       name: 'schema',
+      serviceTypes: 'bloomSchema',
+      nationality: 'bloomSchema',
     },
   })
 
@@ -167,23 +165,12 @@ const getHelperContextEntries = () => {
     },
   })
 
-  const organizationAccountEntry = createSubjectContext<OrganizationAccountV2>({
-    type: 'OrganizationAccount',
-    base: 'bloomSchema',
-    properties: {
-      name: 'schema',
-      serviceTypes: 'bloomSchema',
-      nationality: 'schema',
-    },
-  })
-
   return [
     accountStatementEntry,
     accountPaymentEntry,
     serviceAccountStatementEntry,
     bankAccountTransactionEntry,
     bankAccountTransactionGroupEntry,
-    organizationAccountEntry,
     accountEntry,
     accountOrganizationEntry,
     monetaryAmountV2Context,
