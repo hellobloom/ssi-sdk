@@ -189,6 +189,7 @@ export type AccountPersonV2 = {
   '@type': 'AccountPerson'
   hasAccount: OneOrMore<AccountV2>
   hasIncome?: OneOrMore<BankAccountTransactionGroupV2>
+  hasTotalIncome?: OneOrMore<BankAccountTransactionGroupV2>
 }
 
 export type VCAccountPersonV2Type = 'AccountCredentialPersonV2'
@@ -200,6 +201,7 @@ export const getVCAccountPersonV2ContextConfig = () => {
     properties: {
       hasAccount: 'bloomSchema',
       hasIncome: 'bloomSchema',
+      hasTotalIncome: 'bloomSchema',
     },
   })
 
