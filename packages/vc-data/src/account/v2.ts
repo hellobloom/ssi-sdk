@@ -69,6 +69,7 @@ export type AccountV2 = {
   endDate?: string
   hasExpense?: OneOrMore<BankAccountTransactionGroupV2>
   hasIncome?: OneOrMore<BankAccountTransactionGroupV2>
+  hasTotalIncome?: OneOrMore<BankAccountTransactionGroupV2>
   hasTransactions?: OneOrMore<BankAccountTransactionV2>
   hasValue?: MonetaryAmountV2
   identifier?: string | number
@@ -125,6 +126,7 @@ const getHelperContextEntries = () => {
       bankAccountCategory: 'bloomSchema',
       endDate: 'bloomSchema',
       hasExpense: 'bloomSchema',
+      hasTotalIncome: 'bloomSchema',
       hasIncome: 'bloomSchema',
       hasTransactions: 'bloomSchema',
       hasValue: 'bloomSchema',
