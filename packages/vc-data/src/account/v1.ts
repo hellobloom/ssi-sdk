@@ -69,6 +69,7 @@ export type BankAccountTransactionGroupV1 = CreateThing<
     valueStddev?: ExpandThing<MonetaryAmountRV1>
     valueTotal?: OneOrMore<ExpandThing<MonetaryAmountRV1>>
     valueMean?: ExpandThing<MonetaryAmountRV1>
+    valueAnnualMean?: ExpandThing<MonetaryAmountRV1>
     valueMedian?: ExpandThing<MonetaryAmountRV1>
     transactions?: OneOrMore<BankAccountTransactionV1>
   }
@@ -100,6 +101,7 @@ export type AccountV1 = CreateThing<
     hasValue?: OneOrMore<ExpandThing<MonetaryAmountRV1> | ExpandThing<MonetaryAmountEV1>>
     bankAccountCategory?: string
     hasIncome?: OneOrMore<BankAccountTransactionGroupV1>
+    hasTotalIncome?: OneOrMore<BankAccountTransactionGroupV1>
     hasExpense?: OneOrMore<BankAccountTransactionGroupV1>
     hasTransactions?: OneOrMore<BankAccountTransactionV1>
     verified?: boolean
@@ -165,6 +167,7 @@ const getHelperContextEntries = () => {
       periodicity: 'bloomSchema',
       valueStddev: 'bloomSchema',
       valueTotal: 'bloomSchema',
+      valueAnnualMean: 'bloomSchema',
       valueMean: 'bloomSchema',
       valueMedian: 'bloomSchema',
       transactions: 'bloomSchema',
@@ -197,6 +200,7 @@ const getHelperContextEntries = () => {
       hasValue: 'bloomSchema',
       bankAccountCategory: 'bloomSchema',
       hasIncome: 'bloomSchema',
+      hasTotalIncome: 'bloomSchema',
       hasExpense: 'bloomSchema',
       hasTransactions: 'bloomSchema',
       verified: 'bloomSchema',
@@ -221,6 +225,7 @@ type AccountPersonV1Mixin = CreateThing<
   {
     hasAccount: OneOrMore<AccountV1>
     hasIncome?: OneOrMore<BankAccountTransactionGroupV1>
+    hasTotalIncome?: OneOrMore<BankAccountTransactionGroupV1>
   }
 >
 
@@ -237,6 +242,7 @@ export const getVCAccountPersonV1Context = () => {
     fields: {
       hasAccount: 'bloomSchema',
       hasIncome: 'bloomSchema',
+      hasTotalIncome: 'bloomSchema',
     },
     vocab: 'schema',
   })
