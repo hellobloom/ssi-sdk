@@ -1,6 +1,8 @@
 import { PersonEV1, getBaseV1ContextEntries, GovernmentOrgV1 } from '../base'
+
 import {
   CreateThing,
+  CreateExpandedThing,
   ExpandThing,
   ExtendThing,
   ExtendableVC,
@@ -125,6 +127,7 @@ type IDDocumentPersonV1Mixin = CreateThing<
   'IDDocumentPerson',
   {
     hasIDDocument: OneOrMore<ExpandThing<IDDocumentRoleV1>>
+    address?: OneOrMore<CreateExpandedThing<'PostalAddress'>>
   }
 >
 
@@ -140,6 +143,7 @@ export const getVCIDDocumentPersonV1Context = () => {
     typeIdBase: 'bloomSchema',
     fields: {
       hasIDDocument: 'bloomSchema',
+      address: 'bloomSchema',
     },
     vocab: 'schema',
   })
