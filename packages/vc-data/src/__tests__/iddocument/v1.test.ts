@@ -28,6 +28,7 @@ describe('VCIDDocumentPersonV1', () => {
             identifier: 1234,
           },
           hasIDDocument: {
+            identifier: 'ABC12345',
             '@type': ['CreativeWork', 'IDDocument'],
             issuer: {
               '@type': 'State',
@@ -177,6 +178,11 @@ describe('VCIDDocumentPersonV1', () => {
                         "https://schema.bloom.co/idClassName": Array [
                           Object {
                             "@value": "className",
+                          },
+                        ],
+                        "https://schema.bloom.co/identifier": Array [
+                          Object {
+                            "@value": "ABC12345",
                           },
                         ],
                         "https://schema.bloom.co/issueDate": Array [
