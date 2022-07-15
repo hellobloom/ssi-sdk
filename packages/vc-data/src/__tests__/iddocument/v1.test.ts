@@ -9,6 +9,13 @@ describe('VCIDDocumentPersonV1', () => {
       type: 'IDDocumentCredentialPersonV1',
       data: {
         '@type': ['Person', 'PersonE', 'IDDocumentPerson'],
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Denver',
+          addressRegion: 'CO',
+          postalCode: '80209',
+          streetAddress: '7 S. Broadway',
+        },
         hasIDDocument: {
           '@type': ['Role', 'IDDocumentRole'],
           authenticationResult: 'result',
@@ -21,6 +28,7 @@ describe('VCIDDocumentPersonV1', () => {
             identifier: 1234,
           },
           hasIDDocument: {
+            identifier: 'ABC12345',
             '@type': ['CreativeWork', 'IDDocument'],
             issuer: {
               '@type': 'State',
@@ -60,6 +68,33 @@ describe('VCIDDocumentPersonV1', () => {
                   "https://schema.org/Person",
                   "https://schema.bloom.co/PersonE",
                   "https://schema.bloom.co/IDDocumentPerson",
+                ],
+                "https://schema.bloom.co/address": Array [
+                  Object {
+                    "@type": Array [
+                      "https://schema.org/PostalAddress",
+                    ],
+                    "https://schema.org/addressLocality": Array [
+                      Object {
+                        "@value": "Denver",
+                      },
+                    ],
+                    "https://schema.org/addressRegion": Array [
+                      Object {
+                        "@value": "CO",
+                      },
+                    ],
+                    "https://schema.org/postalCode": Array [
+                      Object {
+                        "@value": "80209",
+                      },
+                    ],
+                    "https://schema.org/streetAddress": Array [
+                      Object {
+                        "@value": "7 S. Broadway",
+                      },
+                    ],
+                  },
                 ],
                 "https://schema.bloom.co/hasIDDocument": Array [
                   Object {
@@ -143,6 +178,11 @@ describe('VCIDDocumentPersonV1', () => {
                         "https://schema.bloom.co/idClassName": Array [
                           Object {
                             "@value": "className",
+                          },
+                        ],
+                        "https://schema.bloom.co/identifier": Array [
+                          Object {
+                            "@value": "ABC12345",
                           },
                         ],
                         "https://schema.bloom.co/issueDate": Array [

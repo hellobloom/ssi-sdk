@@ -1,6 +1,8 @@
 import { PersonEV1, getBaseV1ContextEntries, GovernmentOrgV1 } from '../base'
+
 import {
   CreateThing,
+  CreateExpandedThing,
   ExpandThing,
   ExtendThing,
   ExtendableVC,
@@ -33,6 +35,7 @@ export type TDocumentClassV1 =
 type IDDocumentV1Mixin = CreateThing<
   'IDDocument',
   {
+    identifier?: string
     issuer: ExpandThing<GovernmentOrgV1>
     documentType?: string
     issueDate?: string
@@ -78,6 +81,7 @@ const getHelperEntries = () => {
     type: 'IDDocument',
     typeIdBase: 'bloomSchema',
     fields: {
+      identifier: 'bloomSchema',
       issuer: 'bloomSchema',
       documentType: 'bloomSchema',
       issueDate: 'bloomSchema',
@@ -125,6 +129,7 @@ type IDDocumentPersonV1Mixin = CreateThing<
   'IDDocumentPerson',
   {
     hasIDDocument: OneOrMore<ExpandThing<IDDocumentRoleV1>>
+    address?: OneOrMore<CreateExpandedThing<'PostalAddress'>>
   }
 >
 
@@ -140,6 +145,7 @@ export const getVCIDDocumentPersonV1Context = () => {
     typeIdBase: 'bloomSchema',
     fields: {
       hasIDDocument: 'bloomSchema',
+      address: 'bloomSchema',
     },
     vocab: 'schema',
   })
