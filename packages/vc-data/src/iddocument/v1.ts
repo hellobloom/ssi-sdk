@@ -35,6 +35,7 @@ export type TDocumentClassV1 =
 type IDDocumentV1Mixin = CreateThing<
   'IDDocument',
   {
+    identifier?: string
     issuer: ExpandThing<GovernmentOrgV1>
     documentType?: string
     issueDate?: string
@@ -80,6 +81,7 @@ const getHelperEntries = () => {
     type: 'IDDocument',
     typeIdBase: 'bloomSchema',
     fields: {
+      identifier: 'bloomSchema',
       issuer: 'bloomSchema',
       documentType: 'bloomSchema',
       issueDate: 'bloomSchema',
