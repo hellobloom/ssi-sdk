@@ -1,10 +1,12 @@
+// @ts-nocheck
 import base64url from 'base64url'
 import createHash from 'create-hash'
 import * as secp256k1 from 'secp256k1'
 import randomBytes from 'randombytes'
-
-const cryptoLd = require('crypto-ld')
-const base58 = require('base58-universal')
+// @ts-expect-error: implicit type import; not a ts package
+import cryptoLd from 'crypto-ld'
+// @ts-expect-error: implicit type import; not a ts package
+import * as base58 from 'base58-universal'
 
 const SUITE_ID = 'EcdsaSecp256k1VerificationKey2019'
 
