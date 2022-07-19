@@ -226,6 +226,7 @@ type AccountPersonV1Mixin = CreateThing<
     hasAccount: OneOrMore<AccountV1>
     hasIncome?: OneOrMore<BankAccountTransactionGroupV1>
     hasTotalIncome?: OneOrMore<BankAccountTransactionGroupV1>
+    hasTotalBalance?: OneOrMore<ExpandThing<MonetaryAmountRV1> | ExpandThing<MonetaryAmountEV1>>
   }
 >
 
@@ -243,6 +244,7 @@ export const getVCAccountPersonV1Context = () => {
       hasAccount: 'bloomSchema',
       hasIncome: 'bloomSchema',
       hasTotalIncome: 'bloomSchema',
+      hasTotalBalance: 'bloomSchema',
     },
     vocab: 'schema',
   })
