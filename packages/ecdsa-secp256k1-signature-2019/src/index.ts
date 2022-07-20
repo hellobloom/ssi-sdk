@@ -1,9 +1,12 @@
+// @ts-nocheck
 import { EcdsaSecp256k1VerificationKey2019 } from '@bloomprotocol/ecdsa-secp256k1-verification-key-2019'
 
 import { context } from './context'
 
-const jsonld = require('jsonld')
-const jsigs = require('jsonld-signatures')
+// @ts-expect-error: implicit type import; not a ts package
+import jsonld from 'jsonld'
+// @ts-expect-error: implicit type import; not a ts package
+import jsigs from 'jsonld-signatures'
 
 const SUITE_CONTEXT_URL = 'https://ns.did.ai/suites/secp256k1-2019/v1'
 
