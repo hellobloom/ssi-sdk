@@ -213,7 +213,7 @@ export class EcdsaSecp256k1VerificationKey2019 extends cryptoLd.LDKeyPair {
             digest,
             base58.decode(publicKeyBase58),
           )
-        } catch {
+        } catch (e) {
           verified = false
         }
 
