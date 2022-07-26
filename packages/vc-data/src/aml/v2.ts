@@ -114,9 +114,15 @@ const getHelperContextEntries = () => {
 
 export type AMLPersonV2 = {
   '@type': 'AMLPerson'
-  hasAMLSearch: OneOrMore<AMLSearchV2>
   identifier?: OneOrMore<PropertyValueV2>
   nationality?: string
+  hasAMLSearch: OneOrMore<AMLSearchV2>
+
+  birthDate?: string
+  name?: string
+  givenName?: string
+  additionalName?: string
+  lastName?: string
 }
 
 export type VCAMLPersonV2Type = 'AMLCredentialPersonV2'
@@ -129,6 +135,12 @@ export const getVCAMLPersonV2ContextConfig = () => {
       identifier: 'schema',
       nationality: 'schema',
       hasAMLSearch: 'bloomSchema',
+
+      birthDate: 'schema',
+      name: 'schema',
+      givenName: 'schema',
+      additionalName: 'schema',
+      lastName: 'schema',
     },
   })
 
