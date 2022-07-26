@@ -122,7 +122,7 @@ export type AMLPersonV2 = {
   name?: string
   givenName?: string
   additionalName?: string
-  lastName?: string
+  familyName?: string
 }
 
 export type VCAMLPersonV2Type = 'AMLCredentialPersonV2'
@@ -140,7 +140,7 @@ export const getVCAMLPersonV2ContextConfig = () => {
       name: 'schema',
       givenName: 'schema',
       additionalName: 'schema',
-      lastName: 'schema',
+      familyName: 'schema',
     },
   })
 
