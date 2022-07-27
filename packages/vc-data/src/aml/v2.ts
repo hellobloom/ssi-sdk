@@ -10,7 +10,7 @@ export type AMLHitCriteriaV2 = {
 
   matchDegree?: string | number
 
-  dateOfBirth?: string
+  birthDate?: string
 
   documentType?: string
   documentIdentifier?: string
@@ -80,7 +80,7 @@ const getHelperContextEntries = () => {
     properties: {
       identifier: 'schema',
       matchDegree: 'bloomSchema',
-      dateOfBirth: 'bloomSchema',
+      birthDate: 'bloomSchema',
       documentType: 'bloomSchema',
       documentIdentifier: 'bloomSchema',
       location: 'bloomSchema',

@@ -35,7 +35,7 @@ describe('VCAMLPersonV2', () => {
                 '@type': 'AMLHitCriteria',
                 identifier: '1234',
                 matchDegree: '50',
-                dateOfBirth: '1987-01-01',
+                birthDate: '1987-01-01',
                 documentType: 'passport',
                 documentIdentifier: 'ABC123',
                 location: '192 Birch Parkway',
@@ -102,14 +102,14 @@ describe('VCAMLPersonV2', () => {
                             "@type": Array [
                               "https://schema.bloom.co/AMLHitCriteria",
                             ],
+                            "https://schema.bloom.co/birthDate": Array [
+                              Object {
+                                "@value": "1987-01-01",
+                              },
+                            ],
                             "https://schema.bloom.co/countryCode": Array [
                               Object {
                                 "@value": "US",
-                              },
-                            ],
-                            "https://schema.bloom.co/dateOfBirth": Array [
-                              Object {
-                                "@value": "1987-01-01",
                               },
                             ],
                             "https://schema.bloom.co/documentIdentifier": Array [
