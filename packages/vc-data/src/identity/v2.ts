@@ -6,7 +6,7 @@ export type PossibleCheckVals = 'success' | 'failure' | 'not_checked'
 
 export type AddressCheckV2 = {
   '@type': 'AddressCheck'
-  status: 'match' | 'partial_match' | 'no_match' | 'no_data' | 'no_input'
+  status: PossibleMatchVals
   postOfficeBox?: 'yes' | 'no' | 'no_data'
   type?: 'residential' | 'commercial' | 'no_data'
 }

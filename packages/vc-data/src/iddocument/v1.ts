@@ -12,6 +12,8 @@ import {
   createVCContextEntry,
 } from '../util/v1'
 
+import { PossibleCheckVals, PossibleMatchVals } from '../identity/v2'
+
 // Helper Types
 
 export type TDocumentClassV1 =
@@ -31,6 +33,40 @@ export type TDocumentClassV1 =
   | 'tribal_identification'
   | 'voter_identification'
   | 'military'
+
+export type AddressCheckV1 = CreateThing<
+  'AddressCheck',
+  {
+    '@type': 'AddressCheck'
+    status: PossibleMatchVals
+    postOfficeBox?: 'yes' | 'no' | 'no_data'
+    type?: 'residential' | 'commercial' | 'no_data'
+  }
+>
+
+export type IdentityCheckV1 = CreateThing<
+  'IdentityCheck',
+  {
+    '@type': 'IdentityCheck'
+    status?: PossibleCheckVals
+    createdAt?: string
+    completedAt?: string
+
+    // General checks
+    riskCheck?: PossibleCheckVals
+    selfieCheck?: PossibleCheckVals
+
+    // Individually validated attributes
+    addressCheck?: AddressCheckV1
+    nameCheck?: PossibleMatchVals
+    birthDateCheck?: PossibleMatchVals
+    identifierCheck?: PossibleMatchVals
+    phoneCheck?: PossibleMatchVals
+
+    // Active SMS verification, as opposed to passive database lookup
+    smsCheck?: PossibleCheckVals
+  }
+>
 
 type IDDocumentV1Mixin = CreateThing<
   'IDDocument',
@@ -128,6 +164,7 @@ const getHelperEntries = () => {
 type IDDocumentPersonV1Mixin = CreateThing<
   'IDDocumentPerson',
   {
+    hasIdentityCheck: OneOrMore<ExpandThing<IdentityCheckV1>>
     hasIDDocument: OneOrMore<ExpandThing<IDDocumentRoleV1>>
     address?: OneOrMore<CreateExpandedThing<'PostalAddress'>>
   }
@@ -144,6 +181,7 @@ export const getVCIDDocumentPersonV1Context = () => {
     type: 'IDDocumentPerson',
     typeIdBase: 'bloomSchema',
     fields: {
+      hasIdentityCheck: 'bloomSchema',
       hasIDDocument: 'bloomSchema',
       address: 'bloomSchema',
     },

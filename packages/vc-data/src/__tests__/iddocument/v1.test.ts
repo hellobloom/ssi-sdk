@@ -48,6 +48,10 @@ describe('VCIDDocumentPersonV1', () => {
             keesingCode: 'code',
           },
         },
+        hasIdentityCheck: {
+          '@type': 'IdentityCheck',
+          selfieCheck: 'success',
+        },
         name: 'Bob Belcher',
       },
       context: getVCIDDocumentPersonV1Context(),
@@ -222,6 +226,18 @@ describe('VCIDDocumentPersonV1', () => {
                     "https://schema.bloom.co/tamperResult": Array [
                       Object {
                         "@value": "result",
+                      },
+                    ],
+                  },
+                ],
+                "https://schema.bloom.co/hasIdentityCheck": Array [
+                  Object {
+                    "@type": Array [
+                      "https://schema.org/IdentityCheck",
+                    ],
+                    "https://schema.org/selfieCheck": Array [
+                      Object {
+                        "@value": "success",
                       },
                     ],
                   },
