@@ -1,5 +1,6 @@
 import { OneOrMore, CreateVCType, createSubjectContext, createContextConfig, createContext } from '../util/v2'
 import {
+  PostalAddressV2,
   MonetaryAmountV2,
   OrganizationV2,
   GovernmentOrgV2,
@@ -10,21 +11,25 @@ import {
 
 // Helper Types
 
-export type MonetaryFlowV2 = {
-  '@type': 'MonetaryFlow'
-  cashflowCategory?: string
-  cashflowSubcategory?: string
-  startDate?: string
-  endDate?: string
-  valueTotal?: OneOrMore<MonetaryAmountV2>
-  valueAnnualMean?: OneOrMore<MonetaryAmountV2>
-  reportingSource?: 'payroll' | 'tax_form' | 'bank'
-}
-
 export type IncomeOrganizationV2 = Omit<OrganizationV2, '@type'> & {
   '@type': 'IncomeOrganization'
   name: string
   nationality?: GovernmentOrgV2
+}
+
+export type MonetaryFlowV2 = {
+  '@type': 'MonetaryFlow'
+  identifier?: string
+  cashflowCategory?: string
+  cashflowSubcategory?: string
+  cashflowSource?: OneOrMore<IncomeOrganizationV2>
+  startDate?: string
+  endDate?: string
+  valueTotal?: OneOrMore<MonetaryAmountV2>
+  valueAnnualMean?: OneOrMore<MonetaryAmountV2>
+  valueAfterDeductionsAnnualMean?: OneOrMore<MonetaryAmountV2>
+  valueAfterDeductionsTotal?: OneOrMore<MonetaryAmountV2>
+  reportingSource?: 'payroll' | 'tax_form' | 'bank'
 }
 
 const getHelperContextEntries = () => {
@@ -41,12 +46,16 @@ const getHelperContextEntries = () => {
     type: 'MonetaryFlow',
     base: 'bloomSchema',
     properties: {
-      valueAnnualMean: 'bloomSchema',
+      identifier: 'schema',
       cashflowCategory: 'bloomSchema',
       cashflowSubcategory: 'bloomSchema',
+      cashflowSource: 'bloomSchema',
       startDate: 'schema',
       endDate: 'schema',
       valueTotal: 'bloomSchema',
+      valueAnnualMean: 'bloomSchema',
+      valueAfterDeductionsAnnualMean: 'bloomSchema',
+      valueAfterDeductionsTotal: 'bloomSchema',
       reportingSource: 'bloomSchema',
     },
   })
@@ -58,8 +67,14 @@ const getHelperContextEntries = () => {
 
 export type IncomePersonV2 = {
   '@type': 'IncomePerson'
+  name?: string
+  givenName?: string
+  additionalName?: string
+  familyName?: string
+  address?: OneOrMore<PostalAddressV2>
   hasIncome?: OneOrMore<MonetaryFlowV2>
   hasTotalIncome?: OneOrMore<MonetaryFlowV2>
+  employedBy?: OneOrMore<IncomeOrganizationV2>
 }
 
 export type VCIncomePersonV2Type = 'IncomeCredentialPersonV2'
@@ -71,6 +86,12 @@ export const getVCIncomePersonV2ContextConfig = () => {
     properties: {
       hasIncome: 'bloomSchema',
       hasTotalIncome: 'bloomSchema',
+      address: 'bloomSchema',
+      name: 'bloomSchema',
+      givenName: 'bloomSchema',
+      additionalName: 'bloomSchema',
+      familyName: 'bloomSchema',
+      employedBy: 'bloomSchema',
     },
   })
 
