@@ -65,11 +65,11 @@
   "size-limit": [
     {
       "path": "dist/vc-data.cjs.production.min.js",
-      "limit": "5 KB"
+      "limit": "20 KB"
     },
     {
       "path": "dist/vc-data.esm.js",
-      "limit": "5 KB"
+      "limit": "20 KB"
     }
   ]
 }
