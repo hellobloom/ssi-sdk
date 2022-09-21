@@ -30,6 +30,8 @@ export type MonetaryFlowV2 = {
   valueAfterDeductionsAnnualMean?: OneOrMore<MonetaryAmountV2>
   valueAfterDeductionsTotal?: OneOrMore<MonetaryAmountV2>
   reportingSource?: 'payroll' | 'tax_form' | 'bank'
+  frequency?: 'daily' | 'weekly' | 'biweekly' | 'semi_monthly' | 'monthly' | 'bimonthly' | 'unknown'
+  transactionCount?: number
 }
 
 const getHelperContextEntries = () => {
@@ -57,6 +59,8 @@ const getHelperContextEntries = () => {
       valueAfterDeductionsAnnualMean: 'bloomSchema',
       valueAfterDeductionsTotal: 'bloomSchema',
       reportingSource: 'bloomSchema',
+      frequency: 'bloomSchema',
+      transactionCount: 'bloomSchema',
     },
   })
 
