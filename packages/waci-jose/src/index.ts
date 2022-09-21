@@ -57,6 +57,8 @@ export const offerChallengeJwtVerify = async (
 
   switch (result.payload.version) {
     case '0.1':
+      offerChallengeJwtVerifyV1(result)
+      break
     case '1':
       offerChallengeJwtVerifyV1(result)
       break

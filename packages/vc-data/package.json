@@ -1,7 +1,7 @@
 {
   "name": "@bloomprotocol/vc-data",
   "description": "Data types for verifiable credentials (forked from @affinidi/vc-data)",
-  "version": "0.1.35",
+  "version": "0.1.36",
   "author": "Bloom Team <team@bloom.co>",
   "license": "Apache-2.0",
   "repository": "https://github.com/hellobloom/ssi-sdk/tree/main/packages/vc-data",
@@ -65,11 +65,11 @@
   "size-limit": [
     {
       "path": "dist/vc-data.cjs.production.min.js",
-      "limit": "5 KB"
+      "limit": "20 KB"
     },
     {
       "path": "dist/vc-data.esm.js",
-      "limit": "5 KB"
+      "limit": "20 KB"
     }
   ]
 }
