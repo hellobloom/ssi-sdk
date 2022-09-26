@@ -114,7 +114,10 @@ const offerResponseJwtVerifyV1 = (responseResult: JWTVerifyResult, challengeResu
 
   // `offerChallengeJwtVerifyV1` throws an error if challengeResult.payload['credential_manifest'] is not an object
   if (typeof challengeResult.payload.credential_manifest === 'object' && challengeResult.payload.credential_manifest !== null) {
-    if ('presentation_definition' in challengeResult.payload.credential_manifest && !responseResult.payload.verifiable_presentation) {
+    if (
+      'presentation_definition' in challengeResult.payload.credential_manifest &&
+      !(responseResult.payload.verifiable_presentation || responseResult.payload.vp)
+    ) {
       throw new JWTClaimValidationFailed(
         '"verifiable_presentation" claim check failed, no "verifiable_presentation" in the response but a "presentation_definition" is defined in the challenge',
         'verifiable_presentation',
@@ -253,7 +256,7 @@ const requestResponseJwtVerifyV1 = (responseResult: JWTVerifyResult, challengeRe
     )
   }
 
-  if (typeof responseResult.payload.verifiable_presentation !== 'object') {
+  if (!(typeof responseResult.payload.verifiable_presentation === 'object' || typeof responseResult.payload.vp === 'object')) {
     throw new JWTClaimValidationFailed('"verifiable_presentation" claim check failed', 'verifiable_presentation', 'check_failed')
   }
 }
