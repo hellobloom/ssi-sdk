@@ -25,10 +25,12 @@ export type MonetaryFlowV2 = {
   cashflowSource?: OneOrMore<IncomeOrganizationV2>
   startDate?: string
   endDate?: string
-  valueTotal?: OneOrMore<MonetaryAmountV2>
   valueAnnualMean?: OneOrMore<MonetaryAmountV2>
+  valueTotal?: OneOrMore<MonetaryAmountV2>
   valueAfterDeductionsAnnualMean?: OneOrMore<MonetaryAmountV2>
   valueAfterDeductionsTotal?: OneOrMore<MonetaryAmountV2>
+  deductionsAnnualMean?: OneOrMore<MonetaryAmountV2>
+  deductionsTotal?: OneOrMore<MonetaryAmountV2>
   reportingSource?: 'payroll' | 'tax_form' | 'bank'
   frequency?: 'daily' | 'weekly' | 'biweekly' | 'semi_monthly' | 'monthly' | 'bimonthly' | 'unknown'
   transactionCount?: number
@@ -54,10 +56,12 @@ const getHelperContextEntries = () => {
       cashflowSource: 'bloomSchema',
       startDate: 'schema',
       endDate: 'schema',
-      valueTotal: 'bloomSchema',
       valueAnnualMean: 'bloomSchema',
+      valueTotal: 'bloomSchema',
       valueAfterDeductionsAnnualMean: 'bloomSchema',
       valueAfterDeductionsTotal: 'bloomSchema',
+      deductionsAnnualMean: 'bloomSchema',
+      deductionsTotal: 'bloomSchema',
       reportingSource: 'bloomSchema',
       frequency: 'bloomSchema',
       transactionCount: 'bloomSchema',
