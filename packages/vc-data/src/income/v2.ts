@@ -33,6 +33,7 @@ export type MonetaryFlowV2 = {
   deductionsTotal?: OneOrMore<MonetaryAmountV2>
   reportingSource?: 'payroll' | 'tax_form' | 'bank'
   taxForm?: string
+  nameOnDocument?: string
   frequency?: 'daily' | 'weekly' | 'biweekly' | 'semi_monthly' | 'monthly' | 'bimonthly' | 'unknown'
   transactionCount?: number
 }
@@ -65,6 +66,7 @@ const getHelperContextEntries = () => {
       deductionsTotal: 'bloomSchema',
       reportingSource: 'bloomSchema',
       taxForm: 'bloomSchema',
+      nameOnDocument: 'bloomSchema',
       frequency: 'bloomSchema',
       transactionCount: 'bloomSchema',
     },
