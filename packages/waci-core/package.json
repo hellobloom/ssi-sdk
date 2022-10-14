@@ -30,9 +30,9 @@
     "@bloomprotocol/eslint-config": "2.0.0-beta.0",
     "@bloomprotocol/prettier-config": "2.0.0-beta.0",
     "@size-limit/preset-small-lib": "^4.10.2",
+    "dts-cli": "^1.6.0",
     "size-limit": "^4.10.2",
     "ts-node": "^9.1.1",
-    "dts-cli": "^1.6.0",
     "tslib": "^2.2.0"
   },
   "resolutions": {
@@ -60,5 +60,10 @@
       "path": "dist/waci-core.esm.js",
       "limit": "1 B"
     }
-  ]
+  ],
+  "dependencies": {
+    "jest": "^29.1.2",
+    "jest-environment-node": "^29.1.2",
+    "ts-jest": "^29.0.3"
+  }
 }

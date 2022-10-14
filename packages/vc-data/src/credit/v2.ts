@@ -18,6 +18,14 @@ export type CreditScoreRangeV2 = {
   maximum?: number
 }
 
+export type NumericRangeV2 = {
+  '@type': 'NumericRange'
+  name?: string
+  identifier?: string
+  minimum?: number
+  maximum?: number
+}
+
 export type MonetaryRangeV2 = {
   '@type': 'MonetaryRange'
   name?: string
@@ -61,6 +69,17 @@ const getHelperContextEntries = () => {
     },
   })
 
+  const numericRangeEntry = createSubjectContext<NumericRangeV2>({
+    type: 'NumericRange',
+    base: 'bloomSchema',
+    properties: {
+      name: 'schema',
+      identifier: 'schema',
+      minimum: 'bloomSchema',
+      maximum: 'bloomSchema',
+    },
+  })
+
   const numberOverTimePeriodEntry = createSubjectContext<NumberOverTimePeriodV2>({
     type: 'NumberOverTimePeriod',
     base: 'bloomSchema',
@@ -73,7 +92,7 @@ const getHelperContextEntries = () => {
     },
   })
 
-  return [creditScoreRangeEntry, monetaryRangeEntry, numberOverTimePeriodEntry]
+  return [creditScoreRangeEntry, monetaryRangeEntry, numericRangeEntry, numberOverTimePeriodEntry]
 }
 
 // Person Related
@@ -88,7 +107,10 @@ export type CreditPersonV2 = {
   familyName?: string
 
   hasCreditScoreRange?: OneOrMore<CreditScoreRangeV2>
-  hasDebtBalanceRange?: OneOrMore<MonetaryRangeV2>
+  hasRevolvingDebtRange?: OneOrMore<MonetaryRangeV2>
+  hasRevolvingUtilizationRange?: OneOrMore<NumericRangeV2>
+  hasTermDebtRange?: OneOrMore<MonetaryRangeV2>
+
   numInquiries?: NumberOverTimePeriodV2
   numLatePayments?: number | NumberOverTimePeriodV2
 }
@@ -107,7 +129,9 @@ export const getVCCreditPersonV2ContextConfig = () => {
       familyName: 'schema',
       additionalName: 'schema',
       hasCreditScoreRange: 'bloomSchema',
-      hasDebtBalanceRange: 'bloomSchema',
+      hasRevolvingUtilizationRange: 'bloomSchema',
+      hasRevolvingDebtRange: 'bloomSchema',
+      hasTermDebtRange: 'bloomSchema',
       numInquiries: 'bloomSchema',
       numLatePayments: 'bloomSchema',
     },

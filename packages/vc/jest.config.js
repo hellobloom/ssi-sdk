@@ -6,10 +6,8 @@ const packagesToTransform = [
 ].join('|')
 
 module.exports = {
-  testEnvironment: 'node',
-  transformIgnorePatterns: [
-    `[/\\\\]node_modules[/\\\\](?!(${packagesToTransform})).+\\.(js|jsx)$`,
-  ],
+  // testEnvironment: 'node',
+  transformIgnorePatterns: [`[/\\\\]node_modules[/\\\\](?!(${packagesToTransform})).+\\.(js|jsx)$`],
   moduleNameMapper: {
     '@digitalbazaar/ed25519-signature-2020': '@digitalbazaar/ed25519-signature-2020/lib/main.js',
     '@digitalbazaar/ed25519-verification-key-2020': '@digitalbazaar/ed25519-verification-key-2020/lib/main.js',
@@ -18,7 +16,7 @@ module.exports = {
   },
   globals: {
     'ts-jest': {
-      tsconfig: './tsconfig.test.json'
-    }
-  }
+      tsconfig: './tsconfig.test.json',
+    },
+  },
 }
