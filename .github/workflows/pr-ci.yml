@@ -15,6 +15,5 @@ jobs:
       - run: npm ci
       - run: npx lerna bootstrap
       - run: npm run lint
-      - run: npm run size
       - run: npm run test
       - run: git diff --exit-code

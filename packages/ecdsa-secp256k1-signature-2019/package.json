@@ -23,9 +23,7 @@
     "lint": "eslint src --format table --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run size && npm run lint && npm run test",
-    "size": "size-limit",
-    "analyze": "size-limit --why"
+    "prepublishOnly": "npm run size && npm run lint && npm run test"
   },
   "dependencies": {
     "@bloomprotocol/ecdsa-secp256k1-verification-key-2019": "^0.1.2",
@@ -39,9 +37,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.14.0",
     "@bloomprotocol/eslint-config": "2.0.0-beta.0",
     "@bloomprotocol/prettier-config": "2.0.0-beta.0",
-    "@size-limit/preset-big-lib": "^8.1.0",
     "dts-cli": "^1.6.0",
-    "size-limit": "^8.1.0",
     "tslib": "^2.2.0"
   },
   "size-limit": [

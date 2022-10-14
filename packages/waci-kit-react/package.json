@@ -25,8 +25,6 @@
     "lint:fix": "npm run lint -- --fix",
     "prepare": "npm run build",
     "prepublishOnly": "npm run size && npm run lint && npm run test",
-    "size": "size-limit",
-    "analyze": "size-limit --why",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook"
   },
@@ -48,7 +46,6 @@
     "@babel/core": "^7.13.10",
     "@bloomprotocol/eslint-config": "2.0.0-beta.0",
     "@bloomprotocol/prettier-config": "2.0.0-beta.0",
-    "@size-limit/preset-small-lib": "^4.10.1",
     "@storybook/addon-essentials": "^6.1.21",
     "@storybook/addon-info": "^5.3.21",
     "@storybook/addon-links": "^6.1.21",
@@ -63,7 +60,6 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-is": "^17.0.1",
-    "size-limit": "^4.10.1",
     "tslib": "^2.1.0"
   },
   "size-limit": [
