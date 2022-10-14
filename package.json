@@ -11,6 +11,7 @@
     "test": "lerna run test"
   },
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "lerna": "^4.0.0",
+    "tsdx": "^0.14.1"
   }
 }

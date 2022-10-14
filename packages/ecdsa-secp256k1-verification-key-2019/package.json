@@ -21,9 +21,9 @@
     "build": "tsdx build --target node",
     "test": "tsdx test",
     "lint": "eslint src --format table --ext .ts,.tsx,.js,.jsx",
-    "lint:fix": "yarn lint -- --fix",
-    "prepare": "yarn build",
-    "prepublishOnly": "yarn size && yarn lint && yarn test",
+    "lint:fix": "npm run lint -- --fix",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run size && npm run lint && npm run test",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
