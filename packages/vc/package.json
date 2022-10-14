@@ -46,12 +46,12 @@
     "@digitalbazaar/ed25519-signature-2020": "^2.1.0",
     "@digitalbazaar/ed25519-verification-key-2020": "^2.1.1",
     "@digitalbazaar/vc": "^1.0.0",
-    "@size-limit/preset-big-lib": "^4.10.2",
-    "@transmute/vc.js": "^0.2.1-unstable.11",
+    "@size-limit/preset-big-lib": "^8.1.0",
+    "@transmute/vc.js": "^0.7.0-unstable.66",
     "date-fns": "^2.21.3",
     "dts-cli": "^1.6.0",
-    "size-limit": "^4.10.2",
-    "tsd": "^0.15.0",
+    "size-limit": "^8.1.0",
+    "tsd": "^0.24.1",
     "tslib": "^2.2.0"
   },
   "resolutions": {

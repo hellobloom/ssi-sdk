@@ -5,7 +5,7 @@ import {
   RequestResponseJWTPayload,
 } from '@bloomprotocol/waci-core'
 import SignJWT, { JWTPayload, KeyLike } from 'jose/jwt/sign'
-import jwtVerify, { JWTVerifyGetKey, JWTVerifyOptions } from 'jose/jwt/verify'
+import jwtVerify, { JWTVerifyOptions } from 'jose/jwt/verify'
 import { JWTVerifyResult, SignOptions } from 'jose/types'
 import { JWTClaimValidationFailed, JWTInvalid } from 'jose/util/errors'
 
@@ -50,7 +50,7 @@ const offerChallengeJwtVerifyV1 = (result: JWTVerifyResult) => {
 
 export const offerChallengeJwtVerify = async (
   jwt: string | Uint8Array,
-  key: KeyLike | JWTVerifyGetKey,
+  key: KeyLike | Uint8Array,
   options?: JWTVerifyOptions,
 ): Promise<JWTVerifyResult> => {
   const result = await jwtVerify(jwt, key, options)
@@ -130,11 +130,11 @@ const offerResponseJwtVerifyV1 = (responseResult: JWTVerifyResult, challengeResu
 export const offerResponseJwtVerify = async (
   jwt: string | Uint8Array,
   response: {
-    key: KeyLike | JWTVerifyGetKey
+    key: KeyLike | Uint8Array
     options?: JWTVerifyOptions
   },
   challenge: {
-    key: KeyLike | JWTVerifyGetKey
+    key: KeyLike | Uint8Array
     options?: JWTVerifyOptions
   },
 ): Promise<{ response: JWTVerifyResult; challenge: JWTVerifyResult }> => {
@@ -196,7 +196,7 @@ const requestChallengeJwtVerifyV1 = (result: JWTVerifyResult) => {
 
 export const requestChallengeJwtVerify = async (
   jwt: string | Uint8Array,
-  key: KeyLike | JWTVerifyGetKey,
+  key: KeyLike | Uint8Array,
   options?: JWTVerifyOptions,
 ): Promise<JWTVerifyResult> => {
   const result = await jwtVerify(jwt, key, options)
@@ -264,11 +264,11 @@ const requestResponseJwtVerifyV1 = (responseResult: JWTVerifyResult, challengeRe
 export const requestResponseJwtVerify = async (
   jwt: string | Uint8Array,
   response: {
-    key: KeyLike | JWTVerifyGetKey
+    key: KeyLike | Uint8Array
     options?: JWTVerifyOptions
   },
   challenge: {
-    key: KeyLike | JWTVerifyGetKey
+    key: KeyLike | Uint8Array
     options?: JWTVerifyOptions
   },
 ): Promise<{ response: JWTVerifyResult; challenge: JWTVerifyResult }> => {
