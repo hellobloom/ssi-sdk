@@ -329,7 +329,7 @@ describe('createContext', () => {
         subjects: [secondCredSubject],
       })
 
-      type MergedCredentialSubject = MergeSubjects<FirstCredSubject, SecondCredSubject>
+      type MergedCredentialSubject = MergeSubjects<FirstCredSubject, SecondCredSubject, ['FirstCredSubject', 'SecondCredSubject']>
       type MergedCredential = CreateVCType<[FirstCredType, SecondCredType], MergedCredentialSubject>
 
       const context = createContext(firstCredContextConfig, secondCredContextConfig)

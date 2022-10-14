@@ -17,9 +17,9 @@
     "node": ">=14"
   },
   "scripts": {
-    "start": "tsdx watch --target node",
-    "build": "tsdx build --target node",
-    "test": "tsdx test",
+    "start": "dts watch --target node",
+    "build": "dts build --target node",
+    "test": "dts test",
     "lint": "eslint src --format table --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "npm run build",
@@ -48,7 +48,7 @@
     "date-fns": "^2.21.3",
     "size-limit": "^4.10.2",
     "tsd": "^0.15.0",
-    "tsdx": "^0.14.1",
+    "dts-cli": "^1.6.0",
     "tslib": "^2.2.0"
   },
   "resolutions": {

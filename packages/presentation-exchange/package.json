@@ -17,9 +17,9 @@
     "node": ">=14"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test --passWithNoTests",
+    "start": "dts watch",
+    "build": "dts build",
+    "test": "dts test --passWithNoTests",
     "lint": "eslint src --format table --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "npm run build",
@@ -35,7 +35,7 @@
     "@bloomprotocol/prettier-config": "2.0.0-beta.0",
     "@size-limit/preset-small-lib": "^4.10.2",
     "size-limit": "^4.10.2",
-    "tsdx": "^0.14.1",
+    "dts-cli": "^1.6.0",
     "tslib": "^2.2.0"
   },
   "resolutions": {
