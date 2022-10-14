@@ -4,7 +4,7 @@
   "author": "Bloom Team <team@bloom.co>",
   "license": "Apache-2.0",
   "scripts": {
-    "bootstap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap",
     "size": "lerna run size",
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix",
