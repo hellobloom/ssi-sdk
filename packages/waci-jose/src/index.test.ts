@@ -1,3 +1,4 @@
+import { createSecretKey } from 'crypto'
 import {
   SignOfferChallengeJWT,
   SignOfferResponseJWT,
@@ -6,7 +7,6 @@ import {
   SignRequestResponseJWT,
   requestResponseJwtVerify,
 } from '.'
-import { createSecretKey } from 'crypto'
 
 const verifiablePresentation = {
   '@context': ['https://www.w3.org/2018/credentials/v1', 'https://identity.foundation/presentation-exchange/submission/v1'],
