@@ -69,7 +69,7 @@ export class CredentialIssuancePurpose extends jsigs.purposes.AssertionProofPurp
 
       return { valid: true }
     } catch (error) {
-      return { valid: false, error }
+      return { valid: false, error: error as Error }
     }
   }
 }

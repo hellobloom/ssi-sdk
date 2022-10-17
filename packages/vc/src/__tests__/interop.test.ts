@@ -1,4 +1,4 @@
-import * as transmuteVC from '@transmute/vc.js'
+import { verifiable } from '@transmute/vc.js'
 import { signVC } from '../sign'
 import { verifyVC } from '../verify'
 
@@ -21,7 +21,7 @@ describe('Interop:', () => {
     // This test won't pass until @transmute/vc.js is updated
     // https://github.com/transmute-industries/vc.js/issues/64
     it.skip('Transmute', async () => {
-      const result = await transmuteVC.ld.validateCredential({
+      const result = await verifiable.credential.verify({
         credential: bloomSignedVC,
         documentLoader,
         suite: getVerifySuite({
@@ -52,16 +52,20 @@ describe('Interop:', () => {
 
   describe('Bloom can verify credentials issued by', () => {
     it('Transmute', async () => {
-      const transmuteSignedVC = await transmuteVC.ld.issue({
-        credential: {
-          ...unsignedVC,
-          // @transmute/linked-data-proof doesn't auto add the suite's context like jsonld-signatures
-          '@context': [...unsignedVC['@context'], 'https://w3id.org/security/suites/ed25519-2020/v1'],
-        },
+      const credential = {
+        ...unsignedVC,
+        // @transmute/linked-data-proof doesn't auto add the suite's context like jsonld-signatures
+        '@context': [...unsignedVC['@context'], 'https://w3id.org/security/suites/ed25519-2020/v1'],
+      }
+
+      const transmuteSignedVCs = await verifiable.credential.create({
+        credential,
         documentLoader,
         suite: getIssuerEd25519Suite(),
         compactProof: false,
       } as any)
+
+      const transmuteSignedVC = transmuteSignedVCs.items[0]
 
       const result = await verifyVC({
         vc: transmuteSignedVC,

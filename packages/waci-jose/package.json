@@ -17,25 +17,25 @@
     "node": ">=14"
   },
   "scripts": {
-    "build": "tsdx build --target node",
-    "test": "tsdx test",
+    "build": "dts build --target node",
+    "test": "dts test",
     "lint": "eslint src --format table --ext .ts,.tsx,.js,.jsx",
-    "lint:fix": "yarn lint -- --fix",
-    "prepare": "yarn build",
-    "prepublishOnly": "yarn size && yarn lint && yarn test",
-    "size": "echo \"No size information for waci-jose\"",
-    "analyze": "size-limit --why"
+    "lint:fix": "npm run lint -- --fix",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run size && npm run lint && npm run test",
+    "size": "echo \"No size information for waci-jose\""
   },
   "dependencies": {
     "@bloomprotocol/waci-core": "^0.1.2",
-    "jose": "^3.11.5"
+    "jest": "^29.1.2",
+    "jest-environment-node": "^29.1.2",
+    "jose": "^3.11.5",
+    "ts-jest": "^29.0.3"
   },
   "devDependencies": {
     "@bloomprotocol/eslint-config": "2.0.0-beta.0",
     "@bloomprotocol/prettier-config": "2.0.0-beta.0",
-    "@size-limit/preset-small-lib": "^4.10.2",
-    "size-limit": "^4.10.2",
-    "tsdx": "^0.14.1",
+    "dts-cli": "^1.6.0",
     "tslib": "^2.2.0"
   },
   "resolutions": {

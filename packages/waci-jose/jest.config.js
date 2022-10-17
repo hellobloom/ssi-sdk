@@ -1,11 +1,11 @@
 module.exports = {
-  testEnvironment: 'node',
+  // testEnvironment: 'node',
   moduleNameMapper: {
-    '^jose/(.*)$': '<rootDir>/node_modules/jose/dist/node/cjs/$1'
+    '^jose/(.*)$': '<rootDir>/node_modules/jose/dist/node/cjs/$1',
   },
   globals: {
     'ts-jest': {
-      tsconfig: './tsconfig.test.json'
-    }
-  }
+      tsconfig: './tsconfig.test.json',
+    },
+  },
 }

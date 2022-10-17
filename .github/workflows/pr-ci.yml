@@ -7,14 +7,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup node 14
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - name: Setup node 16
+        uses: actions/setup-node@v3
         with:
-          node-version: 14.x
-      - run: yarn install --frozen-lockfile
-      - run: yarn bootstap
-      - run: yarn lint
-      - run: yarn size
-      - run: yarn test
+          node-version: 16.x
+      - run: npm ci
+      - run: npx lerna bootstrap
+      - run: npm run lint
+      - run: npm run test
       - run: git diff --exit-code

@@ -17,22 +17,18 @@
     "node": ">=14"
   },
   "scripts": {
-    "build": "tsdx build --target node",
-    "test": "tsdx test --passWithNoTests",
+    "build": "dts build --target node",
+    "test": "dts test --passWithNoTests",
     "lint": "eslint src --format table --ext .ts,.tsx,.js,.jsx",
-    "lint:fix": "yarn lint -- --fix",
-    "prepare": "yarn build",
-    "prepublishOnly": "yarn size && yarn lint && yarn test",
-    "size": "size-limit",
-    "analyze": "size-limit --why"
+    "lint:fix": "npm run lint -- --fix",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run size && npm run lint && npm run test"
   },
   "devDependencies": {
     "@bloomprotocol/eslint-config": "2.0.0-beta.0",
     "@bloomprotocol/prettier-config": "2.0.0-beta.0",
-    "@size-limit/preset-small-lib": "^4.10.2",
-    "size-limit": "^4.10.2",
+    "dts-cli": "^1.6.0",
     "ts-node": "^9.1.1",
-    "tsdx": "^0.14.1",
     "tslib": "^2.2.0"
   },
   "resolutions": {
@@ -60,5 +56,10 @@
       "path": "dist/waci-core.esm.js",
       "limit": "1 B"
     }
-  ]
+  ],
+  "dependencies": {
+    "jest": "^29.1.2",
+    "jest-environment-node": "^29.1.2",
+    "ts-jest": "^29.0.3"
+  }
 }

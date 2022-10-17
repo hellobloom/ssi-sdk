@@ -1,3 +1,4 @@
+import { createSecretKey } from 'crypto'
 import {
   SignOfferChallengeJWT,
   SignOfferResponseJWT,
@@ -132,7 +133,9 @@ const credentialManifest = {
 const callbackUrl = 'https://example.com'
 
 const relyingPartySecret = new Uint8Array(32)
+const relyingPartySecretKL = createSecretKey(relyingPartySecret)
 const userSecret = new Uint8Array(32)
+const userSecretKL = createSecretKey(userSecret)
 
 const relyingPartyId = 'urn:example:relying-party'
 const userId = 'urn:example:user'
@@ -147,7 +150,7 @@ test('Offer Flow', async () => {
     .setIssuer(relyingPartyId)
     .setAudience(userId)
     .setProtectedHeader({ alg: 'HS256' })
-    .sign(relyingPartySecret)
+    .sign(relyingPartySecretKL)
 
   const responseString = await new SignOfferResponseJWT({
     challenge: challengeString,
@@ -156,7 +159,7 @@ test('Offer Flow', async () => {
     .setIssuer(userId)
     .setAudience(relyingPartyId)
     .setProtectedHeader({ alg: 'HS256' })
-    .sign(userSecret)
+    .sign(userSecretKL)
 
   const { response, challenge } = await offerResponseJwtVerify(
     responseString,
@@ -191,7 +194,7 @@ test('Request Flow', async () => {
     .setIssuer(relyingPartyId)
     .setAudience(userId)
     .setProtectedHeader({ alg: 'HS256' })
-    .sign(relyingPartySecret)
+    .sign(relyingPartySecretKL)
 
   const responseString = await new SignRequestResponseJWT({
     challenge: challengeString,
@@ -200,7 +203,7 @@ test('Request Flow', async () => {
     .setIssuer(userId)
     .setAudience(relyingPartyId)
     .setProtectedHeader({ alg: 'HS256' })
-    .sign(userSecret)
+    .sign(userSecretKL)
 
   const { response, challenge } = await requestResponseJwtVerify(
     responseString,

@@ -412,7 +412,7 @@ describe('EcdsaSecp256k1Signature2019', () => {
         expect(result.verified).toBeFalsy()
         expect(result.error.errors).toMatchInlineSnapshot(`
           Array [
-            [Error: Could not verify any proofs; no proofs matched the required suite and purpose.],
+            [NotFoundError: Did not verify any proofs; insufficient proofs matched the acceptable suite(s) and required purpose(s).],
           ]
         `)
       })

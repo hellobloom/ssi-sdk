@@ -1,5 +1,5 @@
 import { VC, RemoveIndex } from '@bloomprotocol/vc'
-import { L, O } from 'ts-toolbelt'
+import { O } from 'ts-toolbelt'
 
 export type OneOrMore<Value> = Value | Value[]
 
@@ -7,35 +7,16 @@ export type SimpleThing = { '@type': string | string[] }
 
 export type SimpleThingString = { '@type': string }
 
-type FilterShared<L0 extends ReadonlyArray<string>, L1 extends ReadonlyArray<string>> = L.Filter<L0, O.Keys<O.Invert<L.ObjectOf<L1>>>>
+export type OmitType<O0 extends Record<string, unknown>> = O.Omit<O0, '@type'>
 
-type RemoveAndPrependSharedTypes<
-  First extends ReadonlyArray<string>,
-  Second extends ReadonlyArray<string>,
-  Shared extends ReadonlyArray<string>,
-> = L.Flatten<L.Prepend<L.Concat<FilterShared<First, Shared>, FilterShared<Second, Shared>>, Shared>>
-
-type ArrayifyType<T extends SimpleThing> = L.Flatten<L.Concat<[T['@type']], []>>
-
-type Inner<First extends ReadonlyArray<string>, Second extends ReadonlyArray<string>> = RemoveAndPrependSharedTypes<
-  First,
-  Second,
-  L.Intersect<First, Second, 'equals'>
->
-
-type FlattenAndDedupeType<First extends SimpleThing, Second extends SimpleThing> = Inner<ArrayifyType<First>, ArrayifyType<Second>>
-
-type OmitType<O0 extends Record<string, unknown>> = O.Omit<O0, '@type'>
-
-export type MergeSubjects<S1 extends SimpleThing, S2 extends SimpleThing> = {
-  '@type': FlattenAndDedupeType<S1, S2>
-} & O.MergeUp<OmitType<S1>, OmitType<S2>>
+export type MergeSubjects<T extends Record<string, unknown>, U extends Record<string, unknown>, Types> = OmitType<T> &
+  OmitType<U> & { '@type': Types }
 
 export type PartialSubject<S extends SimpleThing> = {
   '@type': S['@type']
 } & Partial<OmitType<S>>
 
-export type CreateVCType<Types extends string[], S extends SimpleThing> = Omit<RemoveIndex<VC>, 'type' | 'credentialSubject'> & {
+export type CreateVCType<Types extends Array<string>, S extends SimpleThing> = Omit<RemoveIndex<VC>, 'type' | 'credentialSubject'> & {
   type: ['VerifiableCredential', ...Types]
   credentialSubject: OneOrMore<{ data: S }>
   [key: string]: unknown
