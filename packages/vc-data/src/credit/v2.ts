@@ -116,14 +116,15 @@ export type CreditPersonV2 = {
   honorificSuffix?: OneOrMore<string>
 
   hasCreditScoreRange?: OneOrMore<CreditScoreRangeV2>
-  hasRevolvingDebtRange?: OneOrMore<MonetaryRangeV2>
   hasRevolvingUtilizationRange?: OneOrMore<NumericRangeV2>
+
+  hasRevolvingDebtRange?: OneOrMore<MonetaryRangeV2>
   hasMortgageDebtRange?: OneOrMore<MonetaryRangeV2>
   hasInstallmentDebtRange?: OneOrMore<MonetaryRangeV2>
   hasOtherDebtRange?: OneOrMore<MonetaryRangeV2>
-  hasTotalDebtRange?: OneOrMore<MonetaryRangeV2>
+  hasTotalOpenDebtRange?: OneOrMore<MonetaryRangeV2>
 
-  numInquiries?: NumberOverTimePeriodV2
+  numInquiries?: number | NumberOverTimePeriodV2
   numLatePayments?: number | NumberOverTimePeriodV2
 
   issuingOrganization?: OrganizationV2
@@ -153,7 +154,7 @@ export const getVCCreditPersonV2ContextConfig = () => {
       hasMortgageDebtRange: 'bloomSchema',
       hasInstallmentDebtRange: 'bloomSchema',
       hasOtherDebtRange: 'bloomSchema',
-      hasTotalDebtRange: 'bloomSchema',
+      hasTotalOpenDebtRange: 'bloomSchema',
       numInquiries: 'bloomSchema',
       numLatePayments: 'bloomSchema',
       issuingOrganization: 'bloomSchema',
