@@ -1,5 +1,5 @@
 import { OneOrMore, CreateVCType, createSubjectContext, createContextConfig, createContext } from '../util/v2'
-import { OrganizationV2, GovernmentOrgV2 } from '../base/v2'
+import { OrganizationV2, organizationV2Context, GovernmentOrgV2, governmentOrganizationV2Context } from '../base/v2'
 
 // Helper Types
 
@@ -92,7 +92,14 @@ const getHelperContextEntries = () => {
     },
   })
 
-  return [creditScoreRangeEntry, monetaryRangeEntry, numericRangeEntry, numberOverTimePeriodEntry]
+  return [
+    creditScoreRangeEntry,
+    monetaryRangeEntry,
+    numericRangeEntry,
+    numberOverTimePeriodEntry,
+    organizationV2Context,
+    governmentOrganizationV2Context,
+  ]
 }
 
 // Person Related
