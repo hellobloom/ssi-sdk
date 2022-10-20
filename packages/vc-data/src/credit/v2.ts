@@ -113,6 +113,10 @@ export type CreditPersonV2 = {
 
   numInquiries?: NumberOverTimePeriodV2
   numLatePayments?: number | NumberOverTimePeriodV2
+
+  issuingOrganization?: OrganizationV2
+  reportDate?: string
+  creditFreeze?: boolean
 }
 
 export type VCCreditPersonV2Type = 'CreditCredentialPersonV2'
@@ -134,6 +138,9 @@ export const getVCCreditPersonV2ContextConfig = () => {
       hasTermDebtRange: 'bloomSchema',
       numInquiries: 'bloomSchema',
       numLatePayments: 'bloomSchema',
+      issuingOrganization: 'bloomSchema',
+      reportDate: 'bloomSchema',
+      creditFreeze: 'bloomSchema',
     },
   })
 
