@@ -99,12 +99,14 @@ const getHelperContextEntries = () => {
 
 export type CreditPersonV2 = {
   '@type': 'CreditPerson'
-  name?: string
   identifier?: string
   birthDate?: string
+
+  name?: string
   givenName?: string
   additionalName?: OneOrMore<string>
   familyName?: string
+  honorificSuffix?: OneOrMore<string>
 
   hasCreditScoreRange?: OneOrMore<CreditScoreRangeV2>
   hasRevolvingDebtRange?: OneOrMore<MonetaryRangeV2>
@@ -126,12 +128,15 @@ export const getVCCreditPersonV2ContextConfig = () => {
     type: 'CreditPerson',
     base: 'bloomSchema',
     properties: {
-      name: 'schema',
       identifier: 'schema',
       birthDate: 'schema',
+
+      name: 'schema',
       givenName: 'schema',
-      familyName: 'schema',
       additionalName: 'schema',
+      familyName: 'schema',
+      honorificSuffix: 'schema',
+
       hasCreditScoreRange: 'bloomSchema',
       hasRevolvingUtilizationRange: 'bloomSchema',
       hasRevolvingDebtRange: 'bloomSchema',
