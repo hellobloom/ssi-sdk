@@ -191,10 +191,10 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignatur
 
     const { verificationMethod } = proof
 
-    if (typeof verificationMethod === 'object') {
-      return verificationMethod.id === this.key.id
-    }
-    return verificationMethod === this.key.id
+    const verificationMethodId: string = typeof verificationMethod === 'object' ?
+      verificationMethod.id :
+      verificationMethod;
+    return this.isVerificationMethodMatchingKeyId(verificationMethodId)
   }
 
   ensureSuiteContext({ document, addSuiteContext }: { document: Record<string, unknown>; addSuiteContext?: boolean }) {
@@ -203,6 +203,11 @@ export class EcdsaSecp256k1Signature2019 extends jsigs.suites.LinkedDataSignatur
     }
 
     super.ensureSuiteContext({ document, addSuiteContext })
+  }
+
+  private isVerificationMethodMatchingKeyId (verificationMethod: string): boolean {
+    return verificationMethod === this.key.id ||
+      verificationMethod === `${this.key.controller}${this.key.id}`
   }
 }
 

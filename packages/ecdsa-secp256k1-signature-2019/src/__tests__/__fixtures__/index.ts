@@ -4,6 +4,7 @@ const secp256k12019ContextDoc = require('./contexts/secp256k1-2019-v1.json')
 const schemaContextDoc = require('./contexts/schema.json')
 const didDoc = require('./didDocument.json')
 const keyPair = require('./keyPair.json')
+const keyPairRelativeId = require('./keyPairRelativePathId.json')
 
 const contextMap: { [url: string]: Record<string, unknown> } = {
   'https://www.w3.org/2018/credentials/v1': credentialsContextDoc,
@@ -28,6 +29,10 @@ export const documentLoader = (url: string) => {
   }
 }
 
+export {
+  didDoc
+}
+
 export const document = {
   '@context': ['http://schema.org', 'https://ns.did.ai/suites/secp256k1-2019/v1'],
   '@type': 'Person',
@@ -36,3 +41,6 @@ export const document = {
 
 export const publicKeyPair = keyPair.public
 export const privateKeyPair = keyPair.private
+
+export const publicKeyPairRelativePath = keyPairRelativeId.public
+export const privateKeyPairRelativePath = keyPairRelativeId.private

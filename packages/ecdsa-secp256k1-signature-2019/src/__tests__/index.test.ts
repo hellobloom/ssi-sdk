@@ -2,7 +2,15 @@ import { EcdsaSecp256k1VerificationKey2019 } from '@bloomprotocol/ecdsa-secp256k
 
 import { EcdsaSecp256k1Signature2019 } from '../index'
 
-import { document, privateKeyPair, publicKeyPair, documentLoader } from './__fixtures__'
+import {
+  document,
+  privateKeyPair,
+  publicKeyPair,
+  documentLoader,
+  privateKeyPairRelativePath,
+  didDoc
+} from './__fixtures__'
+import type { IDidDocumentPublicKey } from '@decentralized-identity/did-common-typescript';
 
 const jsigs = require('jsonld-signatures')
 
@@ -308,6 +316,39 @@ describe('EcdsaSecp256k1Signature2019', () => {
         {
           suite,
           purpose: new AssertionProofPurpose(),
+          documentLoader,
+        },
+      )
+
+      expect(result.verified).toBeTruthy()
+    })
+
+    test('signed with a relative id in the DID document', async () => {
+      // the controller signs specify the absolute path to key in the verificationMethod
+      const signingSuite = new EcdsaSecp256k1Signature2019({
+        key: EcdsaSecp256k1VerificationKey2019.from(privateKeyPairRelativePath),
+      })
+
+      const signedDocument = await jsigs.sign(
+        { ...document },
+        {
+          suite: signingSuite,
+          purpose: new AssertionProofPurpose(),
+          documentLoader,
+        },
+      )
+
+      // later as we verify we get the key from the DID document and the id is relative path
+      // see https://github.com/hellobloom/ssi-sdk/issues/50
+      const verificationKey = didDoc.publicKey.find((key: IDidDocumentPublicKey) => key.id === '#relative-path')
+      const verifyingSuite = new EcdsaSecp256k1Signature2019({
+        key: EcdsaSecp256k1VerificationKey2019.from(verificationKey)
+      })
+      const result = await jsigs.verify(
+        { ...signedDocument },
+        {
+          suite: verifyingSuite,
+          purpose: new AssertionProofPurpose({ controller: didDoc }),
           documentLoader,
         },
       )
