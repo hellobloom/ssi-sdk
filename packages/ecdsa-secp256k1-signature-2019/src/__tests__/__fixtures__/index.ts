@@ -29,9 +29,7 @@ export const documentLoader = (url: string) => {
   }
 }
 
-export {
-  didDoc
-}
+export { didDoc }
 
 export const document = {
   '@context': ['http://schema.org', 'https://ns.did.ai/suites/secp256k1-2019/v1'],

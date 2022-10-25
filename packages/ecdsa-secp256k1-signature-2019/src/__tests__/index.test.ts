@@ -1,16 +1,9 @@
 import { EcdsaSecp256k1VerificationKey2019 } from '@bloomprotocol/ecdsa-secp256k1-verification-key-2019'
 
+import type { IDidDocumentPublicKey } from '@decentralized-identity/did-common-typescript'
 import { EcdsaSecp256k1Signature2019 } from '../index'
 
-import {
-  document,
-  privateKeyPair,
-  publicKeyPair,
-  documentLoader,
-  privateKeyPairRelativePath,
-  didDoc
-} from './__fixtures__'
-import type { IDidDocumentPublicKey } from '@decentralized-identity/did-common-typescript';
+import { document, privateKeyPair, publicKeyPair, documentLoader, privateKeyPairRelativePath, didDoc } from './__fixtures__'
 
 const jsigs = require('jsonld-signatures')
 
@@ -342,7 +335,7 @@ describe('EcdsaSecp256k1Signature2019', () => {
       // see https://github.com/hellobloom/ssi-sdk/issues/50
       const verificationKey = didDoc.publicKey.find((key: IDidDocumentPublicKey) => key.id === '#relative-path')
       const verifyingSuite = new EcdsaSecp256k1Signature2019({
-        key: EcdsaSecp256k1VerificationKey2019.from(verificationKey)
+        key: EcdsaSecp256k1VerificationKey2019.from(verificationKey),
       })
       const result = await jsigs.verify(
         { ...signedDocument },
