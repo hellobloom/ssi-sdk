@@ -34,9 +34,12 @@
     "ts-jest": "^29.0.3"
   },
   "devDependencies": {
+    "@babel/plugin-syntax-flow": "^7.18.6",
     "@babel/plugin-transform-modules-commonjs": "^7.14.0",
+    "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@bloomprotocol/eslint-config": "2.0.0-beta.0",
     "@bloomprotocol/prettier-config": "2.0.0-beta.0",
+    "@decentralized-identity/did-common-typescript": "^0.1.19",
     "dts-cli": "^1.6.0",
     "tslib": "^2.2.0"
   },
