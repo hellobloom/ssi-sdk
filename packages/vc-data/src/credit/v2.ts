@@ -1,5 +1,5 @@
 import { OneOrMore, CreateVCType, createSubjectContext, createContextConfig, createContext } from '../util/v2'
-import { OrganizationV2, GovernmentOrgV2 } from '../base/v2'
+import { OrganizationV2, organizationV2Context, GovernmentOrgV2, governmentOrganizationV2Context } from '../base/v2'
 
 // Helper Types
 
@@ -92,27 +92,44 @@ const getHelperContextEntries = () => {
     },
   })
 
-  return [creditScoreRangeEntry, monetaryRangeEntry, numericRangeEntry, numberOverTimePeriodEntry]
+  return [
+    creditScoreRangeEntry,
+    monetaryRangeEntry,
+    numericRangeEntry,
+    numberOverTimePeriodEntry,
+    organizationV2Context,
+    governmentOrganizationV2Context,
+  ]
 }
 
 // Person Related
 
 export type CreditPersonV2 = {
   '@type': 'CreditPerson'
-  name?: string
   identifier?: string
   birthDate?: string
+
+  name?: string
   givenName?: string
   additionalName?: OneOrMore<string>
   familyName?: string
+  honorificSuffix?: OneOrMore<string>
 
   hasCreditScoreRange?: OneOrMore<CreditScoreRangeV2>
-  hasRevolvingDebtRange?: OneOrMore<MonetaryRangeV2>
   hasRevolvingUtilizationRange?: OneOrMore<NumericRangeV2>
-  hasTermDebtRange?: OneOrMore<MonetaryRangeV2>
 
-  numInquiries?: NumberOverTimePeriodV2
+  hasRevolvingDebtRange?: OneOrMore<MonetaryRangeV2>
+  hasMortgageDebtRange?: OneOrMore<MonetaryRangeV2>
+  hasInstallmentDebtRange?: OneOrMore<MonetaryRangeV2>
+  hasOtherDebtRange?: OneOrMore<MonetaryRangeV2>
+  hasTotalOpenDebtRange?: OneOrMore<MonetaryRangeV2>
+
+  numInquiries?: number | NumberOverTimePeriodV2
   numLatePayments?: number | NumberOverTimePeriodV2
+
+  issuingOrganization?: OrganizationV2
+  reportDate?: string
+  creditFreeze?: boolean
 }
 
 export type VCCreditPersonV2Type = 'CreditCredentialPersonV2'
@@ -122,18 +139,27 @@ export const getVCCreditPersonV2ContextConfig = () => {
     type: 'CreditPerson',
     base: 'bloomSchema',
     properties: {
-      name: 'schema',
       identifier: 'schema',
       birthDate: 'schema',
+
+      name: 'schema',
       givenName: 'schema',
-      familyName: 'schema',
       additionalName: 'schema',
+      familyName: 'schema',
+      honorificSuffix: 'schema',
+
       hasCreditScoreRange: 'bloomSchema',
       hasRevolvingUtilizationRange: 'bloomSchema',
       hasRevolvingDebtRange: 'bloomSchema',
-      hasTermDebtRange: 'bloomSchema',
+      hasMortgageDebtRange: 'bloomSchema',
+      hasInstallmentDebtRange: 'bloomSchema',
+      hasOtherDebtRange: 'bloomSchema',
+      hasTotalOpenDebtRange: 'bloomSchema',
       numInquiries: 'bloomSchema',
       numLatePayments: 'bloomSchema',
+      issuingOrganization: 'bloomSchema',
+      reportDate: 'bloomSchema',
+      creditFreeze: 'bloomSchema',
     },
   })
 
