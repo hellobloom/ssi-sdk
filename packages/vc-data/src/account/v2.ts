@@ -59,6 +59,19 @@ export type ServiceAccountStatementV2 = {
   dueDate?: string
 }
 
+export type TransferInformationV2 = {
+  '@type': 'TransferInformation'
+  transferType?: string // ach, eft, international, bacs
+  accountCode?: string | number
+  routingCode?: string | number
+  wireRoutingCode?: string | number
+  institutionCode?: string | number
+  branchCode?: string | number
+  bicCode?: string | number
+  ibanCode?: string | number
+  sortCode?: string | number
+}
+
 export type AccountV2 = {
   '@type': 'Account'
   accountPayments?: Array<AccountStatementV2>
@@ -73,6 +86,7 @@ export type AccountV2 = {
   hasTransactions?: OneOrMore<BankAccountTransactionV2>
   hasValue?: MonetaryAmountV2
   identifier?: string | number
+  hasTransferInformation?: OneOrMore<TransferInformationV2>
   name?: OneOrMore<string>
   organization?: AccountOrganizationV2
   startDate?: string
@@ -126,6 +140,7 @@ const getHelperContextEntries = () => {
       bankAccountCategory: 'bloomSchema',
       endDate: 'bloomSchema',
       hasExpense: 'bloomSchema',
+      hasTransferInformation: 'bloomSchema',
       hasTotalIncome: 'bloomSchema',
       hasIncome: 'bloomSchema',
       hasTransactions: 'bloomSchema',
@@ -142,6 +157,22 @@ const getHelperContextEntries = () => {
       name: 'schema',
       serviceTypes: 'bloomSchema',
       nationality: 'bloomSchema',
+    },
+  })
+
+  const transferInformationEntry = createSubjectContext<TransferInformationV2>({
+    type: 'TransferInformation',
+    base: 'bloomSchema',
+    properties: {
+      transferType: 'bloomSchema',
+      accountCode: 'bloomSchema',
+      routingCode: 'bloomSchema',
+      wireRoutingCode: 'bloomSchema',
+      institutionCode: 'bloomSchema',
+      branchCode: 'bloomSchema',
+      bicCode: 'bloomSchema',
+      ibanCode: 'bloomSchema',
+      sortCode: 'bloomSchema',
     },
   })
 
@@ -172,6 +203,7 @@ const getHelperContextEntries = () => {
   return [
     accountStatementEntry,
     accountPaymentEntry,
+    transferInformationEntry,
     serviceAccountStatementEntry,
     bankAccountTransactionEntry,
     bankAccountTransactionGroupEntry,
