@@ -1,4 +1,5 @@
 export * from './account'
+export * from './accreditation'
 export * from './address'
 export * from './aml'
 export * from './base'
