@@ -75,6 +75,7 @@ export type TransferInformationV2 = {
 export type AccountV2 = {
   '@type': 'Account'
   accountPayments?: Array<AccountStatementV2>
+  accountStatements?: Array<AccountStatementV2 | ServiceAccountStatementV2>
   accountType?: string
   accountTypeConfidence?: number
   bankAccountCategory?: string
@@ -133,7 +134,7 @@ const getHelperContextEntries = () => {
       name: 'schema',
       organization: 'schema',
       description: 'schema',
-
+      accountStatements: 'bloomSchema',
       accountPayments: 'bloomSchema',
       accountType: 'bloomSchema',
       accountTypeConfidence: 'bloomSchema',
