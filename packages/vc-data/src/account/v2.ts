@@ -74,7 +74,7 @@ export type TransferInformationV2 = {
 
 export type AccountV2 = {
   '@type': 'Account'
-  accountPayments?: Array<AccountStatementV2>
+  accountPayments?: Array<AccountPaymentV2>
   accountStatements?: Array<AccountStatementV2 | ServiceAccountStatementV2>
   accountType?: string
   accountTypeConfidence?: number
