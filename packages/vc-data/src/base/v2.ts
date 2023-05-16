@@ -43,24 +43,30 @@ export const propertyValueV2Context = createSubjectContext<PropertyValueV2>({
 
 export type PostalAddressV2 = {
   '@type': 'PostalAddress'
+  addressRaw?: string
+  addressName?: string
   addressCountry?: string
   addressLocality?: string
   addressRegion?: string
   postOfficeBoxNumber?: string
   postalCode?: string
   streetAddress?: string
+  streetAddress2?: string
 }
 
 export const postalAddressV2Context = createSubjectContext<PostalAddressV2>({
   type: 'PostalAddress',
   base: 'schema',
   properties: {
+    addressRaw: 'schema',
+    addressName: 'schema',
     addressCountry: 'schema',
     addressLocality: 'schema',
     addressRegion: 'schema',
     postOfficeBoxNumber: 'schema',
     postalCode: 'schema',
     streetAddress: 'schema',
+    streetAddress2: 'schema',
   },
 })
 
