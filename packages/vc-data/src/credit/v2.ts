@@ -3,6 +3,7 @@ import { OrganizationV2, organizationV2Context, GovernmentOrgV2, governmentOrgan
 
 // Helper Types
 
+// unused, but missing a context
 export type CreditOrganizationV2 = Omit<OrganizationV2, '@type'> & {
   '@type': 'CreditOrganization'
   name: string

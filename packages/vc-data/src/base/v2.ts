@@ -1,4 +1,4 @@
-import { createSubjectContext } from '../util/v2'
+import { OneOrMore, createSubjectContext } from '../util/v2'
 
 export type MonetaryAmountV2 = {
   '@type': 'MonetaryAmount'
@@ -70,7 +70,7 @@ export const postalAddressV2Context = createSubjectContext<PostalAddressV2>({
   },
 })
 
-export type GenericOrgType = { '@type': string; name?: string }
+export type GenericOrgType = { '@type': string; name?: string; address?: OneOrMore<string | PostalAddressV2> }
 
 export type OrganizationV2 = {
   '@type': 'Organization'
@@ -115,6 +115,7 @@ export const genericOrgContext = <T extends GenericOrgType>(typeName: T['@type']
     base: 'schema',
     properties: {
       name: 'schema',
+      address: 'schema',
     },
   })
 
