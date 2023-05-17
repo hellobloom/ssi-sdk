@@ -156,6 +156,7 @@ const getHelperContextEntries = () => {
     base: 'bloomSchema',
     properties: {
       name: 'schema',
+      address: 'schema',
       serviceTypes: 'bloomSchema',
       nationality: 'bloomSchema',
     },
