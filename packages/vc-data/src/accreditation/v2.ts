@@ -4,6 +4,8 @@ import {
   // organizationV2Context,
   PostalAddressV2,
   postalAddressV2Context,
+  OrganizationV2,
+  organizationV2Context,
   PropertyValueV2,
   propertyValueV2Context,
 } from '../base/v2'
@@ -15,6 +17,7 @@ export type AccreditationV2 = {
   accreditationType?: OneOrMore<string>
   accreditationCriteria?: OneOrMore<string>
   accreditationReason?: OneOrMore<string>
+  accreditor?: OneOrMore<OrganizationV2>
   createdAt?: string
   expiresAt?: string
   url?: string
@@ -28,6 +31,7 @@ const getHelperContextEntries = () => {
       accreditationType: 'bloomSchema',
       accreditationCriteria: 'bloomSchema',
       accreditationReason: 'bloomSchema',
+      accreditor: 'bloomSchema',
       createdAt: 'bloomSchema',
       expiresAt: 'bloomSchema',
       url: 'schema',
@@ -58,7 +62,7 @@ export type AccreditationPersonV2 = {
 export type VCAccreditationPersonV2Type = 'AccreditationCredentialPersonV2'
 
 export const getVCAccreditationPersonV2ContextConfig = () => {
-  const amlPersonContext = createSubjectContext<AccreditationPersonV2>({
+  const accreditationPersonContext = createSubjectContext<AccreditationPersonV2>({
     type: 'AccreditationPerson',
     base: 'bloomSchema',
     properties: {
@@ -78,7 +82,9 @@ export const getVCAccreditationPersonV2ContextConfig = () => {
 
   return createContextConfig<VCAccreditationPersonV2Type>({
     type: 'AccreditationCredentialPersonV2',
-    subjects: [amlPersonContext, postalAddressV2Context, propertyValueV2Context].concat(getHelperContextEntries()),
+    subjects: [accreditationPersonContext, postalAddressV2Context, propertyValueV2Context, organizationV2Context].concat(
+      getHelperContextEntries(),
+    ),
   })
 }
 
