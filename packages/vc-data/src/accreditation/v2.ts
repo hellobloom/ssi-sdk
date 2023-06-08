@@ -53,6 +53,7 @@ export type AccreditationPersonV2 = {
 
   email?: string
   birthDate?: string
+  identifier?: string
   name?: string
   givenName?: string
   additionalName?: string
@@ -72,6 +73,7 @@ export const getVCAccreditationPersonV2ContextConfig = () => {
 
       address: 'schema',
       birthDate: 'schema',
+      identifier: 'schema',
       email: 'schema',
       name: 'schema',
       givenName: 'schema',
