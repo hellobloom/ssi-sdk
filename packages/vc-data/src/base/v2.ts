@@ -70,6 +70,21 @@ export const postalAddressV2Context = createSubjectContext<PostalAddressV2>({
   },
 })
 
+export type GeoCoordinates = {
+  '@type': 'GeoCoordinates'
+  latitude?: number
+  longitude?: number
+}
+
+export const geoCoordinatesContext = createSubjectContext<GeoCoordinates>({
+  type: 'GeoCoordinates',
+  base: 'schema',
+  properties: {
+    latitude: 'schema',
+    longitude: 'schema',
+  },
+})
+
 export type GenericOrgType = { '@type': string; name?: string; address?: OneOrMore<string | PostalAddressV2> }
 
 export type OrganizationV2 = {
