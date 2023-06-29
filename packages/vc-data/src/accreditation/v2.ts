@@ -45,7 +45,7 @@ const getHelperContextEntries = () => {
 
 export type AccreditationPersonV2 = {
   '@type': 'AccreditationPerson'
-  identifier?: OneOrMore<PropertyValueV2>
+  identifier?: string | OneOrMore<PropertyValueV2>
   nationality?: string
   hasAccreditation: OneOrMore<AccreditationV2>
 
@@ -53,7 +53,6 @@ export type AccreditationPersonV2 = {
 
   email?: string
   birthDate?: string
-  identifier?: string
   name?: string
   givenName?: string
   additionalName?: string
@@ -73,7 +72,6 @@ export const getVCAccreditationPersonV2ContextConfig = () => {
 
       address: 'schema',
       birthDate: 'schema',
-      identifier: 'schema',
       email: 'schema',
       name: 'schema',
       givenName: 'schema',
