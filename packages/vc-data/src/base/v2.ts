@@ -1,4 +1,4 @@
-import { createSubjectContext } from '../util/v2'
+import { OneOrMore, createSubjectContext } from '../util/v2'
 
 export type MonetaryAmountV2 = {
   '@type': 'MonetaryAmount'
@@ -43,28 +43,49 @@ export const propertyValueV2Context = createSubjectContext<PropertyValueV2>({
 
 export type PostalAddressV2 = {
   '@type': 'PostalAddress'
+  addressRaw?: string
+  addressName?: string
   addressCountry?: string
   addressLocality?: string
   addressRegion?: string
   postOfficeBoxNumber?: string
   postalCode?: string
   streetAddress?: string
+  streetAddress2?: string
 }
 
 export const postalAddressV2Context = createSubjectContext<PostalAddressV2>({
   type: 'PostalAddress',
   base: 'schema',
   properties: {
+    addressRaw: 'schema',
+    addressName: 'schema',
     addressCountry: 'schema',
     addressLocality: 'schema',
     addressRegion: 'schema',
     postOfficeBoxNumber: 'schema',
     postalCode: 'schema',
     streetAddress: 'schema',
+    streetAddress2: 'schema',
   },
 })
 
-export type GenericOrgType = { '@type': string; name?: string }
+export type GeoCoordinates = {
+  '@type': 'GeoCoordinates'
+  latitude?: number
+  longitude?: number
+}
+
+export const geoCoordinatesContext = createSubjectContext<GeoCoordinates>({
+  type: 'GeoCoordinates',
+  base: 'schema',
+  properties: {
+    latitude: 'schema',
+    longitude: 'schema',
+  },
+})
+
+export type GenericOrgType = { '@type': string; name?: string; address?: OneOrMore<string | PostalAddressV2> }
 
 export type OrganizationV2 = {
   '@type': 'Organization'
@@ -109,6 +130,7 @@ export const genericOrgContext = <T extends GenericOrgType>(typeName: T['@type']
     base: 'schema',
     properties: {
       name: 'schema',
+      address: 'schema',
     },
   })
 
