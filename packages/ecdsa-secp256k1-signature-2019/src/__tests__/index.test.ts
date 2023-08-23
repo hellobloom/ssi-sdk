@@ -313,8 +313,6 @@ describe('EcdsaSecp256k1Signature2019', () => {
         },
       )
 
-      console.log(JSON.stringify(result, null, 2));
-
       expect(result.verified).toBeTruthy()
     })
 
