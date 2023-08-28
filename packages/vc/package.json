@@ -1,7 +1,7 @@
 {
   "name": "@bloomprotocol/vc",
   "description": "TypeScript types, JSON schemas, and signing and verifying functions for Verifiable Credentials and Presentations.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "Bloom Team <team@bloom.co>",
   "license": "Apache-2.0",
   "repository": "https://github.com/hellobloom/ssi-sdk/tree/main/packages/vc",

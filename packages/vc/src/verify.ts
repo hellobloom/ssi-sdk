@@ -182,20 +182,22 @@ const verifyVPProof: VerifyVPProof = async ({ vp, documentLoader, getSuite, getP
   const credentialErrors: { id: string; errors: ProofError[] }[] = []
 
   await Promise.all(
-    vp.verifiableCredential.map(async (vc) => {
-      const result = await verifyVCProof({
-        vc,
-        documentLoader,
-        getSuite,
-        getProofPurposeOptions,
-      })
-      if (!result.success) {
-        credentialErrors.push({
-          id: vc.id,
-          errors: result.errors,
+    vp.verifiableCredential
+      .filter((vc): vc is VC => vc.type.includes('VerifiableCredential'))
+      .map(async (vc) => {
+        const result = await verifyVCProof({
+          vc,
+          documentLoader,
+          getSuite,
+          getProofPurposeOptions,
         })
-      }
-    }),
+        if (!result.success) {
+          credentialErrors.push({
+            id: vc.id,
+            errors: result.errors,
+          })
+        }
+      }),
   )
 
   if (credentialErrors.length > 0) {
@@ -226,15 +228,17 @@ type VerifyVPIssuance = (opts: { vp: VP }) => VerifyVPIssuanceResponse
 const verifyVPIssuance: VerifyVPIssuance = ({ vp }) => {
   const credentialErrors: { id: string; errors: IssuanceError[] }[] = []
 
-  vp.verifiableCredential.forEach((vc) => {
-    const result = verifyVCIssuance({ vc })
-    if (!result.success) {
-      credentialErrors.push({
-        id: vc.id,
-        errors: result.errors,
-      })
-    }
-  })
+  vp.verifiableCredential
+    .filter((vc): vc is VC => vc.type.includes('VerifiableCredential'))
+    .forEach((vc) => {
+      const result = verifyVCIssuance({ vc })
+      if (!result.success) {
+        credentialErrors.push({
+          id: vc.id,
+          errors: result.errors,
+        })
+      }
+    })
 
   if (credentialErrors.length > 0) {
     return {
