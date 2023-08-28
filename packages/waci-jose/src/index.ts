@@ -256,7 +256,14 @@ const requestResponseJwtVerifyV1 = (responseResult: JWTVerifyResult, challengeRe
     )
   }
 
-  if (!(typeof responseResult.payload.verifiable_presentation === 'object' || typeof responseResult.payload.vp === 'object')) {
+  if (responseResult.payload.format === 'jwt_sdvc' && typeof responseResult.payload.selective !== 'object') {
+    throw new JWTClaimValidationFailed('"selective" claim check failed', 'selective', 'check_failed')
+  }
+
+  if (
+    (!responseResult.payload.format || responseResult.payload.format === 'jwt_vp') &&
+    !(typeof responseResult.payload.verifiable_presentation === 'object' || typeof responseResult.payload.vp === 'object')
+  ) {
     throw new JWTClaimValidationFailed('"verifiable_presentation" claim check failed', 'verifiable_presentation', 'check_failed')
   }
 }
