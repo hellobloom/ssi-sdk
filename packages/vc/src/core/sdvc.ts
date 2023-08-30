@@ -132,7 +132,7 @@ export const selectiveAtomsSchema = {
   type: 'object',
   properties: {
     issuer: { type: 'string' },
-    meta: { type: 'array', items: selectiveMetaSchema },
+    meta: selectiveMetaSchema,
     nodes: { type: 'array', items: selectiveNodeSchema },
     edges: { type: 'array', items: selectiveEdgeSchema },
     properties: { type: 'array', items: selectivePropertySchema },
@@ -146,7 +146,7 @@ export const signedSelectiveAtomsSchema = {
   type: 'object',
   properties: {
     issuer: { type: 'string' },
-    meta: { type: 'array', items: signedSelectiveMetaSchema },
+    meta: signedSelectiveMetaSchema,
     nodes: { type: 'array', items: signedSelectiveNodeSchema },
     edges: { type: 'array', items: signedSelectiveEdgeSchema },
     properties: { type: 'array', items: signedSelectivePropertySchema },
