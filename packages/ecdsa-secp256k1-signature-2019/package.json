@@ -23,7 +23,7 @@
     "lint": "eslint src --format table --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run size && npm run lint && npm run test"
+    "prepublishOnly": "npm run lint && npm run test"
   },
   "dependencies": {
     "@bloomprotocol/ecdsa-secp256k1-verification-key-2019": "^0.1.2",
