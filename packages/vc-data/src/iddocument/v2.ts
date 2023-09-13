@@ -1,3 +1,4 @@
+import { PostalAddressV2, postalAddressV2Context, IdentityCheckV2, identityCheckV2Context, addressCheckV2Context } from '../base/v2'
 import { CreateVCType, createSubjectContext, createContextConfig, createContext, OneOrMore } from '../util/v2'
 
 export type IDDocumentClassV2 =
@@ -67,7 +68,9 @@ export type IDDocumentRoleV2 = {
 
 export type IDDocumentPersonV2 = {
   '@type': 'IDDocumentPerson'
-  hasIDDocument: OneOrMore<IDDocumentRoleV2>
+  hasIDDocument?: OneOrMore<IDDocumentRoleV2>
+  address?: OneOrMore<PostalAddressV2>
+  hasIdentityCheck?: OneOrMore<IdentityCheckV2>
 }
 
 export type VCIDDocumentPersonV2Type = 'IDDocumentCredentialPersonV2'
@@ -78,6 +81,8 @@ export const getVCIDDocumentPersonV2ContextConfig = () => {
     base: 'bloomSchema',
     properties: {
       hasIDDocument: 'bloomSchema',
+      address: 'bloomSchema',
+      hasIdentityCheck: 'bloomSchema',
     },
   })
 
@@ -129,7 +134,7 @@ export const getVCIDDocumentPersonV2ContextConfig = () => {
     },
   })
 
-  const idDocumentIssuer = createSubjectContext<IDDocumentIssuerV2>({
+  const idDocumentIssuerContext = createSubjectContext<IDDocumentIssuerV2>({
     type: 'IDDocumentIssuer',
     base: 'bloomSchema',
     properties: {
@@ -140,7 +145,16 @@ export const getVCIDDocumentPersonV2ContextConfig = () => {
 
   return createContextConfig<VCIDDocumentPersonV2Type>({
     type: 'IDDocumentCredentialPersonV2',
-    subjects: [idDocPersonContext, idDocRoleContext, idDocMatchContext, idDocContext, idDocumentIssuer],
+    subjects: [
+      idDocPersonContext,
+      idDocRoleContext,
+      idDocMatchContext,
+      idDocContext,
+      idDocumentIssuerContext,
+      identityCheckV2Context,
+      addressCheckV2Context,
+      postalAddressV2Context,
+    ],
   })
 }
 

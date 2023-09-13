@@ -124,6 +124,64 @@ export type GovernmentOrgV2 =
   | GovernmentOrganizationV2
   | AdministrativeAreaV2
 
+export type PossibleMatchVals = 'match' | 'partial_match' | 'no_match' | 'no_data' | 'no_input'
+export type PossibleCheckVals = 'success' | 'failure' | 'not_checked'
+
+export type AddressCheckV2 = {
+  '@type': 'AddressCheck'
+  status: PossibleMatchVals
+  postOfficeBox?: 'yes' | 'no' | 'no_data'
+  type?: 'residential' | 'commercial' | 'no_data'
+}
+
+export type IdentityCheckV2 = {
+  '@type': 'IdentityCheck'
+  status?: PossibleCheckVals
+  createdAt?: string
+  completedAt?: string
+
+  // General checks
+  riskCheck?: PossibleCheckVals
+  selfieCheck?: PossibleCheckVals
+
+  // Individually validated attributes
+  addressCheck?: AddressCheckV2
+  nameCheck?: PossibleMatchVals
+  birthDateCheck?: PossibleMatchVals
+  identifierCheck?: PossibleMatchVals
+  phoneCheck?: PossibleMatchVals
+
+  // Active SMS verification, as opposed to passive database lookup
+  smsCheck?: PossibleCheckVals
+}
+export const identityCheckV2Context = createSubjectContext<IdentityCheckV2>({
+  type: 'IdentityCheck',
+  base: 'bloomSchema',
+  properties: {
+    status: 'bloomSchema',
+    createdAt: 'bloomSchema',
+    completedAt: 'bloomSchema',
+    riskCheck: 'bloomSchema',
+    selfieCheck: 'bloomSchema',
+    addressCheck: 'bloomSchema',
+    nameCheck: 'bloomSchema',
+    birthDateCheck: 'bloomSchema',
+    identifierCheck: 'bloomSchema',
+    phoneCheck: 'bloomSchema',
+    smsCheck: 'bloomSchema',
+  },
+})
+
+export const addressCheckV2Context = createSubjectContext<AddressCheckV2>({
+  type: 'AddressCheck',
+  base: 'bloomSchema',
+  properties: {
+    status: 'bloomSchema',
+    postOfficeBox: 'bloomSchema',
+    type: 'bloomSchema',
+  },
+})
+
 export const genericOrgContext = <T extends GenericOrgType>(typeName: T['@type']) =>
   createSubjectContext<{ '@type': T['@type'] } & Omit<GenericOrgType, '@type'>>({
     type: typeName,
