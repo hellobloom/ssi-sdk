@@ -24,7 +24,7 @@
     "lint": "eslint src test stories --format table --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run size && npm run lint && npm run test",
+    "prepublishOnly": "npm run lint && npm run test",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook"
   },

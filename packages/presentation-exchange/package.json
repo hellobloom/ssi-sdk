@@ -23,7 +23,7 @@
     "lint": "eslint src --format table --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run size && npm run lint && npm run test"
+    "prepublishOnly": "npm run lint && npm run test"
   },
   "dependencies": {
     "jest": "^29.1.2",
