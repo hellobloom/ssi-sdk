@@ -1,4 +1,4 @@
-import { CreateVCType, createSubjectContext, createContextConfig, createContext } from '../util/v2'
+import { OneOrMore, CreateVCType, createSubjectContext, createContextConfig, createContext } from '../util/v2'
 
 export type CryptographicWallet = {
   '@type': 'CryptographicWallet'
@@ -10,7 +10,7 @@ export type CryptographicWallet = {
 
 export type WalletPersonV2 = {
   '@type': 'WalletPerson'
-  hasCryptographicWallet: CryptographicWallet
+  hasCryptographicWallet: OneOrMore<CryptographicWallet>
 }
 
 export type VCWalletPersonV2Type = 'WalletCredentialPersonV2'
