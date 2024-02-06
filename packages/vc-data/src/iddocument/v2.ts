@@ -1,12 +1,4 @@
-import {
-  PersonV2,
-  personV2Context,
-  PostalAddressV2,
-  postalAddressV2Context,
-  IdentityCheckV2,
-  identityCheckV2Context,
-  addressCheckV2Context,
-} from '../base/v2'
+import { PostalAddressV2, postalAddressV2Context, IdentityCheckV2, identityCheckV2Context, addressCheckV2Context } from '../base/v2'
 import { CreateVCType, createSubjectContext, createContextConfig, createContext, OneOrMore } from '../util/v2'
 
 export type IDDocumentClassV2 =
@@ -80,8 +72,11 @@ export type IDDocumentPersonV2 = {
   address?: OneOrMore<PostalAddressV2>
   hasIdentityCheck?: OneOrMore<IdentityCheckV2>
   gender?: string
-  name?: OneOrMore<string>
   birthDate?: string
+  name?: OneOrMore<string>
+  givenName?: OneOrMore<string>
+  additionalName?: OneOrMore<string>
+  familyName?: OneOrMore<string>
 }
 
 export type VCIDDocumentPersonV2Type = 'IDDocumentCredentialPersonV2'
@@ -97,6 +92,9 @@ export const getVCIDDocumentPersonV2ContextConfig = () => {
       birthDate: 'schema',
       gender: 'schema',
       name: 'schema',
+      givenName: 'schema',
+      additionalName: 'schema',
+      familyName: 'schema',
     },
   })
 
