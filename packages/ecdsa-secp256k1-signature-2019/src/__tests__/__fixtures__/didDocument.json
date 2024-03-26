@@ -1,5 +1,10 @@
 {
-  "@context": ["https://w3id.org/did/v0.11"],
+  "@context": [
+    {
+      "@base": "did:example:signer"
+    },
+    "https://w3id.org/did/v0.11"
+  ],
   "id": "did:example:signer",
   "publicKey": [
     {
