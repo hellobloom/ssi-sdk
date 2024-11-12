@@ -20,6 +20,7 @@ export type IdentityPersonV2 = {
   additionalName?: string
   birthDate?: string
   email?: string
+  phone?: string
   familyName?: string
   gender?: string
   givenName?: string
@@ -41,6 +42,7 @@ export const getVCIdentityPersonV2ContextConfig = () => {
       additionalName: 'schema',
       birthDate: 'schema',
       email: 'schema',
+      phone: 'schema',
       familyName: 'schema',
       gender: 'schema',
       givenName: 'schema',
