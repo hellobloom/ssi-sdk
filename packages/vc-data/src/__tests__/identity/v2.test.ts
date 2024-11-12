@@ -10,6 +10,7 @@ describe('VCIdentityPersonV2', () => {
         additionalName: 'foobar',
         birthDate: 'foobar',
         email: 'foobar',
+        phone: 'foobar',
         familyName: 'foobar',
         gender: 'foobar',
         givenName: 'foobar',
@@ -134,6 +135,11 @@ describe('VCIdentityPersonV2', () => {
                   },
                 ],
                 "https://schema.org/nationality": Array [
+                  Object {
+                    "@value": "foobar",
+                  },
+                ],
+                "https://schema.org/phone": Array [
                   Object {
                     "@value": "foobar",
                   },
