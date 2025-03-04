@@ -2,6 +2,7 @@ import { FromSchema } from 'json-schema-to-ts'
 
 import { contextSchema, holderSchema } from './shared'
 import { vcSchema } from './vc'
+import { sdvcSchema } from './sdvc'
 
 export const vpProofSchema = {
   oneOf: [
@@ -51,7 +52,7 @@ export const vpSchema = {
     '@context': contextSchema,
     id: { type: 'string', format: 'uri' },
     type: vpTypeSchema,
-    verifiableCredential: { type: 'array', items: vcSchema },
+    verifiableCredential: { type: 'array', items: { oneOf: [vcSchema, sdvcSchema] } },
     holder: holderSchema,
     proof: vpProofSchema,
   },

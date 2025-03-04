@@ -1,69 +1,16 @@
 import { CreateVCType, createSubjectContext, createContextConfig, createContext, OneOrMore } from '../util/v2'
-import { PostalAddressV2, postalAddressV2Context, PropertyValueV2, propertyValueV2Context } from '../base/v2'
-
-export type PossibleMatchVals = 'match' | 'partial_match' | 'no_match' | 'no_data' | 'no_input'
-export type PossibleCheckVals = 'success' | 'failure' | 'not_checked'
-
-export type AddressCheckV2 = {
-  '@type': 'AddressCheck'
-  status: PossibleMatchVals
-  postOfficeBox?: 'yes' | 'no' | 'no_data'
-  type?: 'residential' | 'commercial' | 'no_data'
-}
-
-export type IdentityCheckV2 = {
-  '@type': 'IdentityCheck'
-  status?: PossibleCheckVals
-  createdAt?: string
-  completedAt?: string
-
-  // General checks
-  riskCheck?: PossibleCheckVals
-  selfieCheck?: PossibleCheckVals
-
-  // Individually validated attributes
-  addressCheck?: AddressCheckV2
-  nameCheck?: PossibleMatchVals
-  birthDateCheck?: PossibleMatchVals
-  identifierCheck?: PossibleMatchVals
-  phoneCheck?: PossibleMatchVals
-
-  // Active SMS verification, as opposed to passive database lookup
-  smsCheck?: PossibleCheckVals
-}
+import {
+  PostalAddressV2,
+  postalAddressV2Context,
+  PropertyValueV2,
+  propertyValueV2Context,
+  addressCheckV2Context, // i believe required with identityCheckV2Context
+  IdentityCheckV2,
+  identityCheckV2Context,
+} from '../base/v2'
 
 const getHelperContextEntries = () => {
-  return [
-    // IdentityCheck
-    createSubjectContext<IdentityCheckV2>({
-      type: 'IdentityCheck',
-      base: 'bloomSchema',
-      properties: {
-        status: 'bloomSchema',
-        createdAt: 'bloomSchema',
-        completedAt: 'bloomSchema',
-        riskCheck: 'bloomSchema',
-        selfieCheck: 'bloomSchema',
-        addressCheck: 'bloomSchema',
-        nameCheck: 'bloomSchema',
-        birthDateCheck: 'bloomSchema',
-        identifierCheck: 'bloomSchema',
-        phoneCheck: 'bloomSchema',
-        smsCheck: 'bloomSchema',
-      },
-    }),
-
-    // AddressCheck
-    createSubjectContext<AddressCheckV2>({
-      type: 'AddressCheck',
-      base: 'bloomSchema',
-      properties: {
-        status: 'bloomSchema',
-        postOfficeBox: 'bloomSchema',
-        type: 'bloomSchema',
-      },
-    }),
-  ]
+  return [identityCheckV2Context, addressCheckV2Context]
 }
 
 // Person-related
@@ -73,6 +20,7 @@ export type IdentityPersonV2 = {
   additionalName?: string
   birthDate?: string
   email?: string
+  phone?: string
   familyName?: string
   gender?: string
   givenName?: string
@@ -94,6 +42,7 @@ export const getVCIdentityPersonV2ContextConfig = () => {
       additionalName: 'schema',
       birthDate: 'schema',
       email: 'schema',
+      phone: 'schema',
       familyName: 'schema',
       gender: 'schema',
       givenName: 'schema',

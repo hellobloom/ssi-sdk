@@ -1,2 +1,2 @@
-export * from './presentationDefiniton'
+export * from './presentationDefinition'
 export * from './presentationSubmission'

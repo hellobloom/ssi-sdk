@@ -1,5 +1,5 @@
 import { CreateVCType, createSubjectContext, createContextConfig, createContext } from '../util/v2'
-import { PostalAddressV2, postalAddressV2Context, GeoCoordinates as GeoCoordinates, geoCoordinatesContext } from '../base/v2'
+import { PostalAddressV2, postalAddressV2Context, GeoCoordinates, geoCoordinatesContext } from '../base/v2'
 
 export type AddressPersonV2 = {
   '@type': 'AddressPerson'

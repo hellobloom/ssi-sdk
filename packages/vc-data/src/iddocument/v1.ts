@@ -12,7 +12,7 @@ import {
   createVCContextEntry,
 } from '../util/v1'
 
-import { PossibleCheckVals, PossibleMatchVals } from '../identity/v2'
+import { PossibleCheckVals, PossibleMatchVals } from '../base/v2'
 
 // Helper Types
 
