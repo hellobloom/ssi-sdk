@@ -29,8 +29,8 @@
     "@bloomprotocol/ecdsa-secp256k1-verification-key-2019": "^0.1.2",
     "jest": "^29.1.2",
     "jest-environment-node": "^29.1.2",
-    "jsonld": "^5.2.0",
-    "jsonld-signatures": "^9.0.2",
+    "jsonld": "^8.3.1",
+    "jsonld-signatures": "^11.2.1",
     "ts-jest": "^29.0.3"
   },
   "devDependencies": {
